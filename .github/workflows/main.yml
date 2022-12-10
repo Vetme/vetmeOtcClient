@@ -15,5 +15,5 @@ jobs:
           user: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local_dir: "./dist"
-          server_dir: "./otc.vetmeblock.com/"
+          server_dir: "/"
           delete: "false"
