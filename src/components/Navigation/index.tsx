@@ -6,7 +6,6 @@ import { NavContainer, NavWrapper, NavItems, Item, Logo } from "./styles";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { Avatar, Spacer } from "../";
 import { Flex } from "../";
-import { Notifications, Profile, MobileMenu } from "./Dropdown";
 import { Button } from "./../../components/Button";
 
 interface NavInput {

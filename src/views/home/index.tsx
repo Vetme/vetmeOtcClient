@@ -3,7 +3,7 @@ import React from "react";
 
 const Page404 = () => {
   return (
-    <Container className="pt-4">
+    <Container>
       <h1>Home</h1>
     </Container>
   );

@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 import { Flex } from "..";
 import { NavLink } from "react-router-dom";
-import { PRIMARY_COLOR, PRIMARY_HOVER } from "@/themes";
+import { PRIMARY_COLOR, PRIMARY_HOVER } from "./../../themes";
 
 const flex = css`
   display: flex;

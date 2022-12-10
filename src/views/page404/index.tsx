@@ -1,9 +1,9 @@
 import React from "react";
-import { Container } from "@/components";
+import { Container } from "./../../components";
 
 const Page404 = () => {
   return (
-    <Container className="pt-4">
+    <Container>
       <h1>Page Not Found</h1>
     </Container>
   );

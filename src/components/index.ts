@@ -3,7 +3,7 @@ export { default as Footer } from "./Footer";
 
 export const BodyWrapper = styled.main`
   background:#fafafa;
-`
+  padding:12px 0px; `
 
 export const Container = styled.div.attrs(() => ({
   className: "container",
