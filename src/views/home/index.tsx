@@ -1,4 +1,5 @@
 import { Container, Flex } from "@/components";
+import { Button } from "@/components/Button";
 import { SwapGrid } from "@/components/Card";
 import { Filter, Grid, List, Search } from "@/components/Icons";
 import { swaps } from "@/data";
@@ -16,6 +17,12 @@ import {
   LeftSide,
   HomeBody,
   GridWrapper,
+  ListWrapper,
+  ListHeader,
+  HeaderItem,
+  ListBody,
+  ListRow,
+  ListCol,
 } from "./styles";
 
 const HomePage = () => {
@@ -62,9 +69,54 @@ const HomePage = () => {
               ))}
             </GridWrapper>
           ) : (
-            <div>
-              <h1>List View</h1>
-            </div>
+            <ListWrapper>
+              <ListHeader>
+                <HeaderItem>Wallet ID</HeaderItem>
+                <HeaderItem>Selling Rate</HeaderItem>
+                <HeaderItem>Available </HeaderItem>
+                <HeaderItem>Limit</HeaderItem>
+                <HeaderItem>Give</HeaderItem>
+                <HeaderItem>Get</HeaderItem>
+              </ListHeader>
+              <ListBody>
+                <ListRow>
+                  <ListCol>751***khgafk</ListCol>
+                  <ListCol>$1.00</ListCol>
+                  <ListCol>$4000</ListCol>
+                  <ListCol>$20</ListCol>
+                  <ListCol>
+                    <Button className="primary-accent">VetMe</Button>
+                  </ListCol>
+                  <ListCol>
+                    <Button className="primary">Buy BTC</Button>
+                  </ListCol>
+                </ListRow>
+                <ListRow>
+                  <ListCol>751***khgafk</ListCol>
+                  <ListCol>$1.00</ListCol>
+                  <ListCol>$4000</ListCol>
+                  <ListCol>$20</ListCol>
+                  <ListCol>
+                    <Button className="primary-accent">VetMe</Button>
+                  </ListCol>
+                  <ListCol>
+                    <Button className="primary">Buy BTC</Button>
+                  </ListCol>
+                </ListRow>
+                <ListRow>
+                  <ListCol>751***khgafk</ListCol>
+                  <ListCol>$1.00</ListCol>
+                  <ListCol>$4000</ListCol>
+                  <ListCol>$20</ListCol>
+                  <ListCol>
+                    <Button className="primary-accent">VetMe</Button>
+                  </ListCol>
+                  <ListCol>
+                    <Button className="primary">Buy BTC</Button>
+                  </ListCol>
+                </ListRow>
+              </ListBody>
+            </ListWrapper>
           )}
         </HomeBody>
       </Wrapper>

@@ -109,3 +109,35 @@ export const GridWrapper = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
 `;
+
+export const ListWrapper = styled.div``;
+export const ListHeader = styled.div`
+  display: flex;
+  background: #d9d9d9;
+  justify-content: space-between;
+  padding: 12px;
+`;
+export const HeaderItem = styled.div`
+  font-size: 24px;
+  font-weight: 700;
+  flex: 1;
+`;
+export const ListBody = styled.div`
+  /* display: flex; */
+`;
+export const ListRow = styled.div`
+  display: flex;
+  background: #fff;
+  justify-content: space-between;
+  padding: 12px;
+  margin: 32px 0px;
+
+  &:nth-child(even) {
+    background: #ececec;
+  }
+`;
+export const ListCol = styled.div`
+  flex: 1;
+  font-size: 24px;
+  font-weight: 700;
+`;

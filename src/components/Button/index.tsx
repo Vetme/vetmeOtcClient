@@ -41,6 +41,21 @@ export const Button = styled.button.attrs((props) => ({
         disabled ? PRIMARY_DISABLED : PRIMARY_HOVER};
     }
   }
+  &.primary-accent {
+    background: ${({ disabled }) =>
+      disabled ? PRIMARY_DISABLED : "rgba(125, 169, 255, 0.47);"};
+    position: relative;
+    color: #000;
+
+    a {
+      color: #fff;
+    }
+
+    &:hover {
+      background: ${({ disabled }) =>
+        disabled ? PRIMARY_DISABLED : PRIMARY_HOVER};
+    }
+  }
   &.icon-only {
     padding: 6px !important;
     svg {
