@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { PRIMARY_COLOR, PRIMARY_HOVER, PRIMARY_DISABLED } from "../../themes";
+import { PRIMARY_COLOR, PRIMARY_HOVER, PRIMARY_DISABLED } from "@/themes";
 
 export const Button = styled.button.attrs((props) => ({
   className: props.className,
@@ -11,7 +11,7 @@ export const Button = styled.button.attrs((props) => ({
   color: #000000;
 
   font-weight: 700;
-  font-size: 24#px;
+  font-size: 24px;
   line-height: 24px;
   cursor: pointer;
   height: 53px;

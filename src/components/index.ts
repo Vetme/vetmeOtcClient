@@ -1,9 +1,11 @@
 import styled from "styled-components";
 export { default as Footer } from "./Footer";
+export { default as TokenBadge } from "./TokenBadge";
 
 export const BodyWrapper = styled.main`
-  background:#fafafa;
-  padding:12px 0px; `
+  background: #fafafa;
+  padding: 35px 0px;
+`;
 
 export const Container = styled.div.attrs(() => ({
   className: "container",
@@ -140,7 +142,7 @@ export const Text = styled.span<{
   font-weight: ${({ weight }) => (weight ? weight : "400")};
   font-size: ${({ size }) => (size ? size : "18px")};
   line-height: 150%;
-  color: ${({ color, theme }) => (color ? color : theme.colors.text)};
+  color: ${({ color }) => color};
 
   letter-spacing: 0.02em;
   text-transform: ${({ uppercase }) => uppercase && "Uppercase"};

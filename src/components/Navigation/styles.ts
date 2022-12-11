@@ -48,7 +48,7 @@ export const NavContainer = styled.div`
 
 export const NavWrapper = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 `;
 export const NavItems = styled.div``;
 export const Item = styled(NavLink)`
@@ -76,7 +76,10 @@ export const Item = styled(NavLink)`
     }
   }
 `;
-export const Logo = styled.div``;
+export const Logo = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 export const Menu = styled.ul`
   @media (max-width: 768px) {
