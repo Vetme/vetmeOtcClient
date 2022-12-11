@@ -5,6 +5,7 @@ import { Filter, Grid, List, Search } from "@/components/Icons";
 import { swaps } from "@/data";
 import React from "react";
 import { useState } from "react";
+import classNames from "classnames";
 import {
   Wrapper,
   ActionSwitch,
@@ -23,17 +24,20 @@ import {
   ListBody,
   ListRow,
   ListCol,
+  List as ListCon,
+  Swap,
 } from "./styles";
 
 const HomePage = () => {
   const [display, setDisplay] = useState<"grid" | "list">("grid");
+  const [mode, setMode] = useState<"list" | "swap">("list");
 
   return (
     <Container>
       <Wrapper>
         <HomeHeader>
           <LeftSide>
-            <LayoutSwitch>
+            <LayoutSwitch className={classNames({ hidden: mode == "list" })}>
               <SwitchItem
                 onClick={() => setDisplay("grid")}
                 className={display === "grid" ? "active" : ""}
@@ -48,11 +52,21 @@ const HomePage = () => {
               </SwitchItem>
             </LayoutSwitch>
             <ActionSwitch>
-              <SwitchItem2 className="active">Swap</SwitchItem2>
-              <SwitchItem2>List</SwitchItem2>
+              <SwitchItem2
+                onClick={() => setMode("swap")}
+                className={mode === "swap" ? "active" : ""}
+              >
+                Swap
+              </SwitchItem2>
+              <SwitchItem2
+                onClick={() => setMode("list")}
+                className={mode === "list" ? "active" : ""}
+              >
+                List
+              </SwitchItem2>
             </ActionSwitch>
           </LeftSide>
-          <SearchContainer>
+          <SearchContainer className={classNames({ hidden: mode == "list" })}>
             <InputWrapper>
               <Search />
               <input />
@@ -62,61 +76,69 @@ const HomePage = () => {
         </HomeHeader>
 
         <HomeBody>
-          {display === "grid" ? (
-            <GridWrapper>
-              {swaps.map((swap, i) => (
-                <SwapGrid key={i} />
-              ))}
-            </GridWrapper>
+          {mode == "swap" ? (
+            <Swap>
+              {display === "grid" ? (
+                <GridWrapper>
+                  {swaps.map((swap, i) => (
+                    <SwapGrid key={i} />
+                  ))}
+                </GridWrapper>
+              ) : (
+                <ListWrapper>
+                  <ListHeader>
+                    <HeaderItem>Wallet ID</HeaderItem>
+                    <HeaderItem>Selling Rate</HeaderItem>
+                    <HeaderItem>Available </HeaderItem>
+                    <HeaderItem>Limit</HeaderItem>
+                    <HeaderItem>Give</HeaderItem>
+                    <HeaderItem>Get</HeaderItem>
+                  </ListHeader>
+                  <ListBody>
+                    <ListRow>
+                      <ListCol>751***khgafk</ListCol>
+                      <ListCol>$1.00</ListCol>
+                      <ListCol>$4000</ListCol>
+                      <ListCol>$20</ListCol>
+                      <ListCol>
+                        <Button className="primary-accent">VetMe</Button>
+                      </ListCol>
+                      <ListCol>
+                        <Button className="primary">Buy BTC</Button>
+                      </ListCol>
+                    </ListRow>
+                    <ListRow>
+                      <ListCol>751***khgafk</ListCol>
+                      <ListCol>$1.00</ListCol>
+                      <ListCol>$4000</ListCol>
+                      <ListCol>$20</ListCol>
+                      <ListCol>
+                        <Button className="primary-accent">VetMe</Button>
+                      </ListCol>
+                      <ListCol>
+                        <Button className="primary">Buy BTC</Button>
+                      </ListCol>
+                    </ListRow>
+                    <ListRow>
+                      <ListCol>751***khgafk</ListCol>
+                      <ListCol>$1.00</ListCol>
+                      <ListCol>$4000</ListCol>
+                      <ListCol>$20</ListCol>
+                      <ListCol>
+                        <Button className="primary-accent">VetMe</Button>
+                      </ListCol>
+                      <ListCol>
+                        <Button className="primary">Buy BTC</Button>
+                      </ListCol>
+                    </ListRow>
+                  </ListBody>
+                </ListWrapper>
+              )}
+            </Swap>
           ) : (
-            <ListWrapper>
-              <ListHeader>
-                <HeaderItem>Wallet ID</HeaderItem>
-                <HeaderItem>Selling Rate</HeaderItem>
-                <HeaderItem>Available </HeaderItem>
-                <HeaderItem>Limit</HeaderItem>
-                <HeaderItem>Give</HeaderItem>
-                <HeaderItem>Get</HeaderItem>
-              </ListHeader>
-              <ListBody>
-                <ListRow>
-                  <ListCol>751***khgafk</ListCol>
-                  <ListCol>$1.00</ListCol>
-                  <ListCol>$4000</ListCol>
-                  <ListCol>$20</ListCol>
-                  <ListCol>
-                    <Button className="primary-accent">VetMe</Button>
-                  </ListCol>
-                  <ListCol>
-                    <Button className="primary">Buy BTC</Button>
-                  </ListCol>
-                </ListRow>
-                <ListRow>
-                  <ListCol>751***khgafk</ListCol>
-                  <ListCol>$1.00</ListCol>
-                  <ListCol>$4000</ListCol>
-                  <ListCol>$20</ListCol>
-                  <ListCol>
-                    <Button className="primary-accent">VetMe</Button>
-                  </ListCol>
-                  <ListCol>
-                    <Button className="primary">Buy BTC</Button>
-                  </ListCol>
-                </ListRow>
-                <ListRow>
-                  <ListCol>751***khgafk</ListCol>
-                  <ListCol>$1.00</ListCol>
-                  <ListCol>$4000</ListCol>
-                  <ListCol>$20</ListCol>
-                  <ListCol>
-                    <Button className="primary-accent">VetMe</Button>
-                  </ListCol>
-                  <ListCol>
-                    <Button className="primary">Buy BTC</Button>
-                  </ListCol>
-                </ListRow>
-              </ListBody>
-            </ListWrapper>
+            <ListCon>
+              <h1>LIst Here</h1>
+            </ListCon>
           )}
         </HomeBody>
       </Wrapper>

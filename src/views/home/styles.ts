@@ -28,6 +28,11 @@ export const LayoutSwitch = styled.div`
   gap: 10px;
   height: 54px;
 
+  &.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
   svg {
     height: 34px;
     /* width: 34px; */
@@ -77,6 +82,11 @@ export const ActionSwitch = styled.div`
 
 export const SearchContainer = styled.div`
   width: 30%;
+
+  &.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
 `;
 export const InputWrapper = styled.div`
   height: 62px;
@@ -141,3 +151,6 @@ export const ListCol = styled.div`
   font-size: 24px;
   font-weight: 700;
 `;
+
+export const List = styled.div``;
+export const Swap = styled.div``;
