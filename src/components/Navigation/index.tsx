@@ -7,6 +7,7 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { Avatar, Spacer } from "../";
 import { Flex } from "../";
 import { Button } from "@/components/Button";
+import { Connect } from "../Modal";
 
 interface NavInput {
   account?: string | null;
@@ -14,6 +15,13 @@ interface NavInput {
 }
 
 const Navigation = () => {
+  const [show, setShow] = useState<boolean>(false);
+
+  const connectWallet = () => {
+    setShow(false);
+    alert("Connected");
+  };
+
   return (
     <NavContainer>
       <div className="container">
@@ -33,10 +41,17 @@ const Navigation = () => {
             <Item to="/tele">Telegram</Item>
           </NavItems>
           <div>
-            <Button className="primary ">Connect Wallet</Button>
+            <Button className="primary " onClick={() => setShow(true)}>
+              Connect Wallet
+            </Button>
           </div>
         </NavWrapper>
       </div>
+      <Connect
+        show={show}
+        connect={() => connectWallet()}
+        handleClose={() => setShow(false)}
+      />
     </NavContainer>
   );
 };
