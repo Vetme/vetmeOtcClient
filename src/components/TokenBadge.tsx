@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Spacer, Text } from ".";
+import { Caret } from "./Icons";
 
 const Container = styled.div`
   background: #141414;
@@ -9,6 +10,7 @@ const Container = styled.div`
   align-items: center;
   padding: 6px 9px;
   color: #fff;
+  cursor: pointer;
 `;
 const ImgWrap = styled.div`
   height: 16px;
@@ -25,9 +27,10 @@ const ImgWrap = styled.div`
 interface BadgeI {
   symbol: string;
   icon?: string;
+  hasCaret?: boolean;
 }
 
-const TokenBadge = ({ symbol }: BadgeI) => {
+const TokenBadge = ({ symbol, hasCaret }: BadgeI) => {
   return (
     <Container>
       <ImgWrap>
@@ -37,6 +40,12 @@ const TokenBadge = ({ symbol }: BadgeI) => {
       <Text uppercase weight="700">
         {symbol}
       </Text>
+      <Spacer width={6} />
+      {hasCaret && (
+        <div>
+          <Caret />
+        </div>
+      )}
     </Container>
   );
 };

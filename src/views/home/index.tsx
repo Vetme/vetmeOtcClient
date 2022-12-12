@@ -1,6 +1,6 @@
 import { Container, Flex } from "@/components";
 import { Button } from "@/components/Button";
-import { SwapGrid } from "@/components/Card";
+import { ListCard, SwapGrid } from "@/components/Card";
 import { Filter, Grid, List, Search } from "@/components/Icons";
 import { swaps } from "@/data";
 import React from "react";
@@ -137,7 +137,7 @@ const HomePage = () => {
             </Swap>
           ) : (
             <ListCon>
-              <h1>LIst Here</h1>
+              <ListCard />
             </ListCon>
           )}
         </HomeBody>
