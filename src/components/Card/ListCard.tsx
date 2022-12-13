@@ -20,10 +20,14 @@ const Header = styled.div`
   border-radius: 20px 20px 0px 0px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 `;
 const Body = styled.div`
   padding: 28px 50px;
+
+  @media (max-width: 640px) {
+    padding: 20px 25px;
+  }
 `;
 const InputCon = styled.div`
   label {
@@ -41,6 +45,10 @@ const InputBox = styled.div`
   height: 80px;
   align-items: center;
   padding: 0px 26px;
+
+  @media (max-width: 640px) {
+    height: 58px;
+  }
 `;
 const Input = styled.input`
   height: 100%;
@@ -51,6 +59,10 @@ const Input = styled.input`
   font-size: 40px;
   width: 30%;
   color: #8c8c8c;
+
+  @media (max-width: 640px) {
+    font-size: 30px;
+  }
 `;
 
 const IconWrap = styled.div``;
@@ -93,7 +105,7 @@ const ListCard = () => {
         </InputCon>
         <Spacer height={30} />
 
-        <Button className="primary block">Continue</Button>
+        <Button className="primary block m-sm">Continue</Button>
       </Body>
     </SwapContainer>
   );

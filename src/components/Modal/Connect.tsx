@@ -57,7 +57,7 @@ const Connect = ({ connect, handleClose, show }: IConnect) => {
             </Text>
             <Spacer height={35} />
             <ButtonWrap>
-              <Button className="primary block" onClick={connect}>
+              <Button className="primary block m-sm" onClick={connect}>
                 Connect Wallet
               </Button>
             </ButtonWrap>

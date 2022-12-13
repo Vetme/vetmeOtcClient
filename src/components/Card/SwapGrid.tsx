@@ -19,6 +19,10 @@ const SwapContainer = styled.div`
   width: 508px;
   max-width: 100%;
   margin-bottom: 114px;
+
+  @media (max-width: 640px) {
+    margin-bottom: 46px;
+  }
 `;
 const Header = styled.div`
   background: rgba(125, 169, 255, 0.47);

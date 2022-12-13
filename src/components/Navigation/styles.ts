@@ -33,7 +33,7 @@ export const Nav = styled.div`
 
 export const NavContainer = styled.div`
   height: 121px;
-  line-height: 121px;
+  /* line-height: 121px; */
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
   top: 0;
   position: relative;
@@ -44,13 +44,24 @@ export const NavContainer = styled.div`
   &.added {
     position: sticky;
   }
+
+  @media (max-width: 640px) {
+    height: 111px;
+    /* line-height: 111px; */
+  }
 `;
 
 export const NavWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  height: 111px;
 `;
-export const NavItems = styled.div``;
+export const NavItems = styled.div`
+  @media (max-width: 640px) {
+    display: none;
+  }
+`;
 export const Item = styled(NavLink)`
   font-size: 24px;
   font-weight: 700;
@@ -76,7 +87,7 @@ export const Item = styled(NavLink)`
     }
   }
 `;
-export const Logo = styled.div`
+export const Logo = styled(NavLink)`
   display: flex;
   align-items: center;
 `;
@@ -174,3 +185,87 @@ export const AWrapper = styled.div`
 `;
 
 export const BarWrapper = styled.div``;
+export const Action = styled.div`
+  @media (max-width: 640px) {
+    display: none;
+  }
+`;
+
+export const MobileMenu = styled.div`
+  position: absolute;
+  background: #fff;
+  width: 100%;
+  top: 111px;
+  left: 0px;
+  max-height: 0px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+  transition: max-height 0.4s ease;
+  &.added {
+    max-height: 400px;
+  }
+`;
+export const MMenuInner = styled.div`
+  padding: 34px;
+`;
+export const MMenuItem = styled(NavLink)`
+  text-align: center;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 33px;
+  margin: 20px 0px;
+  display: block;
+`;
+
+export const Bar = styled.div`
+  display: none;
+  cursor: pointer;
+
+  @media (max-width: 640px) {
+    display: block;
+    position:relative;
+    width: 40px;
+    /* height: 40px; */
+    /* overflow-x: hidden; */
+    background:red;
+    div,div::before,div::after {
+        background: #000;
+        content: "";
+        display: block;
+        height: 4px;
+        width: 32px;
+        position: absolute;
+        transition: background ease 0.3s, top ease 0.3s 0.3s,
+          transform ease 0.3s;
+  }
+
+  div{
+    &::before {
+      top: -9px;
+      }
+
+      &::after {
+          top: 9px;
+      }
+  }
+
+  &.opened{
+     div{
+       background: transparent;
+
+       &::before,&::after{
+         top: 0;
+         transition: top ease .3s, transform ease .3s .3s;
+       }
+    &::before {
+      transform: rotate(45deg);
+      }
+
+      &::after {
+      transform: rotate(-45deg);
+      }
+  }
+  }
+`;

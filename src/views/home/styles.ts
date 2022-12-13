@@ -11,12 +11,22 @@ export const HomeHeader = styled.div`
   justify-content: space-between;
   position: sticky;
   top: 10px;
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+  }
 `;
 export const LeftSide = styled.div`
   width: 55%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+  }
 `;
 
 export const LayoutSwitch = styled.div`
@@ -30,6 +40,7 @@ export const LayoutSwitch = styled.div`
 
   &.hidden {
     opacity: 0;
+    display: none;
     pointer-events: none;
   }
 
@@ -82,10 +93,14 @@ export const ActionSwitch = styled.div`
 
 export const SearchContainer = styled.div`
   width: 30%;
-
   &.hidden {
-    opacity: 0;
+    display: none;
     pointer-events: none;
+  }
+
+  @media (max-width: 640px) {
+    width: 100%;
+    margin-top: 20px;
   }
 `;
 export const InputWrapper = styled.div`

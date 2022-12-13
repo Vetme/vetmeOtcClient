@@ -19,12 +19,12 @@ export const GlobalStyles = createGlobalStyle`
 }
 
 
-@media (prefers-color-scheme: light) {
+/* @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #fafafa;
   }
-}
+} */
 
   body {
     font-family: "Nunito", sans-serif;
