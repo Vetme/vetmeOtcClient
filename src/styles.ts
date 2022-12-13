@@ -7,9 +7,9 @@ export const GlobalStyles = createGlobalStyle`
   line-height: 24px;
   font-weight: 400;
 
-  color-scheme: light dark;
+  /* color-scheme: light dark; */
   /* color: rgba(255, 255, 255, 0.87); */
-  /* background-color: #242424; */
+  background-color: #333333;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -28,6 +28,7 @@ export const GlobalStyles = createGlobalStyle`
 
   body {
     font-family: "Nunito", sans-serif;
+    background:#333333;
     a{
       color:#000000;
       text-decoration:none;
