@@ -68,7 +68,7 @@ const Navigation = () => {
           <MobileMenu className={open ? "added" : ""}>
             <MMenuInner>
               <MMenuItem to="/">Home</MMenuItem>
-              <MMenuItem>P2P Escrow</MMenuItem>
+              <MMenuItem to="/">P2P Escrow</MMenuItem>
               <MMenuItem to="/white">White Paper</MMenuItem>
               <MMenuItem to="/telegram">Telegram</MMenuItem>
               <Center>
