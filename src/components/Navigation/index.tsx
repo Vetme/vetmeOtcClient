@@ -54,8 +54,8 @@ const Navigation = () => {
               Home
             </Item>
             <Item to="/escrow">P2P Escrow</Item>
-            <Item to="/white">White Paper</Item>
-            <Item to="/tele">Telegram</Item>
+            <Item to="/list">White Paper</Item>
+            <Item to="/trades">Telegram</Item>
           </NavItems>
           <Action>
             <Button className="primary " onClick={() => setShow(true)}>
@@ -68,8 +68,8 @@ const Navigation = () => {
           <MobileMenu className={open ? "added" : ""}>
             <MMenuInner>
               <MMenuItem to="/">Home</MMenuItem>
-              <MMenuItem to="/">P2P Escrow</MMenuItem>
-              <MMenuItem to="/white">White Paper</MMenuItem>
+              <MMenuItem to="/list">P2P Escrow</MMenuItem>
+              <MMenuItem to="/trades">White Paper</MMenuItem>
               <MMenuItem to="/telegram">Telegram</MMenuItem>
               <Center>
                 <Button className="primary sm" onClick={() => setShow(true)}>

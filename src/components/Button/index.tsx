@@ -42,18 +42,13 @@ export const Button = styled.button.attrs((props) => ({
     }
   }
   &.primary-accent {
-    background: ${({ disabled }) =>
-      disabled ? PRIMARY_DISABLED : "rgba(125, 169, 255, 0.47);"};
-    position: relative;
-    color: #000;
-
-    a {
-      color: #fff;
-    }
+    background: rgba(125, 169, 255, 0.3);
+    border: 2px solid #7da9ff;
+    border-radius: 10px;
+    padding: 0px 20px;
 
     &:hover {
-      background: ${({ disabled }) =>
-        disabled ? PRIMARY_DISABLED : PRIMARY_HOVER};
+      background: rgba(125, 169, 255, 0.5);
     }
   }
   &.icon-only {
@@ -87,6 +82,12 @@ export const Button = styled.button.attrs((props) => ({
     font-size: 14px;
   }
 
+  &.md {
+    height: 53px;
+    min-width: 167px;
+    font-size: 20px;
+  }
+
   & svg,
   i {
     margin-right: 10px;
@@ -99,9 +100,13 @@ export const Button = styled.button.attrs((props) => ({
     border-radius: 32px !important;
   }
   &.success {
-    background: #eafbec;
-    color: #1a7f24;
+    background: rgba(121, 185, 127, 0.47);
+    border: 3px solid #79b97f;
+    padding: 0px 20px;
 
+    &:hover {
+      background: rgba(121, 185, 127, 0.8);
+    }
     svg,
     path {
       fill: #1a7f24 !important;
