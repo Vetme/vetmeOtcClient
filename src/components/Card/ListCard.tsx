@@ -72,10 +72,8 @@ const IconWrap = styled.div``;
 
 const ListCard = () => {
   const [open, setOpen] = useState<boolean>(false);
-  const [give, setGive] = useState<TokenI | undefined>({
-    address: "",
-  });
-  const [get, setGet] = useState<TokenI | undefined>({ address: "" });
+  const [give, setGive] = useState<TokenI | undefined>(undefined);
+  const [get, setGet] = useState<TokenI | undefined>(undefined);
   const [action, setAction] = useState<"giving" | "getting">("giving");
 
   const handleSelect = (action: "giving" | "getting") => {
