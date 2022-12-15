@@ -40,3 +40,48 @@ export const swaps = [
     fee: 3,
   },
 ];
+
+export const tokens = [
+  {
+    id: 1,
+    address: "0x11834198E8801511038604C92B51DC0BB490BFF9",
+    symbol: "Doge",
+    name: "Doge coin",
+    avatar: "/images/coins/doge.png",
+  },
+  {
+    id: 1,
+    address: "0x11834198E8801511038604C92B51DC0BB490BFF1",
+    symbol: "AVAX",
+    name: "Avax",
+    avatar: "images/coins/avax.png",
+  },
+  {
+    id: 1,
+    address: "0x11834198E8801511038604C92B51DC0BB490BFF4",
+    symbol: "BNB",
+    name: "Binance ",
+    avatar: "images/coins/bnb.png",
+  },
+  {
+    id: 1,
+    address: "0x11834198E8801511038604C92B51DC0BB490BFF6",
+    symbol: "DAI",
+    name: "dai",
+    avatar: "images/coins/dai.png",
+  },
+  {
+    id: 1,
+    address: "0x11834198E8801511038604C92B51DC0BB490BFF7",
+    symbol: "ETH",
+    name: "ethereum",
+    avatar: "images/coins/ethereum.png",
+  },
+  {
+    id: 1,
+    address: "0x11834198E8801511038604C92B51DC0BB490BFF8",
+    symbol: "POLYGON",
+    name: "polygon",
+    avatar: "images/coins/polygon.png",
+  },
+];

@@ -1,6 +1,6 @@
 import { Container, Flex } from "@/components";
 import { Button } from "@/components/Button";
-import { ListCard, SwapGrid } from "@/components/Card";
+import { ListCard, SwapGrid, MobileList } from "@/components/Card";
 import { Filter, Grid, List, Search } from "@/components/Icons";
 import { swaps } from "@/data";
 import React from "react";
@@ -85,54 +85,63 @@ const HomePage = () => {
                   ))}
                 </GridWrapper>
               ) : (
-                <ListWrapper>
-                  <ListHeader>
-                    <HeaderItem>Wallet ID</HeaderItem>
-                    <HeaderItem>Selling Rate</HeaderItem>
-                    <HeaderItem>Available </HeaderItem>
-                    <HeaderItem>Limit</HeaderItem>
-                    <HeaderItem>Give</HeaderItem>
-                    <HeaderItem>Get</HeaderItem>
-                  </ListHeader>
-                  <ListBody>
-                    <ListRow>
-                      <ListCol>751***khgafk</ListCol>
-                      <ListCol>$1.00</ListCol>
-                      <ListCol>$4000</ListCol>
-                      <ListCol>$20</ListCol>
-                      <ListCol>
-                        <Button className="primary-accent">VetMe</Button>
-                      </ListCol>
-                      <ListCol>
-                        <Button className="primary">Buy BTC</Button>
-                      </ListCol>
-                    </ListRow>
-                    <ListRow>
-                      <ListCol>751***khgafk</ListCol>
-                      <ListCol>$1.00</ListCol>
-                      <ListCol>$4000</ListCol>
-                      <ListCol>$20</ListCol>
-                      <ListCol>
-                        <Button className="primary-accent">VetMe</Button>
-                      </ListCol>
-                      <ListCol>
-                        <Button className="primary">Buy BTC</Button>
-                      </ListCol>
-                    </ListRow>
-                    <ListRow>
-                      <ListCol>751***khgafk</ListCol>
-                      <ListCol>$1.00</ListCol>
-                      <ListCol>$4000</ListCol>
-                      <ListCol>$20</ListCol>
-                      <ListCol>
-                        <Button className="primary-accent">VetMe</Button>
-                      </ListCol>
-                      <ListCol>
-                        <Button className="primary">Buy BTC</Button>
-                      </ListCol>
-                    </ListRow>
-                  </ListBody>
-                </ListWrapper>
+                <>
+                  <ListWrapper className="desktop">
+                    <ListHeader>
+                      <HeaderItem>Wallet ID</HeaderItem>
+                      <HeaderItem>Selling Rate</HeaderItem>
+                      <HeaderItem>Available </HeaderItem>
+                      <HeaderItem>Limit</HeaderItem>
+                      <HeaderItem>Give</HeaderItem>
+                      <HeaderItem>Get</HeaderItem>
+                    </ListHeader>
+                    <ListBody>
+                      <ListRow>
+                        <ListCol>751***khgafk</ListCol>
+                        <ListCol>$1.00</ListCol>
+                        <ListCol>$4000</ListCol>
+                        <ListCol>$20</ListCol>
+                        <ListCol>
+                          <Button className="primary-accent">VetMe</Button>
+                        </ListCol>
+                        <ListCol>
+                          <Button className="primary">Buy BTC</Button>
+                        </ListCol>
+                      </ListRow>
+                      <ListRow>
+                        <ListCol>751***khgafk</ListCol>
+                        <ListCol>$1.00</ListCol>
+                        <ListCol>$4000</ListCol>
+                        <ListCol>$20</ListCol>
+                        <ListCol>
+                          <Button className="primary-accent">VetMe</Button>
+                        </ListCol>
+                        <ListCol>
+                          <Button className="primary">Buy BTC</Button>
+                        </ListCol>
+                      </ListRow>
+                      <ListRow>
+                        <ListCol>751***khgafk</ListCol>
+                        <ListCol>$1.00</ListCol>
+                        <ListCol>$4000</ListCol>
+                        <ListCol>$20</ListCol>
+                        <ListCol>
+                          <Button className="primary-accent">VetMe</Button>
+                        </ListCol>
+                        <ListCol>
+                          <Button className="primary">Buy BTC</Button>
+                        </ListCol>
+                      </ListRow>
+                    </ListBody>
+                  </ListWrapper>
+                  <ListWrapper className="mobile">
+                    <GridWrapper>
+                      {swaps.map((swap, i) => (
+                        <MobileList key={i} />
+                      ))}
+                    </GridWrapper>
+                  </ListWrapper>
+                </>
               )}
             </Swap>
           ) : (

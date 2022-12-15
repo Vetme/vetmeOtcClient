@@ -1,3 +1,4 @@
+import { TokenI } from "@/types";
 import React from "react";
 import styled from "styled-components";
 import { Spacer, Text } from ".";
@@ -25,20 +26,21 @@ const ImgWrap = styled.div`
 `;
 
 interface BadgeI {
-  symbol: string;
+  token: TokenI;
   icon?: string;
   hasCaret?: boolean;
+  handleClick: () => void;
 }
 
-const TokenBadge = ({ symbol, hasCaret }: BadgeI) => {
+const TokenBadge = ({ token, hasCaret, handleClick }: BadgeI) => {
   return (
-    <Container>
+    <Container onClick={() => handleClick()}>
       <ImgWrap>
-        <img src="/images/btc.png" />
+        <img src={token.avatar} />
       </ImgWrap>
       <Spacer width={6} />
       <Text uppercase weight="700">
-        {symbol}
+        {token.symbol}
       </Text>
       <Spacer width={6} />
       {hasCaret && (

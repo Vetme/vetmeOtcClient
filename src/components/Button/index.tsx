@@ -4,7 +4,7 @@ import { PRIMARY_COLOR, PRIMARY_HOVER, PRIMARY_DISABLED } from "@/themes";
 export const Button = styled.button.attrs((props) => ({
   className: props.className,
 }))<{ disabled?: boolean; bg?: string }>`
-  padding: 16px 20px;
+  padding: 0px 20px;
   outline: none;
   border: none;
   border-radius: 10px;
@@ -135,7 +135,7 @@ export const Button = styled.button.attrs((props) => ({
 
   @media (max-width: 640px) {
     &.m-sm {
-      padding: 8px 24px;
+      /* padding: 8px 24px; */
       max-height: 38px;
       font-size: 14px;
     }

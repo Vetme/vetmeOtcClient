@@ -1,8 +1,11 @@
-import React from "react";
+import { tokens } from "@/data";
+import { TokenI } from "@/types";
+import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import { Divider, Flex, IconWrapper, Spacer, Text, TokenBadge } from "..";
 import { Button } from "../Button";
 import { Send, Swap } from "../Icons";
+import { TokenSelect } from "../Modal";
 
 const SwapContainer = styled.div`
   background: #ffffff;
@@ -68,46 +71,89 @@ const Input = styled.input`
 const IconWrap = styled.div``;
 
 const ListCard = () => {
+  const [open, setOpen] = useState<boolean>(false);
+  const [give, setGive] = useState<TokenI | undefined>({
+    address: "",
+  });
+  const [get, setGet] = useState<TokenI | undefined>({ address: "" });
+  const [action, setAction] = useState<"giving" | "getting">("giving");
+
+  const handleSelect = (action: "giving" | "getting") => {
+    setAction(action);
+    setOpen(true);
+  };
+
+  const handleSelected = (val: string) => {
+    setOpen(false);
+    if (action == "getting") {
+      const token: TokenI | undefined = getByAddress(val);
+      setGet(token);
+    }
+    if (action == "giving") {
+      const token: TokenI | undefined = getByAddress(val);
+      setGive(token);
+    }
+  };
+
+  const getByAddress = (address: string) => {
+    return tokens.find((token) => token.address === address);
+  };
+
   return (
-    <SwapContainer>
-      <Header>
-        <Text uppercase weight="700" size="16px">
-          List
-        </Text>
-      </Header>
-      <Body>
-        <InputCon>
-          <label htmlFor="">You give</label>
-          <InputBox>
-            <Input type="number" step={0.1} />
-            <div>
-              <TokenBadge symbol="ETH" hasCaret={true} />
-            </div>
-          </InputBox>
-        </InputCon>
+    <>
+      <SwapContainer>
+        <Header>
+          <Text uppercase weight="700" size="16px">
+            List
+          </Text>
+        </Header>
+        <Body>
+          <InputCon>
+            <label htmlFor="">You give</label>
+            <InputBox>
+              <Input type="number" step={0.1} />
+              <div>
+                <TokenBadge
+                  token={give || tokens[4]}
+                  hasCaret={true}
+                  handleClick={() => handleSelect("giving")}
+                />
+              </div>
+            </InputBox>
+          </InputCon>
 
-        <Spacer height={31} />
+          <Spacer height={31} />
 
-        <IconWrapper style={{ textAlign: "center" }} height={10} width={10}>
-          <Swap />
-        </IconWrapper>
+          <IconWrapper style={{ textAlign: "center" }} height={10} width={10}>
+            <Swap />
+          </IconWrapper>
 
-        <Spacer height={6} />
+          <Spacer height={6} />
 
-        <InputCon>
-          <label htmlFor="">You get</label>
-          <InputBox>
-            <Input type="number" step={0.1} />
-            <div>
-              <TokenBadge symbol="ETH" hasCaret={true} />
-            </div>
-          </InputBox>
-        </InputCon>
-        <Spacer height={30} />
+          <InputCon>
+            <label htmlFor="">You get</label>
+            <InputBox>
+              <Input type="number" step={0.1} />
+              <div>
+                <TokenBadge
+                  token={get || tokens[2]}
+                  hasCaret={true}
+                  handleClick={() => handleSelect("getting")}
+                />
+              </div>
+            </InputBox>
+          </InputCon>
+          <Spacer height={30} />
 
-        <Button className="primary block m-sm">Continue</Button>
-      </Body>
-    </SwapContainer>
+          <Button className="primary block m-sm">Continue</Button>
+        </Body>
+      </SwapContainer>
+      <TokenSelect
+        handleSelected={(val: string) => handleSelected(val)}
+        show={open}
+        handleClose={() => setOpen(false)}
+      />
+    </>
   );
 };
 

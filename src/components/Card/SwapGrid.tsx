@@ -1,3 +1,4 @@
+import { tokens } from "@/data";
 import React from "react";
 import styled, { css } from "styled-components";
 import { Divider, Flex, Spacer, Text, TokenBadge } from "..";
@@ -58,9 +59,9 @@ const SwapGrid = ({}: SwapI) => {
       </Header>
       <Body>
         <Flex justify="space-between" align="center">
-          <TokenBadge symbol="BTC" />
+          <TokenBadge token={tokens[1]} handleClick={() => null} />
           <Swap />
-          <TokenBadge symbol="ETH" />
+          <TokenBadge token={tokens[2]} handleClick={() => null} />
         </Flex>
         <Spacer height={20} />
         <Text size="12px" color="#848892">

@@ -9,7 +9,7 @@ export const Wrapper = styled.div``;
 export const HomeHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  position: sticky;
+  /* position: sticky; */
   top: 10px;
 
   @media (max-width: 640px) {
@@ -40,13 +40,19 @@ export const LayoutSwitch = styled.div`
 
   &.hidden {
     opacity: 0;
-    display: none;
     pointer-events: none;
   }
 
   svg {
     height: 34px;
     /* width: 34px; */
+  }
+
+  @media (max-width: 640px) {
+    &.hidden {
+      display: none;
+      pointer-events: none;
+    }
   }
 `;
 export const SwitchItem = styled.div`
@@ -135,7 +141,25 @@ export const GridWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-export const ListWrapper = styled.div``;
+export const ListWrapper = styled.div`
+  &.mobile {
+    display: none;
+  }
+
+  @media (max-width: 920px) {
+    &.desktop {
+      display: none;
+    }
+    &.mobile {
+      display: block;
+      background: #ffffff;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.03);
+      border-radius: 20px;
+      padding: 10px;
+    }
+  }
+`;
 export const ListHeader = styled.div`
   display: flex;
   background: #d9d9d9;
