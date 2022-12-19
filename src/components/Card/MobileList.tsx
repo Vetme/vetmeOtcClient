@@ -74,7 +74,7 @@ const SwapGrid = ({}: SwapI) => {
         </Flex>
         <ActionWrapper>
           <Flex align="end" gap={10}>
-            <Text weight="700">GIve</Text>
+            <Text weight="700">Give</Text>
             <Button className="primary-accent m-sm">VetMe</Button>
           </Flex>
           <Spacer height={16} />
@@ -83,7 +83,7 @@ const SwapGrid = ({}: SwapI) => {
 
           <Flex align="end" gap={10}>
             <Text weight="700">Get</Text>
-            <Button className="primary-accent m-sm">Buy BTC</Button>
+            <Button className="primary-accent m-sm">BTC</Button>
           </Flex>
         </ActionWrapper>
       </Flex>

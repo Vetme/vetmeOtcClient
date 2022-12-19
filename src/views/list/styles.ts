@@ -10,6 +10,11 @@ export const TradeWrapper = styled.div`
   /* height: 440px; */
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 640px) {
+    padding: 15px 15px;
+    /* height: 404px; */
+  }
 `;
 export const TradeInner = styled(Flex)`
   /* height: calc(100% - 60px); */
@@ -21,6 +26,10 @@ export const LeftContent = styled(Flex)`
 `;
 export const TradeItem = styled.div`
   text-align: center;
+
+  @media (max-width: 640px) {
+    text-align: inherit;
+  }
 `;
 
 export const RightContent = styled(Flex)`
@@ -85,6 +94,10 @@ export const RTop = styled.div``;
 export const Footer = styled.div``;
 export const BtnWrapper = styled.div`
   width: 50%;
+
+  @media (max-width: 640px) {
+    width: 80%;
+  }
 `;
 
 export const Stepper = styled.div<{ status: number }>`
@@ -93,6 +106,10 @@ export const Stepper = styled.div<{ status: number }>`
   display: flex;
   justify-content: space-between;
   margin: auto;
+
+  @media (max-width: 640px) {
+    width: 80%;
+  }
 
   &:after {
     content: "";
@@ -103,11 +120,15 @@ export const Stepper = styled.div<{ status: number }>`
     /* top: 2px; */
     top: 50%;
     transform: translateY(-50%);
+
+    @media (max-width: 640px) {
+      height: 5px;
+    }
   }
   &:before {
     content: "";
     width: ${({ status }) =>
-      status == 1 ? "0px" : status == 2 ? "150px" : "310px"};
+      status == 1 ? "0px" : status == 2 ? "120px" : "220px"};
     height: 10px;
     background: #7da9ff;
     position: absolute;
@@ -115,6 +136,11 @@ export const Stepper = styled.div<{ status: number }>`
     transform: translateY(-50%);
     z-index: 2;
     left: 20px;
+
+    @media (max-width: 640px) {
+      height: 5px;
+      left: 0px;
+    }
   }
 `;
 export const Step = styled.div<{ leftMsg?: string; rightMsg?: string }>`
@@ -124,6 +150,10 @@ export const Step = styled.div<{ leftMsg?: string; rightMsg?: string }>`
   background: #d9d9d9;
   position: relative;
   z-index: 3;
+  @media (max-width: 640px) {
+    height: 13px;
+    width: 13px;
+  }
 
   &.active {
     background: #7da9ff;
@@ -154,5 +184,10 @@ export const Step = styled.div<{ leftMsg?: string; rightMsg?: string }>`
     text-align: start;
     font-weight: 500;
     transform: translateX(-50%);
+
+    @media (max-width: 640px) {
+      top: 15px;
+      font-size: 12px;
+    }
   }
 `;

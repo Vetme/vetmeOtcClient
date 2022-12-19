@@ -1,4 +1,12 @@
-import { Center, Container, Flex, Spacer, Text, Wrapper } from "@/components";
+import {
+  Center,
+  Container,
+  Flex,
+  Spacer,
+  Text,
+  Wrapper,
+  OnlyMobile,
+} from "@/components";
 import { Button } from "@/components/Button";
 import React, { useState } from "react";
 import {
@@ -15,6 +23,7 @@ import {
   Step,
   RBottom,
   RTop,
+  MobileFooter,
 } from "./styles";
 
 const Trans = () => {
@@ -66,7 +75,7 @@ const Trans = () => {
                 </Text>
               </TradeItem>
               <Spacer height={24} />
-              <Flex>
+              <Flex className="">
                 <Button className="primary md">Send Token</Button>
                 <Spacer width={41} />
                 <Button className="primary-accent md">Cancel</Button>
@@ -106,10 +115,21 @@ const Trans = () => {
             </RBottom>
           </RightContent>
         </TradeInner>
+        <MobileFooter>
+          <Spacer height={22} />
+          <div className="inner">
+            <Button className="primary  m-sm">Send Token</Button>
+            <Button className="primary-accent  m-sm">Cancel</Button>
+            <Button className="primary  m-sm">Chat User</Button>
+          </div>
+          <Spacer height={17} />
+        </MobileFooter>
         <Footer>
           <Center style={{ flexDirection: "column" }}>
             <BtnWrapper>
-              <Button className="block success">Send Token to Escrow</Button>
+              <Button className="block success m-sm">
+                Send Token to Escrow
+              </Button>
             </BtnWrapper>
             <Spacer height={16} />
             <Text size="16px" weight="500">
@@ -118,6 +138,14 @@ const Trans = () => {
           </Center>
         </Footer>
       </TradeWrapper>
+      <Spacer height={20} />
+      <OnlyMobile>
+        <Center>
+          <Text weight="700" size="24px">
+            NB: <span style={{ color: "#4473EB" }}>Escrow</span> Fee Applies
+          </Text>
+        </Center>
+      </OnlyMobile>
     </Container>
   );
 };

@@ -6,6 +6,19 @@ export const BodyWrapper = styled.main`
   background: #fafafa;
   padding: 35px 0px;
 `;
+export const OnlyMobile = styled.div`
+  display: none;
+  @media (max-width: 640px) {
+    display: block;
+  }
+`;
+
+export const OnlyDesktop = styled.div`
+  display: block;
+  @media (max-width: 640px) {
+    display: none;
+  }
+`;
 
 export const Container = styled.div.attrs(() => ({
   className: "container",

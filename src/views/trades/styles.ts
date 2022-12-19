@@ -10,6 +10,11 @@ export const TradeWrapper = styled.div`
   height: 700px;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 640px) {
+    padding: 15px 15px;
+    height: 404px;
+  }
 `;
 export const TradeInner = styled(Flex)`
   /* height: calc(100% - 60px); */
@@ -25,14 +30,37 @@ export const RightContent = styled(Flex)`
   flex: 1;
   text-align: end;
   height: 90%;
+  @media (max-width: 640px) {
+    width: 50%;
+  }
 `;
-export const LTop = styled.div``;
-export const LBottom = styled.div``;
-export const RTop = styled.div``;
-export const RBottom = styled.div``;
+export const LTop = styled.div`
+  @media (max-width: 640px) {
+    margin-top: 10px;
+  }
+`;
+export const LBottom = styled.div`
+  @media (max-width: 640px) {
+    display: none;
+  }
+`;
+export const RTop = styled.div`
+  @media (max-width: 640px) {
+    margin-top: 10px;
+  }
+`;
+export const RBottom = styled.div`
+  @media (max-width: 640px) {
+    display: none;
+  }
+`;
 export const Footer = styled.div``;
 export const BtnWrapper = styled.div`
   width: 50%;
+
+  @media (max-width: 640px) {
+    width: 80%;
+  }
 `;
 
 export const Stepper = styled.div<{ status: number }>`
@@ -41,6 +69,10 @@ export const Stepper = styled.div<{ status: number }>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  
+    @media (max-width: 640px) {
+      height: 100%;
+  }
 
   &:after {
     content: "";
@@ -51,6 +83,10 @@ export const Stepper = styled.div<{ status: number }>`
     /* top: 2px; */
     left: 50%;
     transform: translateX(-50%);
+
+    @media (max-width: 640px) {
+      width: 5px;
+    }
   }
   &:before {
     content: "";
@@ -71,7 +107,23 @@ export const Stepper = styled.div<{ status: number }>`
     transform: translateX(-50%);
     z-index: 2;
     top: 20px;
-  }
+
+    @media (max-width: 640px) {
+      top: 0px;
+      width: 5px;
+
+      height: ${({ status }) =>
+        status == 1
+          ? "0px"
+          : status == 2
+          ? "50px"
+          : status == 3
+          ? "90px"
+          : status == 4
+          ? "130px"
+          : "170px"};
+    }
+
 `;
 export const Step = styled.div<{ leftMsg?: string; rightMsg?: string }>`
   width: 25px;
@@ -80,6 +132,11 @@ export const Step = styled.div<{ leftMsg?: string; rightMsg?: string }>`
   background: #d9d9d9;
   position: relative;
   z-index: 3;
+
+  @media (max-width: 640px) {
+    height: 13px;
+    width: 13px;
+  }
 
   &.active {
     background: #7da9ff;
@@ -95,11 +152,18 @@ export const Step = styled.div<{ leftMsg?: string; rightMsg?: string }>`
   &:before {
     content: "${({ leftMsg }) => leftMsg}";
     position: absolute;
-    top: 0px;
     left: -240px;
     width: 230px;
     text-align: end;
     font-weight: 500;
+
+    @media (max-width: 640px) {
+      width: 75px;
+      font-size: 8px;
+      line-height: 11px;
+      left: -80px;
+      /* top: -5px; */
+    }
   }
   &:after {
     content: "${({ rightMsg }) => rightMsg}";
@@ -109,5 +173,23 @@ export const Step = styled.div<{ leftMsg?: string; rightMsg?: string }>`
     width: 230px;
     text-align: start;
     font-weight: 500;
+    @media (max-width: 640px) {
+      width: 75px;
+      line-height: 11px;
+      font-size: 8px;
+      /* top: -5px; */
+      left: 20px;
+    }
+  }
+`;
+export const MobileFooter = styled.div`
+  display: none;
+  @media (max-width: 640px) {
+    display: block;
+
+    .inner {
+      display: flex;
+      justify-content: space-between;
+    }
   }
 `;

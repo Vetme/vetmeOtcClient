@@ -105,7 +105,7 @@ const HomePage = () => {
                           <Button className="primary-accent">VetMe</Button>
                         </ListCol>
                         <ListCol>
-                          <Button className="primary">Buy BTC</Button>
+                          <Button className="primary">BTC</Button>
                         </ListCol>
                       </ListRow>
                       <ListRow>
