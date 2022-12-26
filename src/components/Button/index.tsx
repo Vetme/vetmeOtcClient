@@ -9,11 +9,12 @@ export const Button = styled.button.attrs((props) => ({
   border: none;
   border-radius: 10px;
   color: #000000;
-
+  opacity: ${({ disabled }) => (disabled ? 0.7 : 1)};
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  justify-content: center;
   font-weight: 700;
   font-size: 24px;
   line-height: 24px;
-  cursor: pointer;
   height: 53px;
   white-space: nowrap;
   /* identical to box height */
@@ -21,14 +22,36 @@ export const Button = styled.button.attrs((props) => ({
   letter-spacing: 0.03em;
   transition: 0.3s;
   background: ${({ bg }) => (bg ? bg : "")};
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  &.loading {
+    &::after {
+      content: "";
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      background: #7da8ff7b;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+
+      -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      border: 2px solid #fff;
+      animation: loading 0.3s alternate infinite;
+      transform-origin: center;
+    }
+  }
 
   &:hover {
     background: ${({ bg }) => (bg ? bg : "")};
   }
 
   &.primary {
-    background: ${({ disabled }) =>
-      disabled ? PRIMARY_DISABLED : PRIMARY_COLOR};
+    background: ${PRIMARY_COLOR};
     position: relative;
     color: #000;
 
@@ -38,7 +61,7 @@ export const Button = styled.button.attrs((props) => ({
 
     &:hover {
       background: ${({ disabled }) =>
-        disabled ? PRIMARY_DISABLED : PRIMARY_HOVER};
+        disabled ? PRIMARY_COLOR : PRIMARY_HOVER};
     }
   }
   &.primary-accent {
@@ -133,11 +156,23 @@ export const Button = styled.button.attrs((props) => ({
     }
   }
 
+  .btn-loading {
+    margin-left: 10px;
+    margin-right: 0px;
+  }
+
   @media (max-width: 640px) {
     &.m-sm {
       /* padding: 8px 24px; */
       max-height: 38px;
       font-size: 14px;
+    }
+  }
+
+  @keyframes loading {
+    100% {
+      background: #fff;
+      box-shadow: 0px 0px 24px #fff;
     }
   }
 `;

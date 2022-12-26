@@ -6,6 +6,9 @@ import { Send, Swap } from "../Icons";
 import { CSSTransition } from "react-transition-group";
 import TokenCard from "./TokenCard";
 import { tokens as InitTokens } from "@/data";
+import { useQuery } from "@apollo/react-hooks";
+import { DAI_QUERY, ETH_PRICE_QUERY, ETH_TOKEN_QUERY } from "@/apollo";
+import { TokenI } from "@/types";
 
 const SwapContainer = styled.div`
   background: #ffffff;
@@ -140,7 +143,7 @@ const Msg = styled.div`
 
 interface TokenSelect {
   handleClose: () => void;
-  handleSelected: (arg: string) => void;
+  handleSelected: (arg: TokenI) => void;
   show: boolean;
 }
 
@@ -148,10 +151,29 @@ const TokenSelect = ({ show, handleClose, handleSelected }: TokenSelect) => {
   const [tokens, setTokens] = useState(InitTokens);
   const [sTokens, setSTokens] = useState<any[]>([]);
   const [query, setQuery] = useState<string>("");
+  // const { loading, error, data } = useQuery(ETH_TOKEN_QUERY);
+
+  // const refinedData = data?.pairs.map((token: any) => {
+  //   return {
+  //     id: token.token1.id,
+  //     name: token.token1.name,
+  //     symbol: token.token1.symbol,
+  //   };
+  // });
+
+  // console.log(refinedData);
+  // const { loading: daiLoading, data: daiData } = useQuery(DAI_QUERY, {
+  //   variables: {
+  //     tokenAddress: "0x6b175474e89094c44da98b954eedeac495271d0f",
+  //   },
+  // });
 
   useEffect(() => {
     setSTokens([]);
-    let newToken = tokens.filter((token) =>
+    // let newToken = refinedData?.filter((token: any) =>
+    //   Object.values(token).join("").toLowerCase().includes(query.toLowerCase())
+    // );
+    let newToken = tokens?.filter((token: any) =>
       Object.values(token).join("").toLowerCase().includes(query.toLowerCase())
     );
     setSTokens(newToken);
@@ -162,8 +184,9 @@ const TokenSelect = ({ show, handleClose, handleSelected }: TokenSelect) => {
     setQuery(val);
   };
 
-  const callback = (val: string) => {
-    handleSelected(val);
+  const callback = (address: string) => {
+    let token = sTokens.find((token) => token.address === address);
+    handleSelected(token);
   };
 
   return (
@@ -193,10 +216,9 @@ const TokenSelect = ({ show, handleClose, handleSelected }: TokenSelect) => {
               </InputBox>
             </InputCon>
             <Spacer height={27} />
-
-            {sTokens.length ? (
+            {sTokens?.length ? (
               <ResultCon>
-                {sTokens.map((token: any, i) => (
+                {sTokens?.map((token: any, i) => (
                   <TokenCard {...token} key={i} callback={callback} />
                 ))}
               </ResultCon>

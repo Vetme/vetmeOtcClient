@@ -27,10 +27,13 @@ import {
   List as ListCon,
   Swap,
 } from "./styles";
+import { useTokenFetch } from "@/hooks/customHooks";
+import { truncate } from "@/helpers";
 
 const HomePage = () => {
   const [display, setDisplay] = useState<"grid" | "list">("grid");
-  const [mode, setMode] = useState<"list" | "swap">("list");
+  const [mode, setMode] = useState<"list" | "swap">("swap");
+  const { loading, data } = useTokenFetch();
 
   return (
     <Container>
@@ -80,9 +83,13 @@ const HomePage = () => {
             <Swap>
               {display === "grid" ? (
                 <GridWrapper>
-                  {swaps.map((swap, i) => (
-                    <SwapGrid key={i} />
-                  ))}
+                  {loading ? (
+                    <span>loading...</span>
+                  ) : (
+                    data.map((list: any, i: number) => (
+                      <SwapGrid list={list} key={i} />
+                    ))
+                  )}
                 </GridWrapper>
               ) : (
                 <>
@@ -91,54 +98,42 @@ const HomePage = () => {
                       <HeaderItem>Wallet ID</HeaderItem>
                       <HeaderItem>Selling Rate</HeaderItem>
                       <HeaderItem>Available </HeaderItem>
-                      <HeaderItem>Limit</HeaderItem>
+                      <HeaderItem>Escrow Fee</HeaderItem>
                       <HeaderItem>Give</HeaderItem>
                       <HeaderItem>Get</HeaderItem>
                     </ListHeader>
                     <ListBody>
-                      <ListRow>
-                        <ListCol>751***khgafk</ListCol>
-                        <ListCol>$1.00</ListCol>
-                        <ListCol>$4000</ListCol>
-                        <ListCol>$20</ListCol>
-                        <ListCol>
-                          <Button className="primary-accent">VetMe</Button>
-                        </ListCol>
-                        <ListCol>
-                          <Button className="primary">BTC</Button>
-                        </ListCol>
-                      </ListRow>
-                      <ListRow>
-                        <ListCol>751***khgafk</ListCol>
-                        <ListCol>$1.00</ListCol>
-                        <ListCol>$4000</ListCol>
-                        <ListCol>$20</ListCol>
-                        <ListCol>
-                          <Button className="primary-accent">VetMe</Button>
-                        </ListCol>
-                        <ListCol>
-                          <Button className="primary">Buy BTC</Button>
-                        </ListCol>
-                      </ListRow>
-                      <ListRow>
-                        <ListCol>751***khgafk</ListCol>
-                        <ListCol>$1.00</ListCol>
-                        <ListCol>$4000</ListCol>
-                        <ListCol>$20</ListCol>
-                        <ListCol>
-                          <Button className="primary-accent">VetMe</Button>
-                        </ListCol>
-                        <ListCol>
-                          <Button className="primary">Buy BTC</Button>
-                        </ListCol>
-                      </ListRow>
+                      {loading ? (
+                        <span>loading...</span>
+                      ) : (
+                        data.map((list: any, i: number) => (
+                          <ListRow key={i + "grid"}>
+                            <ListCol>
+                              {truncate(list.receiving_wallet, 9, "***")}
+                            </ListCol>
+                            <ListCol>{list.amount_in.toFixed(2)}</ListCol>
+                            <ListCol>{list.amount_out.toFixed(2)}</ListCol>
+                            <ListCol>3%</ListCol>
+                            <ListCol>
+                              <Button className="primary-accent">VetMe</Button>
+                            </ListCol>
+                            <ListCol>
+                              <Button className="primary">BTC</Button>
+                            </ListCol>
+                          </ListRow>
+                        ))
+                      )}
                     </ListBody>
                   </ListWrapper>
                   <ListWrapper className="mobile">
                     <GridWrapper>
-                      {swaps.map((swap, i) => (
-                        <MobileList key={i} />
-                      ))}
+                      {loading ? (
+                        <span>loading...</span>
+                      ) : (
+                        data?.map((list: any, i: number) => (
+                          <MobileList list={list} key={i + "mlist"} />
+                        ))
+                      )}
                     </GridWrapper>
                   </ListWrapper>
                 </>

@@ -1,17 +1,11 @@
 import { tokens } from "@/data";
+import { truncate } from "@/helpers";
+import { ListI } from "@/types";
 import React from "react";
 import styled, { css } from "styled-components";
 import { Divider, Flex, Spacer, Text, TokenBadge, Wrapper } from "..";
 import { Button } from "../Button";
 import { Send, Swap } from "../Icons";
-
-interface SwapI {
-  from?: string;
-  to?: string;
-  available?: number;
-  limit?: number;
-  fee?: number;
-}
 
 const Container = styled.div`
   background: #ffffff;
@@ -41,14 +35,17 @@ const ActionWrapper = styled.div`
   text-align: center;
 `;
 
-const SwapGrid = ({}: SwapI) => {
+const SwapGrid = ({ list }: { list: ListI }) => {
   return (
     <Container>
       <Flex justify="space-between">
         <Flex direction="column">
           <Wrapper>
             <Text weight="700">Wallet ID</Text>
-            <Text weight="700">0xIHld</Text>
+            <Text weight="700">
+              {" "}
+              {truncate(list.receiving_wallet, 9, "***")}
+            </Text>
           </Wrapper>
           <Spacer height={33} />
           <Wrapper>
@@ -62,7 +59,7 @@ const SwapGrid = ({}: SwapI) => {
               <Text style={{ display: "inline" }} weight="700">
                 Selling Rate
               </Text>{" "}
-              : 1.0
+              : {Number(list.amount_in).toFixed(2)}
             </Text>
             <Text size="14px">
               <Text style={{ display: "inline" }} weight="700">
@@ -75,7 +72,9 @@ const SwapGrid = ({}: SwapI) => {
         <ActionWrapper>
           <Flex align="end" gap={10}>
             <Text weight="700">Give</Text>
-            <Button className="primary-accent m-sm">VetMe</Button>
+            <Button className="primary-accent m-sm">
+              {list.token_out_metadata.symbol}
+            </Button>
           </Flex>
           <Spacer height={16} />
           <Swap />
@@ -83,7 +82,9 @@ const SwapGrid = ({}: SwapI) => {
 
           <Flex align="end" gap={10}>
             <Text weight="700">Get</Text>
-            <Button className="primary-accent m-sm">BTC</Button>
+            <Button className="primary-accent m-sm">
+              {list.token_in_metadata.symbol}
+            </Button>
           </Flex>
         </ActionWrapper>
       </Flex>

@@ -63,9 +63,9 @@ export const NavItems = styled.div`
   }
 `;
 export const Item = styled(NavLink)`
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
-  padding: 0px 31px;
+  padding: 0px 20px;
   color: #000000;
   transition: 0.3s;
   position: relative;
@@ -90,6 +90,10 @@ export const Item = styled(NavLink)`
 export const Logo = styled(NavLink)`
   display: flex;
   align-items: center;
+
+  img {
+    width: 10rem;
+  }
 `;
 
 export const Menu = styled.ul`

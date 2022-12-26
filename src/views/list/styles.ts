@@ -128,7 +128,7 @@ export const Stepper = styled.div<{ status: number }>`
   &:before {
     content: "";
     width: ${({ status }) =>
-      status == 1 ? "0px" : status == 2 ? "120px" : "220px"};
+      status == 1 ? "0px" : status == 2 ? "150px" : "220px"};
     height: 10px;
     background: #7da9ff;
     position: absolute;

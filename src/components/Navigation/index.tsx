@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-//import { TextField } from "../Input";
 import { CSSTransition } from "react-transition-group";
+import axios from "axios";
+
 import {
   NavContainer,
   NavWrapper,
@@ -20,11 +21,8 @@ import { Flex } from "../";
 import { Button } from "@/components/Button";
 import { Connect } from "../Modal";
 import { hooks, metaMask } from "@/connector/metaMask";
-import {
-  hooks as walletConnectHooks,
-  walletConnect,
-} from "@/connector/walletConnect";
 import { truncate } from "@/helpers";
+import web3 from "web3";
 
 interface NavInput {
   account?: string | null;
@@ -45,35 +43,41 @@ const Navigation = () => {
   };
 
   const connectMetamask = async () => {
-    await metaMask
-      .activate(5878)
-      .catch((e: any) => {
-        console.log(`activate error ${e.message}`);
-      })
-      .then(() => {});
+    const mm = await metaMask.activate(5);
   };
 
   useEffect(() => {
     setOpen(false);
   }, [location]);
 
+  useEffect(() => {
+    storeUser();
+  }, [account, isActive]);
+
+  const storeUser = async () => {
+    if (!account && account === undefined) return;
+    await axios.post(`${import.meta.env.VITE_BASE_URL}/users`, { account });
+  };
+
   return (
     <NavContainer>
       <div className="container">
         <NavWrapper>
           <Logo to="/">
-            <img src="images/logo.png" />
+            <img src="/images/logo.png" />
           </Logo>
           <NavItems>
             <Item
               to="/"
-              className={({ isActive }) => (isActive ? "active" : "")}
+              className={({ isActive }: { isActive: boolean }) =>
+                isActive ? "active" : ""
+              }
             >
               Home
             </Item>
-            <Item to="/escrow">P2P Escrow</Item>
-            <Item to="/list">White Paper</Item>
-            <Item to="/trades">Telegram</Item>
+            <Item to="p2p">P2P Escrow</Item>
+            <Item to="white-paper">White Paper</Item>
+            <Item to="telegram">Telegram</Item>
           </NavItems>
           <Action>
             {isActive ? (
@@ -93,9 +97,9 @@ const Navigation = () => {
           <MobileMenu className={open ? "added" : ""}>
             <MMenuInner>
               <MMenuItem to="/">Home</MMenuItem>
-              <MMenuItem to="/list">P2P Escrow</MMenuItem>
-              <MMenuItem to="/trades">White Paper</MMenuItem>
-              <MMenuItem to="/telegram">Telegram</MMenuItem>
+              <MMenuItem to="p2p">P2P Escrow</MMenuItem>
+              <MMenuItem to="white-paper">White Paper</MMenuItem>
+              <MMenuItem to="telegram">Telegram</MMenuItem>
               <Center>
                 {isActive ? (
                   <Button className="success sm" onClick={() => setShow(true)}>

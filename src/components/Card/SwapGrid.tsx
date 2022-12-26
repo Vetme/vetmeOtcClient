@@ -1,16 +1,11 @@
 import { tokens } from "@/data";
+import { truncate } from "@/helpers";
+import { ListI } from "@/types";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { Divider, Flex, Spacer, Text, TokenBadge } from "..";
 import { Send, Swap } from "../Icons";
-
-interface SwapI {
-  from?: string;
-  to?: string;
-  available?: number;
-  limit?: number;
-  fee?: number;
-}
 
 const SwapContainer = styled.div`
   background: #ffffff;
@@ -46,44 +41,48 @@ const ActionWrapper = styled.button`
   cursor: pointer;
 `;
 
-const SwapGrid = ({}: SwapI) => {
+const SwapGrid = ({ list }: { list: ListI }) => {
+  const navigate = useNavigate();
   return (
     <SwapContainer>
       <Header>
         <Text weight="700" size="16px">
-          VET/BTC
+          {list.token_out_metadata?.symbol}/{list.token_in_metadata?.symbol}
         </Text>
         <Text weight="700" size="16px">
-          762****kjhfks
+          {truncate(list.receiving_wallet, 9, "***")}
         </Text>
       </Header>
       <Body>
         <Flex justify="space-between" align="center">
-          <TokenBadge token={tokens[1]} handleClick={() => null} />
+          <TokenBadge
+            token={list.token_out_metadata}
+            handleClick={() => null}
+          />
           <Swap />
-          <TokenBadge token={tokens[2]} handleClick={() => null} />
+          <TokenBadge token={list.token_in_metadata} handleClick={() => null} />
         </Flex>
         <Spacer height={20} />
         <Text size="12px" color="#848892">
-          Available : $3200
+          Available :{Number(list.amount_out).toFixed(2)}
         </Text>
         <Spacer height={10} />
         <Divider />
         <Spacer height={21} />
         <Flex justify="space-between" align="center">
           <Details>
-            <Text size="12px" color="#848892">
+            {/* <Text size="12px" color="#848892">
               Limit : $20
-            </Text>
+            </Text> */}
             <Text size="12px" color="#848892">
-              Selling Rate : 1.0
+              Selling Rate : {Number(list.amount_in).toFixed(2)}
             </Text>
             <Text size="12px" color="#848892">
               Escrow Fee : 3%
             </Text>
           </Details>
           <Actions>
-            <ActionWrapper>
+            <ActionWrapper onClick={() => navigate(`trades/${list._id}`)}>
               <Send />
             </ActionWrapper>
           </Actions>

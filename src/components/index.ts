@@ -414,8 +414,8 @@ export const FancyBg = styled.div<{
 `;
 
 export const Loader = styled.div`
-  height: 100px;
-  width: 100px;
+  height: 20px;
+  width: 20px;
   border-radius: 50%;
   background: transparent;
   border: 20px solid rgba(255, 255, 255, 0.05);
@@ -424,8 +424,8 @@ export const Loader = styled.div`
 
   &:after {
     content: "";
-    height: 85px;
-    width: 85px;
+    height: 20px;
+    width: 20px;
     left: -12px;
     top: -12px;
     border-left: 5px solid transparent;

@@ -13,7 +13,12 @@ import {
 } from "@/connector/walletConnect";
 import { MetaMask } from "@web3-react/metamask";
 import { Web3Provider } from "@ethersproject/providers";
+import { ApolloProvider } from "@apollo/client";
+import { client } from "./apollo";
+import ListProvider from "./context/Listcontext";
+// import dotenv from "dotenv";
 
+// dotenv.config();
 const connectors: [MetaMask | WalletConnect, Web3ReactHooks][] = [
   [metaMask, metaMaskHooks],
   [walletConnect, walletConnectHooks],
@@ -27,12 +32,16 @@ function getLibrary(provider: any): Web3Provider {
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <Web3ReactProvider connectors={connectors}>
-      <MetamaskProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </MetamaskProvider>
-    </Web3ReactProvider>
+    <ApolloProvider client={client}>
+      <Web3ReactProvider connectors={connectors}>
+        <MetamaskProvider>
+          <BrowserRouter>
+            <ListProvider>
+              <App />
+            </ListProvider>
+          </BrowserRouter>
+        </MetamaskProvider>
+      </Web3ReactProvider>
+    </ApolloProvider>
   </React.StrictMode>
 );
