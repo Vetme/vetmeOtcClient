@@ -116,7 +116,7 @@ export const Stepper = styled.div<{ status: number }>`
         status == 1
           ? "0px"
           : status == 2
-          ? "50px"
+          ? "107px"
           : status == 3
           ? "90px"
           : status == 4

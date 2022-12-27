@@ -234,7 +234,26 @@ const Trans = () => {
               <Spacer height={24} />
               <OnlyMobile>
                 <Flex>
-                  <Button className="primary m-sm">Send Token</Button>
+                  {allowance < form.amount_out ? (
+                    <CustomButton
+                      loading={loading || approving}
+                      disabled={loading || approving}
+                      classNames="primary m-sm"
+                      onClick={() => approve()}
+                      text="Approve"
+                    />
+                  ) : (
+                    // <Button className="primary md" onClick={() => listToken()}>
+                    //   List Token
+                    // </Button>
+                    <CustomButton
+                      classNames="primary m-sm"
+                      text="List Token"
+                      onClick={() => listToken()}
+                      loading={loading || approving}
+                      disabled={loading || approving}
+                    />
+                  )}
                   <Spacer width={41} />
                   <Button
                     className="primary-accent m-sm"

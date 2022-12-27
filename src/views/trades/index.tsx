@@ -262,14 +262,36 @@ const Trans = () => {
             <MobileFooter>
               <Spacer height={22} />
               <div className="inner">
-                <Button className="primary  m-sm">Send Token</Button>
-                <Button
-                  className="primary-accent  m-sm"
-                  onClick={() => navigate("/")}
-                >
-                  Cancel
-                </Button>
-                <Button className="primary  m-sm">Chat User</Button>
+                {isActive ? (
+                  <>
+                    {allowance < listing?.amount_in ? (
+                      <CustomButton
+                        classNames="primary m-sm"
+                        onClick={() => approve()}
+                        text="Approve"
+                        loading={loading || approving}
+                        disabled={loading || approving}
+                      />
+                    ) : (
+                      <CustomButton
+                        classNames="primary  m-sm"
+                        onClick={() => matchOrder()}
+                        text="Swap"
+                      />
+                    )}
+                    <Spacer width={41} />
+                    <Button
+                      className="primary-accent m-sm"
+                      onClick={() => navigate("/")}
+                    >
+                      Cancel
+                    </Button>
+                  </>
+                ) : (
+                  <></>
+                )}
+
+                {/* <Button className="primary  m-sm">Chat User</Button> */}
               </div>
               <Spacer height={17} />
             </MobileFooter>
