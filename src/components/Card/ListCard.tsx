@@ -8,7 +8,7 @@ import { Divider, Flex, IconWrapper, Spacer, Text, TokenBadge } from "..";
 import { Button } from "../Button";
 import { Send, Swap } from "../Icons";
 import { TokenSelect } from "../Modal";
-import { hooks } from "@/connector/metaMask";
+import { hooks, metaMask } from "@/connector/metaMask";
 
 const SwapContainer = styled.div`
   background: #ffffff;
@@ -79,8 +79,10 @@ const ListCard = () => {
   const [get, setGet] = useState<TokenI | undefined>(undefined);
   const [action, setAction] = useState<"giving" | "getting">("giving");
   const { setForm, form } = useContext(ListContext) as ListContextType;
+
   const { useAccount, useIsActive } = hooks;
   const account = useAccount();
+  const isActive = useIsActive();
 
   const navigate = useNavigate();
 
@@ -115,6 +117,10 @@ const ListCard = () => {
       ...initialState,
       [name]: value,
     }));
+  };
+
+  const handleConnect = async () => {
+    await metaMask.activate(5);
   };
 
   const handleContinue = () => {
@@ -199,13 +205,23 @@ const ListCard = () => {
           </InputCon>
           <Spacer height={30} />
 
-          <Button
-            disabled={!isValid()}
-            className="primary block m-sm"
-            onClick={handleContinue}
-          >
-            Continue
-          </Button>
+          {isActive ? (
+            <Button
+              disabled={!isValid()}
+              className="primary block m-sm"
+              onClick={handleContinue}
+            >
+              Continue
+            </Button>
+          ) : (
+            <Button
+              disabled={!isValid()}
+              className="primary block m-sm"
+              onClick={handleConnect}
+            >
+              Connect Your wallet
+            </Button>
+          )}
         </Body>
       </SwapContainer>
       <TokenSelect

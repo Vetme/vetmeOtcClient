@@ -20,7 +20,7 @@ import { Avatar, Center, Spacer } from "../";
 import { Flex } from "../";
 import { Button } from "@/components/Button";
 import { Connect } from "../Modal";
-import { hooks, metaMask } from "@/connector/metaMask";
+import { hooks, walletConnect } from "@/connector/walletConnect";
 import { truncate } from "@/helpers";
 import web3 from "web3";
 
@@ -43,7 +43,10 @@ const Navigation = () => {
   };
 
   const connectMetamask = async () => {
-    const mm = await metaMask.activate(5);
+    walletConnect.connectEagerly().catch((err) => {
+      console.debug("Failed to connect eagerly to walletconnect", err);
+    });
+    // const mm = await walletConnect.activate();
   };
 
   useEffect(() => {

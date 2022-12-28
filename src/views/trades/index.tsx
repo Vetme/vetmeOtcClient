@@ -66,12 +66,11 @@ const Trans = () => {
   }, []);
 
   useEffect(() => {
-    if(account&&listing)
-    getAllowance();
+    if (account && listing) getAllowance();
   }, [account, listing]);
 
   const fetchList = async () => {
-    try{
+    try {
       setLoading(true);
       const {
         data: { listing },
@@ -79,9 +78,8 @@ const Trans = () => {
       setLoading(false);
       setListing(listing);
       setStatus(listing.status);
-
-    }catch(e){
-      console.log({error84: e})
+    } catch (e) {
+      console.log({ error84: e });
     }
   };
 
@@ -129,7 +127,9 @@ const Trans = () => {
         tokenIn: listing?.token_out,
         tokenOut: listing?.token_in,
         amountOut: BigNumber(listing?.amount_in).times(1e18).toString(10),
-        amountIn: BigNumber(listing?.amount_out).times(1e18).toString(10),
+        amountIn: BigNumber(listing?.amount_out as number)
+          .times(1e18)
+          .toString(10),
         deadline: listing?.deadline,
         nonce,
       };

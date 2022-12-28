@@ -6,7 +6,9 @@ export const [walletConnect, hooks] = initializeConnector<WalletConnect>(
     new WalletConnect({
       actions,
       options: {
-        rpc: "https://goerli.infura.io/v3/ae69348d48e148e79799e35958268f01",
+        rpc: {
+          5: "https://goerli.infura.io/v3/ae69348d48e148e79799e35958268f01",
+        },
       },
     })
 );

@@ -45,6 +45,8 @@ import { from } from "@apollo/client";
 import CustomButton from "@/components/Button/CustomButton";
 import { fromBigNumber, parseSuccess } from "@/utils";
 import { Copy } from "@/components/Icons";
+import { getAccountPath } from "ethers/lib/utils";
+import Api from "@/helpers/apiHelper";
 
 const Trans = () => {
   const [status, setStatus] = useState<number>(1);
@@ -77,7 +79,13 @@ const Trans = () => {
   };
   useEffect(() => {
     getAllowance();
+    getAccount();
   }, [account, form]);
+
+  const getAccount = async () => {
+    const userAccount = await Api.getAccount(account);
+    console.log(userAccount);
+  };
 
   const getAllowance = async () => {
     const allowance = await getTokenAllowance(
