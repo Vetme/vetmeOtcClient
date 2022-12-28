@@ -66,17 +66,23 @@ const Trans = () => {
   }, []);
 
   useEffect(() => {
+    if(account&&listing)
     getAllowance();
   }, [account, listing]);
 
   const fetchList = async () => {
-    setLoading(true);
-    const {
-      data: { listing },
-    } = await axios.get(`${import.meta.env.VITE_BASE_URL}/lists/${id}`);
-    setLoading(false);
-    setListing(listing);
-    setStatus(listing.status);
+    try{
+      setLoading(true);
+      const {
+        data: { listing },
+      } = await axios.get(`${import.meta.env.VITE_BASE_URL}/lists/${id}`);
+      setLoading(false);
+      setListing(listing);
+      setStatus(listing.status);
+
+    }catch(e){
+      console.log({error84: e})
+    }
   };
 
   const getAllowance = async () => {

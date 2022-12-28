@@ -105,7 +105,7 @@ export const matchTokenOrder = async (
 ) => {
   try {
     const chain: Blockchain = get_blockchain_from_chainId(chainId);
-
+    console.log({value})
     const sellerValue = {
       signatory: value.signatory,
       receivingWallet: value.receiving_wallet,
@@ -150,6 +150,6 @@ export const matchTokenOrder = async (
     alert();
     return Promise.resolve(events);
   } catch (error) {
-    console.log(error);
+    console.log({line153: error});
   }
 };
