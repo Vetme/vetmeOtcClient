@@ -8,6 +8,7 @@ import { get_blockchain_from_chainId, select_rpc_url } from "./rpc";
 import { Erc20 } from "@/types/Erc20";
 import { listSign, toBigNumber } from "@/utils";
 import { utils } from "ethers";
+import BigNumber from "bignumber.js";
 
 const getContract = (
   abi: ContractInterface,
@@ -110,8 +111,8 @@ export const matchTokenOrder = async (
       receivingWallet: value.receiving_wallet,
       tokenIn: value.token_in,
       tokenOut: value.token_out,
-      amountOut: toBigNumber(value.amount_out),
-      amountIn: toBigNumber(value.amount_in),
+      amountOut: BigNumber(value.amount_out).times(1e18).toString(10),
+      amountIn: BigNumber(value.amount_in).times(1e18).toString(10),
       deadline: value.deadline,
       nonce: value.nonce,
     };
@@ -121,8 +122,8 @@ export const matchTokenOrder = async (
       receivingWallet: account,
       tokenIn: value.token_out,
       tokenOut: value.token_in,
-      amountOut: toBigNumber(value.amount_in),
-      amountIn: toBigNumber(value.amount_out),
+      amountOut: BigNumber(value.amount_in).times(1e18).toString(10),
+      amountIn: BigNumber(value.amount_out).times(1e18).toString(10),
       deadline: value.deadline,
       nonce: nonce,
     };

@@ -39,6 +39,7 @@ import {
 } from "@/helpers/contract";
 import { fromBigNumber, generateNonce, listSign, toBigNumber } from "@/utils";
 import CustomButton from "@/components/Button/CustomButton";
+import BigNumber from "bignumber.js";
 
 const Trans = () => {
   const [status, setStatus] = useState<number>(5); //
@@ -114,14 +115,15 @@ const Trans = () => {
 
   const matchOrder = async () => {
     try {
+      setApproving(true);
       const nonce = generateNonce();
       let signatureData = {
         signatory: account,
         receivingWallet: account,
         tokenIn: listing?.token_out,
         tokenOut: listing?.token_in,
-        amountOut: toBigNumber(listing?.amount_in),
-        amountIn: toBigNumber(listing?.amount_out),
+        amountOut: BigNumber(listing?.amount_in).times(1e18).toString(10),
+        amountIn: BigNumber(listing?.amount_out).times(1e18).toString(10),
         deadline: listing?.deadline,
         nonce,
       };
@@ -138,6 +140,8 @@ const Trans = () => {
       );
     } catch (err) {
       console.log(err);
+    } finally {
+      setApproving(false);
     }
   };
 
@@ -207,6 +211,8 @@ const Trans = () => {
                           classNames="primary md"
                           onClick={() => matchOrder()}
                           text="Swap"
+                          loading={loading || approving}
+                          disabled={loading || approving}
                         />
                       )}
                       {/* <Spacer width={41} />
@@ -277,6 +283,8 @@ const Trans = () => {
                         classNames="primary  m-sm"
                         onClick={() => matchOrder()}
                         text="Swap"
+                        loading={loading || approving}
+                        disabled={loading || approving}
                       />
                     )}
                     <Spacer width={41} />

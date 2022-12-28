@@ -12,6 +12,7 @@ import {
   toBigNumber,
 } from "@/utils";
 import { hooks } from "@/connector/metaMask";
+import BigNumber from "bignumber.js";
 
 export type ListContextType = {
   saveList: () => void;
@@ -67,8 +68,8 @@ const ListProvider: React.FC<Props> = ({ children }) => {
         receivingWallet: form.receiving_wallet,
         tokenIn: data.token_in,
         tokenOut: data.token_out,
-        amountOut: toBigNumber(data.amount_out),
-        amountIn: toBigNumber(data.amount_in),
+        amountOut: BigNumber(data.amount_out).times(1e18).toString(10),
+        amountIn: BigNumber(data.amount_out).times(1e18).toString(10),
         deadline: 0,
         nonce: data.nonce,
       };
