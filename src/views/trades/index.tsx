@@ -12,6 +12,8 @@ import React, { useState, useEffect } from "react";
 import { hooks, metaMask } from "@/connector/metaMask";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { utils } from "ethers";
+
 import {
   TradeWrapper,
   LeftContent,
@@ -127,6 +129,7 @@ const Trans = () => {
 
   const matchOrder = async () => {
     try {
+      setApproving(true);
       let signatureData = {
         signatory: account,
         receivingWallet: account,
@@ -158,8 +161,11 @@ const Trans = () => {
       };
 
       await Api.upDateList(data);
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      console.log({ err });
+      const code = err?.data?.replace("Reverted ", "");
+      let reason = utils.toUtf8String("0x" + code.substr(138));
+      console.log("revert reason:", reason);
       parseError("Opps");
     } finally {
       setApproving(false);
@@ -286,9 +292,9 @@ const Trans = () => {
                   </TradeItem>
                 </RTop>
                 <RBottom>
-                  <Button className="primary md" onClick={handleConvertWeth}>
+                  {/* <Button className="primary md" onClick={handleConvertWeth}>
                     Chat User
-                  </Button>
+                  </Button> */}
                 </RBottom>
               </RightContent>
             </TradeInner>

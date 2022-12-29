@@ -130,6 +130,8 @@ export const matchTokenOrder = async (
     const buy = generateOrder(buyerSignature, buyerValue);
     const sell = generateOrder(sellerSignature, sellerValue);
 
+    console.log({ buy, sell });
+
     const contract = EscrowOtcContract(
       import.meta.env.VITE_CONTRACT_ADDRESS,
       chain,
@@ -137,18 +139,18 @@ export const matchTokenOrder = async (
     );
 
     const signer = contract.connect(provider?.getSigner());
+
     const trxn = await signer.matchOrder(
       sell.order,
       sell.signature,
       buy.order,
       buy.signature,
       {
-        gasLimit: 1000000,
+        gasLimit: 2000000,
       }
     );
 
     const { events } = await trxn.wait();
-    alert();
     return Promise.resolve(events);
   } catch (error) {
     console.log({ line153: error });
@@ -156,7 +158,7 @@ export const matchTokenOrder = async (
   }
 };
 
-export const convertWeth = async (provider?: Web3Provider, chainId: number) => {
+export const convertWeth = async (provider: any, chainId: number) => {
   const chain: Blockchain = get_blockchain_from_chainId(chainId);
 
   const contract = getContract(

@@ -43,7 +43,7 @@ const Navigation = () => {
   };
 
   const connectMetamask = async () => {
-    const mm = await metaMask.activate();
+    const mm = await metaMask.activate(5);
   };
 
   useEffect(() => {
