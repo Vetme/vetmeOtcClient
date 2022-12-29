@@ -70,6 +70,13 @@ export const tokens = [
     name: "Messi Token",
     avatar: "/images/coins/doge.png",
   },
+  {
+    id: 1,
+    address: "0x1a237400185127d8b19d6ba7cad5d952a661dd56",
+    symbol: "WETH",
+    name: "Wrap Ether",
+    avatar: "/images/coins/doge.png",
+  },
   // {
   //   id: 1,
   //   address: "0x11834198E8801511038604C92B51DC0BB490BFF9",

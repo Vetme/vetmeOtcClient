@@ -63,14 +63,14 @@ const ListProvider: React.FC<Props> = ({ children }) => {
       let data = { ...form };
       data.token_in = data.token_in_metadata.address;
       data.token_out = data.token_out_metadata.address;
-      data.deadline = getDeadline(72000);
+      data.deadline = getDeadline(7200);
       let signatureData = {
         signatory: form.signatory,
         receivingWallet: form.receiving_wallet,
         tokenIn: data.token_in,
         tokenOut: data.token_out,
         amountOut: BigNumber(data.amount_out).times(1e18).toString(10),
-        amountIn: BigNumber(data.amount_out).times(1e18).toString(10),
+        amountIn: BigNumber(data.amount_in).times(1e18).toString(10),
         deadline: data.deadline,
         nonce: form.nonce,
       };

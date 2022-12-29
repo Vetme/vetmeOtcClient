@@ -36,6 +36,7 @@ import {
   approveToken,
   getTokenAllowance,
   matchTokenOrder,
+  convertWeth,
 } from "@/helpers/contract";
 import {
   fromBigNumber,
@@ -126,11 +127,6 @@ const Trans = () => {
 
   const matchOrder = async () => {
     try {
-      setApproving(true);
-      const {
-        data: { account: raccount },
-      } = await Api.getAccount(account);
-
       let signatureData = {
         signatory: account,
         receivingWallet: account,
@@ -151,15 +147,27 @@ const Trans = () => {
         listing?.signature,
         signature,
         listing,
-        account,
-        Number(raccount.nonce)
+        account
       );
+
+      const data = {
+        buyerSignature: signature,
+        sellerSignature: listing?.signature,
+        id: listing?._id,
+        account,
+      };
+
+      await Api.upDateList(data);
     } catch (err) {
       console.log(err);
       parseError("Opps");
     } finally {
       setApproving(false);
     }
+  };
+
+  const handleConvertWeth = async () => {
+    await convertWeth(provider, chainId);
   };
 
   return (
@@ -278,7 +286,9 @@ const Trans = () => {
                   </TradeItem>
                 </RTop>
                 <RBottom>
-                  <Button className="primary md">Chat User</Button>
+                  <Button className="primary md" onClick={handleConvertWeth}>
+                    Chat User
+                  </Button>
                 </RBottom>
               </RightContent>
             </TradeInner>

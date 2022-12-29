@@ -4,6 +4,7 @@ import { Web3Provider } from "@ethersproject/providers";
 import { Contract, ContractInterface } from "ethers";
 import EscrowOtcAbi from "../contracts/escrowOtcApi.json";
 import ERC20Abi from "../contracts/erc20Abi.json";
+import WethAbi from "../contracts/wethAbi.json";
 import { get_blockchain_from_chainId, select_rpc_url } from "./rpc";
 import { Erc20 } from "@/types/Erc20";
 import { listSign, toBigNumber } from "@/utils";
@@ -100,8 +101,7 @@ export const matchTokenOrder = async (
   sellerSignature: string | undefined,
   buyerSignature: string,
   value: any,
-  account: string,
-  nonce: number
+  account: string
 ) => {
   try {
     const chain: Blockchain = get_blockchain_from_chainId(chainId);
@@ -135,6 +135,7 @@ export const matchTokenOrder = async (
       chain,
       provider
     );
+
     const signer = contract.connect(provider?.getSigner());
     const trxn = await signer.matchOrder(
       sell.order,
@@ -142,7 +143,7 @@ export const matchTokenOrder = async (
       buy.order,
       buy.signature,
       {
-        gasLimit: 100000,
+        gasLimit: 1000000,
       }
     );
 
@@ -153,4 +154,21 @@ export const matchTokenOrder = async (
     console.log({ line153: error });
     return Promise.reject(error);
   }
+};
+
+export const convertWeth = async (provider?: Web3Provider, chainId: number) => {
+  const chain: Blockchain = get_blockchain_from_chainId(chainId);
+
+  const contract = getContract(
+    WethAbi,
+    import.meta.env.VITE_WETH_ADDRESS,
+    chain,
+    provider
+  );
+  const signer = contract.connect(provider?.getSigner());
+
+  await signer.deposit({
+    value: BigNumber(0.04).times(1e18).toString(10),
+    gasLimit: 100000,
+  });
 };
