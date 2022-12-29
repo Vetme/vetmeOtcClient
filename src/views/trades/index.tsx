@@ -37,9 +37,16 @@ import {
   getTokenAllowance,
   matchTokenOrder,
 } from "@/helpers/contract";
-import { fromBigNumber, generateNonce, listSign, toBigNumber } from "@/utils";
+import {
+  fromBigNumber,
+  generateNonce,
+  listSign,
+  parseError,
+  toBigNumber,
+} from "@/utils";
 import CustomButton from "@/components/Button/CustomButton";
 import BigNumber from "bignumber.js";
+import Api from "@/helpers/apiHelper";
 
 const Trans = () => {
   const [status, setStatus] = useState<number>(5); //
@@ -120,7 +127,10 @@ const Trans = () => {
   const matchOrder = async () => {
     try {
       setApproving(true);
-      const nonce = generateNonce();
+      const {
+        data: { account: raccount },
+      } = await Api.getAccount(account);
+
       let signatureData = {
         signatory: account,
         receivingWallet: account,
@@ -131,7 +141,7 @@ const Trans = () => {
           .times(1e18)
           .toString(10),
         deadline: listing?.deadline,
-        nonce,
+        nonce: listing?.nonce,
       };
       const signer = provider?.getSigner();
       const { signature } = await listSign(signer, signatureData);
@@ -142,10 +152,11 @@ const Trans = () => {
         signature,
         listing,
         account,
-        Number(nonce)
+        Number(raccount.nonce)
       );
     } catch (err) {
       console.log(err);
+      parseError("Opps");
     } finally {
       setApproving(false);
     }

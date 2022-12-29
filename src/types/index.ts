@@ -19,7 +19,7 @@ export type ListI = {
   token_out: string;
   amount_in: number | string | any;
   amount_out: number | string;
-  deadline: string;
+  deadline: number;
   nonce?: number | string;
   is_active: boolean;
   is_private: boolean;

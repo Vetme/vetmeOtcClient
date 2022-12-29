@@ -83,8 +83,15 @@ const Trans = () => {
   }, [account, form]);
 
   const getAccount = async () => {
-    const userAccount = await Api.getAccount(account);
-    console.log(userAccount);
+    const {
+      data: { account: raccount },
+    } = await Api.getAccount(account);
+    if (raccount) {
+      setForm((prev: any) => ({
+        ...prev,
+        nonce: raccount.nonce,
+      }));
+    }
   };
 
   const getAllowance = async () => {

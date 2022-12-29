@@ -91,3 +91,6 @@ export const parseSuccess = (msg: string) => {
 export const getTradeLink = (id: string) => {
   return `${import.meta.env.VITE_CLIENT_URL}/trades/${id}`;
 };
+
+export const getDeadline = (time: number) =>
+  Math.floor(new Date().getTime() / 1000.0) + time;

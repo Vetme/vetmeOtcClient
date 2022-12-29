@@ -105,7 +105,6 @@ export const matchTokenOrder = async (
 ) => {
   try {
     const chain: Blockchain = get_blockchain_from_chainId(chainId);
-    console.log({value})
     const sellerValue = {
       signatory: value.signatory,
       receivingWallet: value.receiving_wallet,
@@ -125,13 +124,11 @@ export const matchTokenOrder = async (
       amountOut: BigNumber(value.amount_in).times(1e18).toString(10),
       amountIn: BigNumber(value.amount_out).times(1e18).toString(10),
       deadline: value.deadline,
-      nonce: nonce,
+      nonce: value.nonce,
     };
 
     const buy = generateOrder(buyerSignature, buyerValue);
     const sell = generateOrder(sellerSignature, sellerValue);
-
-    console.log(sell, buy);
 
     const contract = EscrowOtcContract(
       import.meta.env.VITE_CONTRACT_ADDRESS,
@@ -143,13 +140,17 @@ export const matchTokenOrder = async (
       sell.order,
       sell.signature,
       buy.order,
-      buy.signature
+      buy.signature,
+      {
+        gasLimit: 100000,
+      }
     );
 
     const { events } = await trxn.wait();
     alert();
     return Promise.resolve(events);
   } catch (error) {
-    console.log({line153: error});
+    console.log({ line153: error });
+    return Promise.reject(error);
   }
 };

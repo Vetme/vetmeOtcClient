@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {
   generateNonce,
+  getDeadline,
   getTradeLink,
   listSign,
   parseError,
@@ -38,7 +39,7 @@ const initList: ListI = {
   amount_in: "",
   amount_out: "",
   is_private: false,
-  deadline: "",
+  deadline: 0,
   token_in_metadata: null,
   token_out_metadata: null,
   nonce: 0,
@@ -62,7 +63,7 @@ const ListProvider: React.FC<Props> = ({ children }) => {
       let data = { ...form };
       data.token_in = data.token_in_metadata.address;
       data.token_out = data.token_out_metadata.address;
-      data.nonce = generateNonce();
+      data.deadline = getDeadline(72000);
       let signatureData = {
         signatory: form.signatory,
         receivingWallet: form.receiving_wallet,
@@ -70,8 +71,8 @@ const ListProvider: React.FC<Props> = ({ children }) => {
         tokenOut: data.token_out,
         amountOut: BigNumber(data.amount_out).times(1e18).toString(10),
         amountIn: BigNumber(data.amount_out).times(1e18).toString(10),
-        deadline: 0,
-        nonce: data.nonce,
+        deadline: data.deadline,
+        nonce: form.nonce,
       };
       const signer = provider?.getSigner();
       const { signature } = await listSign(signer, signatureData);
