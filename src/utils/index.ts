@@ -76,7 +76,7 @@ export const parseError = (err: any) => {
       position: toast.POSITION.TOP_RIGHT,
     });
   } else {
-    toast.error("Opps, something went wrong!", {
+    toast.error(err || "Opps, something went wrong!", {
       position: toast.POSITION.TOP_RIGHT,
     });
   }

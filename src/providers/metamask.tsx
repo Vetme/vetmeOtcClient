@@ -1,25 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { injected } from "@/connector/injected";
-import { useWeb3React, Web3ReactHooks } from "@web3-react/core";
-import { metaMask } from "@/connector/metaMask";
+import { useWeb3React } from "@web3-react/core";
 
 function MetamaskProvider({ children }: { children: any }) {
-  const { isActive: networkActive } = useWeb3React();
+  const {
+    active: networkActive,
+    error: networkError,
+    activate: activateNetwork,
+  } = useWeb3React();
   const [loaded, setLoaded] = useState(false);
   useEffect(() => {
     injected
       .isAuthorized()
       .then((isAuthorized) => {
         setLoaded(true);
-        if (isAuthorized && !networkActive) {
-          // console.log(injected.getChainId(), "tfis is ");
-          metaMask.activate(5);
+        if (isAuthorized && !networkActive && !networkError) {
+          activateNetwork(injected);
         }
       })
       .catch(() => {
         setLoaded(true);
       });
-  }, [networkActive]);
+  }, [activateNetwork, networkActive, networkError]);
   if (loaded) {
     return children;
   }

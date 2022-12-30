@@ -9,7 +9,10 @@ import {
 } from "@/components";
 import { Button } from "@/components/Button";
 import React, { useState, useEffect } from "react";
-import { hooks, metaMask } from "@/connector/metaMask";
+// import { hooks, metaMask } from "@/connector/metaMask";
+import { Web3Provider } from "@ethersproject/providers";
+import { useWeb3React } from "@web3-react/core";
+
 import { toast } from "react-toastify";
 import axios from "axios";
 import { utils } from "ethers";
@@ -58,12 +61,15 @@ const Trans = () => {
   const [listing, setListing] = useState<ListI | undefined>(undefined); //
   const [allowance, setAllowance] = useState<string>("");
   let { id } = useParams();
-  const { useAccount, useIsActive, useChainId, useProvider } = hooks;
-  const account = useAccount() as string;
-  const isActive = useIsActive();
-  const provider = useProvider();
-  const chainId = useChainId() as number;
+  // const { useAccount, useIsActive, useChainId, useProvider } = hooks;
+  // const account = useAccount() as string;
+  // const isActive = useIsActive();
+  // const provider = useProvider();
+  // const chainId = useChainId() as number;
   const navigate = useNavigate();
+
+  const { account, connector, activate, chainId, library } =
+    useWeb3React<Web3Provider>();
 
   //1=> Transaction Opened
   //2=> Token Sent
@@ -96,7 +102,7 @@ const Trans = () => {
   const getAllowance = async () => {
     const allowance = await getTokenAllowance(
       listing?.token_in_metadata?.address,
-      provider,
+      library,
       chainId,
       account
     );
@@ -111,7 +117,7 @@ const Trans = () => {
       setApproving(true);
       const approval = await approveToken(
         listing?.token_in_metadata?.address,
-        provider,
+        library,
         chainId,
         listing?.amount_in
       );
@@ -142,10 +148,10 @@ const Trans = () => {
         deadline: listing?.deadline,
         nonce: listing?.nonce,
       };
-      const signer = provider?.getSigner();
+      const signer = library?.getSigner();
       const { signature } = await listSign(signer, signatureData);
       await matchTokenOrder(
-        provider,
+        library,
         chainId,
         listing?.signature,
         signature,
@@ -162,18 +168,14 @@ const Trans = () => {
 
       await Api.upDateList(data);
     } catch (err: any) {
-      console.log({ err });
-      const code = err?.data?.replace("Reverted ", "");
-      let reason = utils.toUtf8String("0x" + code.substr(138));
-      console.log("revert reason:", reason);
-      parseError("Opps");
+      parseError(err.reason);
     } finally {
       setApproving(false);
     }
   };
 
   const handleConvertWeth = async () => {
-    await convertWeth(provider, chainId);
+    await convertWeth(library, chainId);
   };
 
   return (
@@ -193,7 +195,7 @@ const Trans = () => {
               <LeftContent direction="column" justify="space-between">
                 <LTop>
                   <TradeItem>
-                    {isActive ? (
+                    {account ? (
                       <Text weight="700" size="24px">
                         {truncate(account || "", 9, "***")}
                       </Text>
@@ -227,7 +229,7 @@ const Trans = () => {
                     </Text>
                   </TradeItem>
                   <Spacer height={24} />
-                  {isActive ? (
+                  {account ? (
                     <Flex className="">
                       {allowance < listing?.amount_in ? (
                         <CustomButton
@@ -301,7 +303,7 @@ const Trans = () => {
             <MobileFooter>
               <Spacer height={22} />
               <div className="inner">
-                {isActive ? (
+                {account ? (
                   <>
                     {allowance < listing?.amount_in ? (
                       <CustomButton

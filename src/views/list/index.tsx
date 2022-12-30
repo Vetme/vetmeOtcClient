@@ -30,7 +30,6 @@ import {
   RTop,
 } from "./styles";
 import { ListContext, ListContextType } from "@/context/Listcontext";
-import { hooks, metaMask } from "@/connector/metaMask";
 import { truncate } from "@/helpers";
 import {
   EscrowOtcContract,
@@ -45,6 +44,8 @@ import { from } from "@apollo/client";
 import CustomButton from "@/components/Button/CustomButton";
 import { fromBigNumber, parseSuccess } from "@/utils";
 import { Copy } from "@/components/Icons";
+import { Web3Provider } from "@ethersproject/providers";
+import { useWeb3React } from "@web3-react/core";
 import { getAccountPath } from "ethers/lib/utils";
 import Api from "@/helpers/apiHelper";
 
@@ -56,10 +57,12 @@ const Trans = () => {
 
   const { setForm, form, saveList, loading, clearLocal, privateLink } =
     useContext(ListContext) as ListContextType;
-  const { useAccount, useIsActive, useChainId, useProvider } = hooks;
-  const account = useAccount() as string;
-  const chainId = useChainId();
-  const provider = useProvider();
+  // const { useAccount, useIsActive, useChainId, useProvider } = hooks;
+  const context = useWeb3React<Web3Provider>();
+  const { library, chainId, account } = context;
+  // const account = useAccount() as string;
+  // const chainId = useChainId();
+  // const provider = useProvider();
 
   //1=> Transaction Opened
   //2=> Approved
@@ -79,8 +82,11 @@ const Trans = () => {
   };
   useEffect(() => {
     getAllowance();
-    getAccount();
   }, [account, form]);
+
+  useEffect(() => {
+    getAccount();
+  }, [account]);
 
   const getAccount = async () => {
     const {
@@ -97,7 +103,7 @@ const Trans = () => {
   const getAllowance = async () => {
     const allowance = await getTokenAllowance(
       form?.token_out_metadata.address,
-      provider,
+      library,
       chainId,
       account
     );
@@ -112,7 +118,7 @@ const Trans = () => {
       setApproving(true);
       const approval = await approveToken(
         form?.token_out_metadata?.address,
-        provider,
+        library,
         chainId,
         form.amount_out
       );

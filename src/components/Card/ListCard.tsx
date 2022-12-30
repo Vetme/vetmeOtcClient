@@ -7,8 +7,12 @@ import styled, { css } from "styled-components";
 import { Divider, Flex, IconWrapper, Spacer, Text, TokenBadge } from "..";
 import { Button } from "../Button";
 import { Send, Swap } from "../Icons";
-import { TokenSelect } from "../Modal";
-import { hooks, metaMask } from "@/connector/metaMask";
+import { Connect as ConnectModal, TokenSelect } from "../Modal";
+import { Web3Provider } from "@ethersproject/providers";
+import { useWeb3React } from "@web3-react/core";
+import { ConnectContext, ConnectContextType } from "@/context/ConnectContext";
+
+// import { hooks, metaMask } from "@/connector/metaMask";
 
 const SwapContainer = styled.div`
   background: #ffffff;
@@ -79,10 +83,9 @@ const ListCard = () => {
   const [get, setGet] = useState<TokenI | undefined>(undefined);
   const [action, setAction] = useState<"giving" | "getting">("giving");
   const { setForm, form } = useContext(ListContext) as ListContextType;
-
-  const { useAccount, useIsActive } = hooks;
-  const account = useAccount();
-  const isActive = useIsActive();
+  const [show, setShow] = useState<boolean>(false);
+  const { account } = useWeb3React<Web3Provider>();
+  const { connect } = useContext(ConnectContext) as ConnectContextType;
 
   const navigate = useNavigate();
 
@@ -117,10 +120,6 @@ const ListCard = () => {
       ...initialState,
       [name]: value,
     }));
-  };
-
-  const handleConnect = async () => {
-    await metaMask.activate(5);
   };
 
   const handleContinue = () => {
@@ -205,7 +204,7 @@ const ListCard = () => {
           </InputCon>
           <Spacer height={30} />
 
-          {isActive ? (
+          {account ? (
             <Button
               disabled={!isValid()}
               className="primary block m-sm"
@@ -215,9 +214,8 @@ const ListCard = () => {
             </Button>
           ) : (
             <Button
-              disabled={!isValid()}
               className="primary block m-sm"
-              onClick={handleConnect}
+              onClick={() => setShow(true)}
             >
               Connect Your wallet
             </Button>
@@ -228,6 +226,15 @@ const ListCard = () => {
         handleSelected={(token: TokenI) => handleSelected(token)}
         show={open}
         handleClose={() => setOpen(false)}
+      />
+
+      <ConnectModal
+        show={show}
+        connect={(connector) => {
+          setShow(false);
+          connect(connector);
+        }}
+        handleClose={() => setShow(false)}
       />
     </>
   );

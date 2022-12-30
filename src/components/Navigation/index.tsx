@@ -22,29 +22,28 @@ import { Button } from "@/components/Button";
 import { Connect } from "../Modal";
 import { truncate } from "@/helpers";
 import web3 from "web3";
-import { hooks, metaMask } from "@/connector/metaMask";
+import { ConnectorNames } from "@/types";
+// import { hooks, metaMask } from "@/connector/metaMask";
 
 interface NavInput {
   account?: string | null;
-  connect: () => Promise<void>;
+  connect: (arg: ConnectorNames) => Promise<void>;
 }
 
-const Navigation = () => {
+const Navigation = ({ connect, account }: NavInput) => {
   const [show, setShow] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const location = useLocation();
-  const { useAccount, useIsActive } = hooks;
-  const account = useAccount();
-  const isActive = useIsActive();
 
-  const connectWallet = () => {
+  const connectWallet = (connector: ConnectorNames) => {
     setShow(false);
-    connectMetamask();
+    connect(connector);
   };
 
-  const connectMetamask = async () => {
-    const mm = await metaMask.activate(5);
-  };
+  // connectMetamask();
+  // const connectMetamask = async () => {
+  //   const mm = await metaMask.activate(5);
+  // };
 
   useEffect(() => {
     setOpen(false);
@@ -52,7 +51,7 @@ const Navigation = () => {
 
   useEffect(() => {
     storeUser();
-  }, [account, isActive]);
+  }, [account]);
 
   const storeUser = async () => {
     if (!account && account === undefined) return;
@@ -80,7 +79,7 @@ const Navigation = () => {
             <Item to="telegram">Telegram</Item>
           </NavItems>
           <Action>
-            {isActive ? (
+            {account ? (
               <Button className="success ">
                 {" "}
                 {truncate(account || "", 9)}{" "}
@@ -101,7 +100,7 @@ const Navigation = () => {
               <MMenuItem to="white-paper">White Paper</MMenuItem>
               <MMenuItem to="telegram">Telegram</MMenuItem>
               <Center>
-                {isActive ? (
+                {account ? (
                   <Button className="success sm" onClick={() => setShow(true)}>
                     Connected
                   </Button>
@@ -117,7 +116,7 @@ const Navigation = () => {
       </div>
       <Connect
         show={show}
-        connect={() => connectWallet()}
+        connect={(connector) => connectWallet(connector)}
         handleClose={() => setShow(false)}
       />
     </NavContainer>

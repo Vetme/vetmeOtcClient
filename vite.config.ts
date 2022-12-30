@@ -6,6 +6,9 @@ import path from "node:path";
 export default ({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
   return defineConfig({
+    define: {
+      global: "globalThis",
+    },
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),

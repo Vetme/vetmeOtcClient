@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Spacer, Text } from "..";
 import { Button } from "../Button";
 import { CSSTransition } from "react-transition-group";
+import { ConnectorNames } from "@/types";
 
 const Container = styled.div`
   position: fixed;
@@ -16,7 +17,7 @@ const Container = styled.div`
 `;
 const Inner = styled.div`
   width: 662px;
-  max-width: 100%;
+  max-width: 95%;
   background: #141414;
   border-radius: 40px;
   /* margin: auto; */
@@ -29,8 +30,29 @@ const Inner = styled.div`
 `;
 
 const ButtonWrap = styled.div`
-  width: 50%;
+  display: flex;
+  gap: 10px;
+  width: 70%;
   margin: auto;
+  @media (max-width: 640px) {
+    width: 100%;
+  }
+`;
+
+const ConnectButton = styled.div`
+  display: flex;
+  cursor: pointer;
+  background: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  flex: 1;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 640px) {
+    padding: 10px 15px;
+  }
 `;
 
 interface IConnect {
@@ -57,9 +79,20 @@ const Connect = ({ connect, handleClose, show }: IConnect) => {
             </Text>
             <Spacer height={35} />
             <ButtonWrap>
-              <Button className="primary block m-sm" onClick={connect}>
-                Connect Wallet
-              </Button>
+              <ConnectButton
+                className="primary block m-sm"
+                onClick={() => connect(ConnectorNames["Injected"])}
+              >
+                <img src="/images/icons/metamask.png" />
+                Injected
+              </ConnectButton>
+              <ConnectButton
+                className="primary block m-sm"
+                onClick={() => connect(ConnectorNames["WalletConnect"])}
+              >
+                <img src="/images/icons/wallet-connect.png" />
+                Wallet Connect
+              </ConnectButton>
             </ButtonWrap>
           </Inner>
         </Container>

@@ -3,6 +3,8 @@ import { ListI } from "@/types";
 import * as React from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Web3Provider } from "@ethersproject/providers";
+import { useWeb3React } from "@web3-react/core";
 import {
   generateNonce,
   getDeadline,
@@ -12,7 +14,7 @@ import {
   parseSuccess,
   toBigNumber,
 } from "@/utils";
-import { hooks } from "@/connector/metaMask";
+// import { hooks } from "@/connector/metaMask";
 import BigNumber from "bignumber.js";
 
 export type ListContextType = {
@@ -50,9 +52,8 @@ const ListProvider: React.FC<Props> = ({ children }) => {
   const list_data = JSON.parse(localStorage.getItem("list_data") as string);
   const [form, setForm] = React.useState<ListI>(list_data || initList);
   const [privateLink, setPrivateLink] = React.useState<string>("");
-  const { useProvider } = hooks;
-
-  const provider = useProvider();
+  const { account, connector, activate, chainId, library } =
+    useWeb3React<Web3Provider>();
 
   const [loading, setLoading] = React.useState<boolean>(false);
   const navigate = useNavigate();
@@ -74,7 +75,7 @@ const ListProvider: React.FC<Props> = ({ children }) => {
         deadline: data.deadline,
         nonce: form.nonce,
       };
-      const signer = provider?.getSigner();
+      const signer = library?.getSigner();
       const { signature } = await listSign(signer, signatureData);
       data.signature = signature;
       //   data.signature = "signature";

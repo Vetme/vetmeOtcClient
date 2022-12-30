@@ -51,13 +51,13 @@ export const getTokenAllowance = async (
   contractAddress: string,
   provider: any,
   chainId: number | undefined,
-  account: string
+  account: string | null | undefined
 ) => {
   const chain: Blockchain = get_blockchain_from_chainId(chainId);
   const contract = ERC20Contract(contractAddress, chain, provider);
 
   const allowance = await contract.allowance(
-    account,
+    account as string,
     import.meta.env.VITE_CONTRACT_ADDRESS
   );
 
@@ -97,11 +97,11 @@ const generateOrder = (signature: string | undefined, value: any) => {
 
 export const matchTokenOrder = async (
   provider: any,
-  chainId: number,
+  chainId: number | undefined,
   sellerSignature: string | undefined,
   buyerSignature: string,
   value: any,
-  account: string
+  account: string | null | undefined
 ) => {
   try {
     const chain: Blockchain = get_blockchain_from_chainId(chainId);
@@ -158,7 +158,10 @@ export const matchTokenOrder = async (
   }
 };
 
-export const convertWeth = async (provider: any, chainId: number) => {
+export const convertWeth = async (
+  provider: any,
+  chainId: number | undefined
+) => {
   const chain: Blockchain = get_blockchain_from_chainId(chainId);
 
   const contract = getContract(

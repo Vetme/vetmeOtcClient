@@ -34,3 +34,8 @@ export enum Blockchain {
   Rinkeby = "rinkeby",
   Goerli = "goerli",
 }
+
+export enum ConnectorNames {
+  Injected = "Injected",
+  WalletConnect = "WalletConnect",
+}

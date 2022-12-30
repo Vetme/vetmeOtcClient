@@ -3,24 +3,44 @@ import { Outlet, useLocation } from "react-router-dom";
 import { Footer, BodyWrapper } from "./../../components";
 import TopBarProgress from "react-topbar-progress-indicator";
 import Navigation from "./../../components/Navigation";
-//import { useWeb3React } from "@web3-react/core";
-//import { injected } from "connectors/injected";
+import { injected } from "@/connector/injected";
+import { Web3Provider } from "@ethersproject/providers";
+import { useWeb3React } from "@web3-react/core";
+import { ConnectorNames } from "@/types";
+import { walletconnect } from "@/connector/walletConnect";
+import ConnectProvider from "@/context/ConnectContext";
 
 const MainLayout = () => {
   const [progress, setProgress] = useState(false);
   const [prevLoc, setPrevLoc] = useState("");
   const location = useLocation();
+  const [activatingConnector, setActivatingConnector] = useState<any>();
+  const { account, connector, activate, chainId } =
+    useWeb3React<Web3Provider>();
+  const connectorsByName: { [connectorName in ConnectorNames]: any } = {
+    [ConnectorNames.Injected]: injected,
+    [ConnectorNames.WalletConnect]: walletconnect,
+  };
 
-  //   const { account, chainId, activate, deactivate, connector, library } =
-  //     useWeb3React();
+  React.useEffect(() => {
+    if (activatingConnector && activatingConnector === connector) {
+      setActivatingConnector(undefined);
+    }
+  }, [activatingConnector, connector]);
 
-  //   async function connect() {
-  //     try {
-  //       await activate(injected);
-  //     } catch (ex) {
-  //       console.error(ex);
-  //     }
-  //   }
+  async function connect(connector: ConnectorNames) {
+    try {
+      if (connector == "Injected") {
+        await activate(injected);
+      } else {
+        await activate(walletconnect, (err) => {
+          console.log(err);
+        });
+      }
+    } catch (ex) {
+      console.error(ex);
+    }
+  }
 
   useEffect(() => {
     setPrevLoc(location.pathname);
@@ -28,8 +48,6 @@ const MainLayout = () => {
     if (location.pathname === prevLoc) {
       setPrevLoc("");
     }
-    // account, chainId;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
   useEffect(() => {
@@ -38,12 +56,14 @@ const MainLayout = () => {
 
   return (
     <div>
-      <Navigation />
-      {progress && <TopBarProgress />}
+      <ConnectProvider>
+        <Navigation {...{ account }} connect={(arg) => connect(arg)} />
+        {progress && <TopBarProgress />}
 
-      <BodyWrapper>
-        <Outlet />
-      </BodyWrapper>
+        <BodyWrapper>
+          <Outlet />
+        </BodyWrapper>
+      </ConnectProvider>
 
       {/* <Footer /> */}
     </div>

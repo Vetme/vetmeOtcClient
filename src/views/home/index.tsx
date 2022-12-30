@@ -33,7 +33,11 @@ import { truncate } from "@/helpers";
 const HomePage = () => {
   const [display, setDisplay] = useState<"grid" | "list">("grid");
   const [mode, setMode] = useState<"list" | "swap">("swap");
-  const { loading, data } = useTokenFetch();
+  const { loading, data, setQuery, query } = useTokenFetch();
+
+  const onChangeHandler = async (e: any) => {
+    setQuery(e.target.value);
+  };
 
   return (
     <Container>
@@ -72,7 +76,7 @@ const HomePage = () => {
           <SearchContainer className={classNames({ hidden: mode == "list" })}>
             <InputWrapper>
               <Search />
-              <input />
+              <input value={query} onChange={(e) => onChangeHandler(e)} />
               <Filter />
             </InputWrapper>
           </SearchContainer>
