@@ -69,9 +69,9 @@ export const Stepper = styled.div<{ status: number }>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  
-    @media (max-width: 640px) {
-      height: 100%;
+
+  @media (max-width: 640px) {
+    height: 100%;
   }
 
   &:after {
@@ -96,10 +96,10 @@ export const Stepper = styled.div<{ status: number }>`
         : status == 2
         ? "210px"
         : status == 3
-        ? "180px"
+        ? "425px"
         : status == 4
         ? "290px"
-        : "380px"};
+        : "425px"};
     width: 10px;
     background: #7da9ff;
     position: absolute;
@@ -118,12 +118,12 @@ export const Stepper = styled.div<{ status: number }>`
           : status == 2
           ? "107px"
           : status == 3
-          ? "90px"
+          ? "250px"
           : status == 4
           ? "130px"
-          : "170px"};
+          : "250px"};
     }
-
+  }
 `;
 export const Step = styled.div<{ leftMsg?: string; rightMsg?: string }>`
   width: 25px;

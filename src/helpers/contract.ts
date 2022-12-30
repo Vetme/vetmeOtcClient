@@ -150,11 +150,25 @@ export const matchTokenOrder = async (
       }
     );
 
-    const { events } = await trxn.wait();
-    return Promise.resolve(events);
+    const transaction = await trxn.wait();
+    return Promise.resolve(transaction);
   } catch (error) {
-    console.log({ line153: error });
     return Promise.reject(error);
+  }
+};
+
+export const getTotalSupply = async (
+  contractAddress: string,
+  provider: any,
+  chainId: number | undefined
+) => {
+  try {
+    const chain: Blockchain = get_blockchain_from_chainId(chainId);
+    const contract = ERC20Contract(contractAddress, chain, provider);
+    const totalSupply = await contract.totalSupply();
+    return totalSupply;
+  } catch (error) {
+    return Promise.reject();
   }
 };
 

@@ -16,6 +16,11 @@ const SwapContainer = styled.div`
   max-width: 100%;
   margin-bottom: 114px;
 
+  &.completed {
+    filter: blur(0.8px);
+    background: #13871345;
+  }
+
   @media (max-width: 640px) {
     margin-bottom: 46px;
   }
@@ -44,7 +49,7 @@ const ActionWrapper = styled.button`
 const SwapGrid = ({ list }: { list: ListI }) => {
   const navigate = useNavigate();
   return (
-    <SwapContainer>
+    <SwapContainer className={(list?.status as number) >= 3 ? "completed" : ""}>
       <Header>
         <Text weight="700" size="16px">
           {list.token_out_metadata?.symbol}/{list.token_in_metadata?.symbol}

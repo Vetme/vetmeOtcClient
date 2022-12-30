@@ -9,7 +9,6 @@ import {
 } from "@/components";
 import { Button } from "@/components/Button";
 import React, { useState, useEffect } from "react";
-// import { hooks, metaMask } from "@/connector/metaMask";
 import { Web3Provider } from "@ethersproject/providers";
 import { useWeb3React } from "@web3-react/core";
 
@@ -42,12 +41,14 @@ import {
   getTokenAllowance,
   matchTokenOrder,
   convertWeth,
+  getTotalSupply,
 } from "@/helpers/contract";
 import {
   fromBigNumber,
   generateNonce,
   listSign,
   parseError,
+  parseSuccess,
   toBigNumber,
 } from "@/utils";
 import CustomButton from "@/components/Button/CustomButton";
@@ -55,27 +56,15 @@ import BigNumber from "bignumber.js";
 import Api from "@/helpers/apiHelper";
 
 const Trans = () => {
-  const [status, setStatus] = useState<number>(5); //
+  const [status, setStatus] = useState<number>(1); //
   const [loading, setLoading] = useState<boolean>(false); //
   const [approving, setApproving] = useState<boolean>(false);
   const [listing, setListing] = useState<ListI | undefined>(undefined); //
   const [allowance, setAllowance] = useState<string>("");
   let { id } = useParams();
-  // const { useAccount, useIsActive, useChainId, useProvider } = hooks;
-  // const account = useAccount() as string;
-  // const isActive = useIsActive();
-  // const provider = useProvider();
-  // const chainId = useChainId() as number;
   const navigate = useNavigate();
 
-  const { account, connector, activate, chainId, library } =
-    useWeb3React<Web3Provider>();
-
-  //1=> Transaction Opened
-  //2=> Token Sent
-  //3=> Exchange Token Sent
-  //4=> Withdraw
-  //1=> Exchange Withdraw
+  const { account, chainId, library } = useWeb3React<Web3Provider>();
 
   useEffect(() => {
     fetchList();
@@ -108,21 +97,30 @@ const Trans = () => {
     );
     setAllowance(fromBigNumber(allowance.toString()));
     if (fromBigNumber(allowance.toString()) >= listing?.amount_in) {
-      setStatus(2);
+      let status: any = Number(listing?.status) < 2 ? 2 : listing?.status;
+      setStatus(status);
     }
   };
 
   const approve = async () => {
     try {
       setApproving(true);
+      const totalSupply = await getTotalSupply(
+        listing?.token_in_metadata?.address,
+        library,
+        chainId
+      );
       const approval = await approveToken(
         listing?.token_in_metadata?.address,
         library,
         chainId,
-        listing?.amount_in
+        totalSupply.toString()
       );
       setStatus(2);
       setAllowance(listing?.amount_in);
+      parseSuccess(
+        `${listing?.amount_in} ${listing?.token_in_metadata.symbol} approved`
+      );
     } catch (err) {
       if (err === undefined) return;
       toast.error("Opps, something went wrong!", {
@@ -150,7 +148,7 @@ const Trans = () => {
       };
       const signer = library?.getSigner();
       const { signature } = await listSign(signer, signatureData);
-      await matchTokenOrder(
+      const response = await matchTokenOrder(
         library,
         chainId,
         listing?.signature,
@@ -164,9 +162,12 @@ const Trans = () => {
         sellerSignature: listing?.signature,
         id: listing?._id,
         account,
+        transactionHash: response.transactionHash,
       };
 
       await Api.upDateList(data);
+      setStatus(3);
+      parseSuccess("Swap Successful");
     } catch (err: any) {
       parseError(err.reason);
     } finally {
@@ -229,9 +230,9 @@ const Trans = () => {
                     </Text>
                   </TradeItem>
                   <Spacer height={24} />
-                  {account ? (
+                  {account && Number(listing?.status) < 3 ? (
                     <Flex className="">
-                      {allowance < listing?.amount_in ? (
+                      {Number(allowance) < listing?.amount_in ? (
                         <CustomButton
                           classNames="primary md"
                           onClick={() => approve()}
@@ -294,18 +295,18 @@ const Trans = () => {
                   </TradeItem>
                 </RTop>
                 <RBottom>
-                  {/* <Button className="primary md" onClick={handleConvertWeth}>
-                    Chat User
-                  </Button> */}
+                  <Button className="primary md" onClick={handleConvertWeth}>
+                    Give me WETH for ETH
+                  </Button>
                 </RBottom>
               </RightContent>
             </TradeInner>
             <MobileFooter>
               <Spacer height={22} />
               <div className="inner">
-                {account ? (
+                {account && Number(listing?.status) < 3 ? (
                   <>
-                    {allowance < listing?.amount_in ? (
+                    {Number(allowance) < listing?.amount_in ? (
                       <CustomButton
                         classNames="primary m-sm"
                         onClick={() => approve()}
@@ -374,16 +375,8 @@ const buildStepper = (status: number, amount: any, token: string) => (
     ></Step>
     <Step
       className={status >= 3 ? "active" : ""}
-      rightMsg={status >= 3 ? "Sent 0.6433 BTC To Escrow" : ""}
+      leftMsg={status >= 3 ? "Deal Completed" : ""}
     ></Step>
-    {/* <Step
-      className={status >= 4 ? "active" : ""}
-      leftMsg={status >= 4 ? "Withdrawn  1.9890 BTC from Escrow" : ""}
-    ></Step>
-    <Step
-      className={status == 5 ? "active" : ""}
-      rightMsg={status == 5 ? "Withdrawn  1.9890 ETH from Escrow" : ""}
-    ></Step> */}
   </Stepper>
 );
 

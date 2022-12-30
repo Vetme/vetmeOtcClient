@@ -36,6 +36,7 @@ import {
   ERC20Contract,
   getTokenAllowance,
   approveToken,
+  getTotalSupply,
 } from "@/helpers/contract";
 import { Blockchain } from "@/types";
 import { get_blockchain_from_chainId } from "@/helpers/rpc";
@@ -116,15 +117,23 @@ const Trans = () => {
   const approve = async () => {
     try {
       setApproving(true);
+      const totalSupply = await getTotalSupply(
+        form?.token_out_metadata?.address,
+        library,
+        chainId
+      );
       const approval = await approveToken(
         form?.token_out_metadata?.address,
         library,
         chainId,
-        form.amount_out
+        totalSupply
       );
 
       setStatus(2);
       setAllowance(form.amount_out);
+      parseSuccess(
+        `${form?.amount_out} ${form?.token_out_metadata.symbol} approved`
+      );
     } catch (err) {
       if (err === undefined) return;
 
@@ -255,7 +264,7 @@ const Trans = () => {
               <Spacer height={24} />
               <OnlyMobile>
                 <Flex>
-                  {allowance < form.amount_out ? (
+                  {Number(allowance) < form.amount_out ? (
                     <CustomButton
                       loading={loading || approving}
                       disabled={loading || approving}
@@ -286,7 +295,7 @@ const Trans = () => {
               </OnlyMobile>
               <OnlyDesktop>
                 <Flex>
-                  {allowance < form.amount_out ? (
+                  {Number(allowance) < form.amount_out ? (
                     <CustomButton
                       loading={loading || approving}
                       disabled={loading || approving}
