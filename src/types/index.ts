@@ -24,6 +24,8 @@ export type ListI = {
   is_active: boolean;
   is_private: boolean;
   status?: status;
+  forever?: boolean;
+  createdAt?: any;
 };
 
 export enum Blockchain {

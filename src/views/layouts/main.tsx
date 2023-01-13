@@ -55,7 +55,7 @@ const MainLayout = () => {
   }, [prevLoc]);
 
   return (
-    <div>
+    <div className="main">
       <ConnectProvider>
         <Navigation {...{ account }} connect={(arg) => connect(arg)} />
         {progress && <TopBarProgress />}
@@ -63,6 +63,7 @@ const MainLayout = () => {
         <BodyWrapper>
           <Outlet />
         </BodyWrapper>
+        <Footer />
       </ConnectProvider>
 
       {/* <Footer /> */}

@@ -1,7 +1,7 @@
 import { ListContext, ListContextType } from "@/context/Listcontext";
 import { tokens } from "@/data";
 import { TokenI } from "@/types";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { Divider, Flex, IconWrapper, Spacer, Text, TokenBadge } from "..";
@@ -11,6 +11,7 @@ import { Connect as ConnectModal, TokenSelect } from "../Modal";
 import { Web3Provider } from "@ethersproject/providers";
 import { useWeb3React } from "@web3-react/core";
 import { ConnectContext, ConnectContextType } from "@/context/ConnectContext";
+import Toggle from "../Toggle";
 
 // import { hooks, metaMask } from "@/connector/metaMask";
 
@@ -76,6 +77,16 @@ const Input = styled.input`
 `;
 
 const IconWrap = styled.div``;
+const DurationInput = styled.div`
+  flex: 1;
+  input {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.14);
+    border-radius: 20px;
+    padding: 10px;
+    outline: none;
+  }
+`;
 
 const ListCard = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -84,6 +95,7 @@ const ListCard = () => {
   const [action, setAction] = useState<"giving" | "getting">("giving");
   const { setForm, form } = useContext(ListContext) as ListContextType;
   const [show, setShow] = useState<boolean>(false);
+  const [hasDeadline, setHasDeadline] = useState<boolean>(false);
   const { account } = useWeb3React<Web3Provider>();
   const { connect } = useContext(ConnectContext) as ConnectContextType;
 
@@ -92,6 +104,10 @@ const ListCard = () => {
   const handleSelect = (action: "giving" | "getting") => {
     setAction(action);
     setOpen(true);
+  };
+
+  const handleDChange = () => {
+    setHasDeadline((prev) => !prev);
   };
 
   const handleSelected = (token: TokenI) => {
@@ -113,8 +129,14 @@ const ListCard = () => {
   };
 
   const handleChange = (e: any) => {
-    const value = e.target.value;
+    let value = e.target.value;
     const name = e.target.name;
+
+    if (name == "deadline") {
+      const date = new Date(value);
+      const seconds = Math.floor(date.getTime() / 1000);
+      value = seconds;
+    }
 
     setForm((initialState: any) => ({
       ...initialState,
@@ -130,6 +152,7 @@ const ListCard = () => {
       token_out_metadata: give,
       receiving_wallet: account,
       signatory: account,
+      forever: hasDeadline ? false : true,
     }));
 
     localStorage.setItem(
@@ -140,11 +163,20 @@ const ListCard = () => {
         token_out_metadata: give,
         receiving_wallet: account,
         signatory: account,
+        forever: hasDeadline ? false : true,
       })
     );
 
     navigate("/list");
   };
+
+  useEffect(() => {
+    const dGive = tokens.find((token) => token.symbol === "WETH");
+    const dGet = tokens.find((token) => token.symbol === "VETME");
+
+    setGive(dGive);
+    setGet(dGet);
+  }, []);
 
   return (
     <>
@@ -201,6 +233,30 @@ const ListCard = () => {
                 />
               </div>
             </InputBox>
+          </InputCon>
+          <Spacer height={15} />
+
+          <InputCon>
+            <label htmlFor="">Time of Contract</label>
+            <Flex align="center" style={{ height: "50px" }}>
+              <DurationInput>
+                {hasDeadline ? (
+                  <input
+                    type="datetime-local"
+                    name="deadline"
+                    onChange={handleChange}
+                  />
+                ) : (
+                  <Text weight="700">Off (Set as Forever)</Text>
+                )}
+              </DurationInput>
+              <Toggle
+                checked={hasDeadline}
+                onChange={handleDChange}
+                offstyle="btn-off"
+                onstyle="btn-on"
+              />
+            </Flex>
           </InputCon>
           <Spacer height={30} />
 

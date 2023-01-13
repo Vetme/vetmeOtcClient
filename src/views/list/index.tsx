@@ -9,9 +9,8 @@ import {
   Wrapper,
 } from "@/components";
 import { Button } from "@/components/Button";
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { utils } from "ethers";
 import { toast } from "react-toastify";
 
 import {
@@ -24,7 +23,6 @@ import {
   Tab,
   LTop,
   Footer,
-  BtnWrapper,
   Stepper,
   Step,
   RTop,
@@ -32,42 +30,29 @@ import {
 import { ListContext, ListContextType } from "@/context/Listcontext";
 import { truncate } from "@/helpers";
 import {
-  EscrowOtcContract,
-  ERC20Contract,
   getTokenAllowance,
   approveToken,
   getTotalSupply,
 } from "@/helpers/contract";
-import { Blockchain } from "@/types";
-import { get_blockchain_from_chainId } from "@/helpers/rpc";
-import { toBN, toDefaultDecimal, toHumanReadable } from "@/utils/BigNumber";
-import { from } from "@apollo/client";
 import CustomButton from "@/components/Button/CustomButton";
 import { fromBigNumber, parseSuccess } from "@/utils";
 import { Copy } from "@/components/Icons";
 import { Web3Provider } from "@ethersproject/providers";
 import { useWeb3React } from "@web3-react/core";
-import { getAccountPath } from "ethers/lib/utils";
 import Api from "@/helpers/apiHelper";
+import { Message } from "@/components/Modal";
 
 const Trans = () => {
   const [status, setStatus] = useState<number>(1);
   const [approving, setApproving] = useState<boolean>(false);
   const [allowance, setAllowance] = useState<string | number>("");
+  const [open, setOpen] = useState<boolean>(false); //
   const navigate = useNavigate();
 
   const { setForm, form, saveList, loading, clearLocal, privateLink } =
     useContext(ListContext) as ListContextType;
-  // const { useAccount, useIsActive, useChainId, useProvider } = hooks;
   const context = useWeb3React<Web3Provider>();
   const { library, chainId, account } = context;
-  // const account = useAccount() as string;
-  // const chainId = useChainId();
-  // const provider = useProvider();
-
-  //1=> Transaction Opened
-  //2=> Approved
-  //3=> Listed
 
   const listToken = async () => {
     await saveList();
@@ -238,8 +223,19 @@ const Trans = () => {
           <OnlyDesktop>
             <Spacer height={52} />
             <TradeItem>
-              <Text weight="700" size="24px">
-                NB: <span style={{ color: "#4473EB" }}>Escrow</span> Fee Applies
+              <Text as="div" weight="700" size="24px">
+                NB:{" "}
+                <div
+                  onClick={() => setOpen(true)}
+                  style={{
+                    color: "#4473EB",
+                    display: "inline-block",
+                    cursor: "pointer",
+                  }}
+                >
+                  Escrow
+                </div>{" "}
+                Fee Applies
               </Text>
             </TradeItem>
           </OnlyDesktop>
@@ -250,7 +246,10 @@ const Trans = () => {
               <Flex>
                 <Text as="div" weight="700">
                   {" "}
-                  <span>Private link: {privateLink}</span>
+                  <span>
+                    Private link:{" "}
+                    {truncate(privateLink || "", 50, "...", "end")}
+                  </span>
                 </Text>
                 <Spacer width={5} />
                 <Wrapper style={{ cursor: "pointer" }} onClick={copyLink}>
@@ -258,6 +257,10 @@ const Trans = () => {
                 </Wrapper>
               </Flex>
               <Spacer height={20}></Spacer>
+
+              <Button className="primary m-sm" onClick={handleCancel}>
+                Ok
+              </Button>
             </>
           ) : (
             <>
@@ -287,7 +290,7 @@ const Trans = () => {
                   <Spacer width={41} />
                   <Button
                     className="primary-accent m-sm"
-                    onClick={() => navigate("/")}
+                    onClick={handleCancel}
                   >
                     Cancel
                   </Button>
@@ -329,11 +332,11 @@ const Trans = () => {
 
         <Footer>
           <Center style={{ flexDirection: "column" }}>
-            <BtnWrapper>
+            {/* <BtnWrapper>
               <Button className="block success m-sm">
                 Send Token to Escrow
               </Button>
-            </BtnWrapper>
+            </BtnWrapper> */}
             <Spacer height={16} />
             <Text size="16px" weight="500">
               Your money is safe in our Escrow
@@ -344,11 +347,28 @@ const Trans = () => {
       <Spacer height={20} />
       <OnlyMobile>
         <Center>
-          <Text weight="700" size="24px">
-            NB: <span style={{ color: "#4473EB" }}>Escrow</span> Fee Applies
+          <Text as="div" weight="700" size="24px">
+            NB:{" "}
+            <div
+              onClick={() => setOpen(true)}
+              style={{
+                color: "#4473EB",
+                display: "inline-block",
+                cursor: "pointer",
+              }}
+            >
+              Escrow
+            </div>{" "}
+            Fee Applies
           </Text>
         </Center>
       </OnlyMobile>
+
+      <Message
+        show={open}
+        handleClose={() => setOpen(false)}
+        msg="Escrow Fee is a trading fee we charge to guarantee you a secured transaction. We charge from both parties to safe guard token transactions. Our fee’s are not more than 3% per trade. If trades are cancelled at any point in the transaction queue, we would refund all payments inclusive of the Escrow Fee. We provide this feature on all token and coin transactions on our platform. If you have anymore questions please reach us on our email support@vetme.com or via our telegram platform. Thanks for trading with us."
+      />
     </Container>
   );
 };

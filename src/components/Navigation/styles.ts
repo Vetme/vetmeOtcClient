@@ -45,6 +45,24 @@ export const NavContainer = styled.div`
     position: sticky;
   }
 
+  .item {
+    font-size: 20px;
+    font-weight: 700;
+    padding: 0px 20px;
+    color: #000000;
+    transition: 0.3s;
+    position: relative;
+  }
+
+  .mitem {
+    text-align: center;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 33px;
+    margin: 20px 0px;
+    display: block;
+  }
+
   @media (max-width: 640px) {
     height: 111px;
     /* line-height: 111px; */
@@ -136,7 +154,8 @@ export const SWrapper = styled.div`
   width: 300px;
 `;
 
-export const DFlex = styled(Flex)`
+export const DFlex = styled.div`
+  display: flex;
   justify-content: end;
   @media (max-width: 1200px) {
     ${SWrapper} {
@@ -149,7 +168,7 @@ export const DFlex = styled(Flex)`
   }
 `;
 
-export const MFlex = styled(Flex)`
+export const MFlex = styled.div`
   display: flex;
   gap: 20px;
   margin-right: 16px;

@@ -15,7 +15,7 @@ const Container = styled.div`
 `;
 const ImgWrap = styled.div`
   height: 16px;
-  width: 16px;
+  /* width: 16px; */
   border-radius: 50%;
 
   img {

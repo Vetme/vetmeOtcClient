@@ -6,15 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { Web3Provider } from "@ethersproject/providers";
 import { useWeb3React } from "@web3-react/core";
 import {
-  generateNonce,
-  getDeadline,
   getTradeLink,
   listSign,
   parseError,
   parseSuccess,
-  toBigNumber,
+  getForever,
 } from "@/utils";
-// import { hooks } from "@/connector/metaMask";
 import BigNumber from "bignumber.js";
 
 export type ListContextType = {
@@ -46,6 +43,7 @@ const initList: ListI = {
   token_out_metadata: null,
   nonce: 0,
   is_active: false,
+  forever: true,
 };
 
 const ListProvider: React.FC<Props> = ({ children }) => {
@@ -64,7 +62,7 @@ const ListProvider: React.FC<Props> = ({ children }) => {
       let data = { ...form };
       data.token_in = data.token_in_metadata.address;
       data.token_out = data.token_out_metadata.address;
-      data.deadline = getDeadline(7200);
+      data.deadline = data.forever ? getForever : data.deadline;
       let signatureData = {
         signatory: form.signatory,
         receivingWallet: form.receiving_wallet,

@@ -3,6 +3,7 @@ import { getSigner } from "./ethersService";
 import { CancelToken } from "axios";
 import { utils } from "ethers";
 import { toast } from "react-toastify";
+import moment from "moment";
 
 export const tokenExpired = (token: string) => {
   if (token?.length) {
@@ -94,3 +95,11 @@ export const getTradeLink = (id: string) => {
 
 export const getDeadline = (time: number) =>
   Math.floor(new Date().getTime() / 1000.0) + time;
+
+export const formatDateTime = (data: any) =>
+  moment(data).format("MMM DD, YYYY (HH:mm:ss)");
+
+export const formatSecTime = (data: any) =>
+  moment(data * 1000).format("MMM DD, YYYY (HH:mm:ss)");
+
+export const getForever = 25256820600;

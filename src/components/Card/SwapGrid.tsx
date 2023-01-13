@@ -1,10 +1,12 @@
 import { tokens } from "@/data";
 import { truncate } from "@/helpers";
 import { ListI } from "@/types";
+import { formatDateTime, formatSecTime, getForever } from "@/utils";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { Divider, Flex, Spacer, Text, TokenBadge } from "..";
+import CustomButton from "../Button/CustomButton";
 import { Send, Swap } from "../Icons";
 
 const SwapContainer = styled.div`
@@ -48,8 +50,14 @@ const ActionWrapper = styled.button`
 
 const SwapGrid = ({ list }: { list: ListI }) => {
   const navigate = useNavigate();
+  function translateY(
+    arg0: number
+  ): import("csstype").Property.Transform | undefined {
+    throw new Error("Function not implemented.");
+  }
+
   return (
-    <SwapContainer className={(list?.status as number) >= 3 ? "completed" : ""}>
+    <SwapContainer>
       <Header>
         <Text weight="700" size="16px">
           {list.token_out_metadata?.symbol}/{list.token_in_metadata?.symbol}
@@ -60,36 +68,69 @@ const SwapGrid = ({ list }: { list: ListI }) => {
       </Header>
       <Body>
         <Flex justify="space-between" align="center">
-          <TokenBadge
-            token={list.token_out_metadata}
-            handleClick={() => null}
-          />
+          <Flex align="center">
+            <TokenBadge
+              token={list.token_out_metadata}
+              handleClick={() => null}
+            />
+            <Spacer width={15} />
+            <Text uppercase weight="800" size="12px" color="#848892">
+              Give
+            </Text>
+          </Flex>
           <Swap />
-          <TokenBadge token={list.token_in_metadata} handleClick={() => null} />
+          <Flex align="center">
+            <Text uppercase weight="800" size="12px" color="#848892">
+              Get
+            </Text>
+            <Spacer width={15} />
+            <TokenBadge
+              token={list.token_in_metadata}
+              handleClick={() => null}
+            />
+          </Flex>
         </Flex>
-        <Spacer height={20} />
-        <Text size="12px" color="#848892">
-          Available :{Number(list.amount_out).toFixed(2)}
-        </Text>
+        <Spacer height={10} />
+        <Flex justify="space-between">
+          <Text uppercase weight="800" size="12px" color="#848892">
+            {Number(list.amount_out).toFixed(2)} &nbsp;
+            {list.token_out_metadata?.symbol}
+          </Text>
+          <div style={{ marginTop: "20px" }}>
+            <Text size="12px" color="#848892">
+              Escrow Fee: 3%
+            </Text>
+          </div>
+          <Text uppercase weight="800" size="12px" color="#848892">
+            {Number(list.amount_in).toFixed(2)} &nbsp;
+            {list.token_in_metadata?.symbol}
+          </Text>
+        </Flex>
         <Spacer height={10} />
         <Divider />
         <Spacer height={21} />
         <Flex justify="space-between" align="center">
           <Details>
-            {/* <Text size="12px" color="#848892">
-              Limit : $20
-            </Text> */}
             <Text size="12px" color="#848892">
-              Selling Rate : {Number(list.amount_in).toFixed(2)}
+              Amount : {Number(list.amount_in).toFixed(2)} &nbsp;
+              {list.token_in_metadata?.symbol}
             </Text>
             <Text size="12px" color="#848892">
-              Escrow Fee : 3%
+              Published : {formatDateTime(list.createdAt)}
+            </Text>
+            <Text size="12px" color="#848892">
+              Expiry Time :{" "}
+              {list.deadline == getForever
+                ? "Forever"
+                : formatSecTime(list.deadline)}
             </Text>
           </Details>
           <Actions>
-            <ActionWrapper onClick={() => navigate(`trades/${list._id}`)}>
-              <Send />
-            </ActionWrapper>
+            <CustomButton
+              onClick={() => navigate(`trades/${list._id}`)}
+              text="Trade"
+              classNames="primary"
+            />
           </Actions>
         </Flex>
       </Body>

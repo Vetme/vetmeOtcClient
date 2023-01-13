@@ -1,10 +1,10 @@
-import { Container, Flex } from "@/components";
-import { Button } from "@/components/Button";
+import { Container } from "@/components";
 import { ListCard, SwapGrid, MobileList } from "@/components/Card";
 import { Filter, Grid, List, Search } from "@/components/Icons";
-import { swaps } from "@/data";
-import React from "react";
 import { useState } from "react";
+import CustomButton from "@/components/Button/CustomButton";
+import { useNavigate } from "react-router-dom";
+
 import classNames from "classnames";
 import {
   Wrapper,
@@ -29,11 +29,13 @@ import {
 } from "./styles";
 import { useTokenFetch } from "@/hooks/customHooks";
 import { truncate } from "@/helpers";
+import { formatDateTime, formatSecTime, getForever } from "@/utils";
 
 const HomePage = () => {
   const [display, setDisplay] = useState<"grid" | "list">("grid");
   const [mode, setMode] = useState<"list" | "swap">("swap");
   const { loading, data, setQuery, query } = useTokenFetch();
+  const navigate = useNavigate();
 
   const onChangeHandler = async (e: any) => {
     setQuery(e.target.value);
@@ -100,11 +102,12 @@ const HomePage = () => {
                   <ListWrapper className="desktop">
                     <ListHeader>
                       <HeaderItem>Wallet ID</HeaderItem>
-                      <HeaderItem>Selling Rate</HeaderItem>
-                      <HeaderItem>Available </HeaderItem>
+                      <HeaderItem>Published </HeaderItem>
+                      <HeaderItem>Expiry Time </HeaderItem>
                       <HeaderItem>Escrow Fee</HeaderItem>
                       <HeaderItem>Give</HeaderItem>
                       <HeaderItem>Get</HeaderItem>
+                      <HeaderItem>Action</HeaderItem>
                     </ListHeader>
                     <ListBody>
                       {loading ? (
@@ -115,14 +118,27 @@ const HomePage = () => {
                             <ListCol>
                               {truncate(list.receiving_wallet, 9, "***")}
                             </ListCol>
-                            <ListCol>{list.amount_in.toFixed(2)}</ListCol>
-                            <ListCol>{list.amount_out.toFixed(2)}</ListCol>
+                            <ListCol>{formatDateTime(list.createdAt)}</ListCol>
+                            <ListCol>
+                              {list.deadline == getForever
+                                ? "Forever"
+                                : formatSecTime(list.deadline)}
+                            </ListCol>
                             <ListCol>3%</ListCol>
                             <ListCol>
-                              <Button className="primary-accent">VetMe</Button>
+                              {Number(list.amount_out).toFixed(2)} &nbsp;
+                              {list.token_out_metadata?.symbol}
                             </ListCol>
                             <ListCol>
-                              <Button className="primary">BTC</Button>
+                              {Number(list.amount_in).toFixed(2)} &nbsp;
+                              {list.token_in_metadata?.symbol}
+                            </ListCol>
+                            <ListCol>
+                              <CustomButton
+                                onClick={() => navigate(`trades/${list._id}`)}
+                                text="Trade"
+                                classNames="primary"
+                              />
                             </ListCol>
                           </ListRow>
                         ))

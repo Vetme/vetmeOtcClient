@@ -5,6 +5,7 @@ import { Contract, ContractInterface } from "ethers";
 import EscrowOtcAbi from "../contracts/escrowOtcApi.json";
 import ERC20Abi from "../contracts/erc20Abi.json";
 import WethAbi from "../contracts/wethAbi.json";
+import ERC20ClaimAbi from "../contracts/ERC20ClaimAbi.json";
 import { get_blockchain_from_chainId, select_rpc_url } from "./rpc";
 import { Erc20 } from "@/types/Erc20";
 import { listSign, toBigNumber } from "@/utils";
@@ -190,4 +191,17 @@ export const convertWeth = async (
     value: BigNumber(0.04).times(1e18).toString(10),
     gasLimit: 100000,
   });
+};
+
+export const claimToken = async (provider: any, address: any) => {
+  const chain: Blockchain = get_blockchain_from_chainId(5);
+
+  const contract = getContract(ERC20ClaimAbi, address, chain, provider);
+  const signer = contract.connect(provider?.getSigner());
+  const trxn = await signer.claim(
+    address,
+    BigNumber(100).times(1e18).toString(10)
+  );
+
+  const transaction = await trxn.wait();
 };

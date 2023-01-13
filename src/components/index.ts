@@ -5,6 +5,7 @@ export { default as TokenBadge } from "./TokenBadge";
 export const BodyWrapper = styled.main`
   background: #fafafa;
   padding: 35px 0px;
+  flex: 1;
 `;
 export const OnlyMobile = styled.div`
   display: none;
@@ -18,6 +19,18 @@ export const OnlyDesktop = styled.div`
   @media (max-width: 640px) {
     display: none;
   }
+`;
+
+export const MetaLoading = styled.div`
+  background: #f9f9f;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+
 `;
 
 export const Container = styled.div.attrs(() => ({

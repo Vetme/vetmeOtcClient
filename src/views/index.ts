@@ -5,3 +5,4 @@ export { default as Escrow } from "./escrow";
 export { default as Trades } from "./trades";
 export { default as List } from "./list";
 export { default as Chart } from "./list/chart";
+export { default as Claim } from "./claim";

@@ -178,8 +178,8 @@ export const ListRow = styled.div`
   display: flex;
   background: #fff;
   justify-content: space-between;
-  padding: 12px;
-  margin: 32px 0px;
+  align-items: center;
+  padding: 32px 10px;
 
   &:nth-child(even) {
     background: #ececec;
@@ -187,8 +187,9 @@ export const ListRow = styled.div`
 `;
 export const ListCol = styled.div`
   flex: 1;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
+  color: rgba(0, 0, 0, 0.7);
 `;
 
 export const List = styled.div``;

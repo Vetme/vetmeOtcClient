@@ -4,17 +4,15 @@ import {
   Flex,
   Spacer,
   Text,
-  Wrapper,
   OnlyMobile,
 } from "@/components";
 import { Button } from "@/components/Button";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Web3Provider } from "@ethersproject/providers";
 import { useWeb3React } from "@web3-react/core";
 
 import { toast } from "react-toastify";
 import axios from "axios";
-import { utils } from "ethers";
 
 import {
   TradeWrapper,
@@ -25,7 +23,6 @@ import {
   LBottom,
   LTop,
   Footer,
-  BtnWrapper,
   Stepper,
   Step,
   RBottom,
@@ -33,7 +30,6 @@ import {
   MobileFooter,
 } from "./styles";
 import { useParams, useNavigate } from "react-router-dom";
-import { List } from "@/components/Icons";
 import { ListI } from "@/types";
 import { truncate } from "@/helpers";
 import {
@@ -43,21 +39,16 @@ import {
   convertWeth,
   getTotalSupply,
 } from "@/helpers/contract";
-import {
-  fromBigNumber,
-  generateNonce,
-  listSign,
-  parseError,
-  parseSuccess,
-  toBigNumber,
-} from "@/utils";
+import { fromBigNumber, listSign, parseError, parseSuccess } from "@/utils";
 import CustomButton from "@/components/Button/CustomButton";
 import BigNumber from "bignumber.js";
 import Api from "@/helpers/apiHelper";
+import { Message } from "@/components/Modal";
 
 const Trans = () => {
   const [status, setStatus] = useState<number>(1); //
   const [loading, setLoading] = useState<boolean>(false); //
+  const [open, setOpen] = useState<boolean>(false); //
   const [approving, setApproving] = useState<boolean>(false);
   const [listing, setListing] = useState<ListI | undefined>(undefined); //
   const [allowance, setAllowance] = useState<string>("");
@@ -224,9 +215,19 @@ const Trans = () => {
 
                 <LBottom>
                   <TradeItem>
-                    <Text weight="700" size="24px">
-                      NB: <span style={{ color: "#4473EB" }}>Escrow</span> Fee
-                      Applies
+                    <Text as="div" weight="700" size="24px">
+                      NB:{" "}
+                      <div
+                        onClick={() => setOpen(true)}
+                        style={{
+                          color: "#4473EB",
+                          display: "inline-block",
+                          cursor: "pointer",
+                        }}
+                      >
+                        Escrow
+                      </div>{" "}
+                      Fee Applies
                     </Text>
                   </TradeItem>
                   <Spacer height={24} />
@@ -353,11 +354,28 @@ const Trans = () => {
       <Spacer height={20} />
       <OnlyMobile>
         <Center>
-          <Text weight="700" size="24px">
-            NB: <span style={{ color: "#4473EB" }}>Escrow</span> Fee Applies
+          <Text as="div" weight="700" size="24px">
+            NB:{" "}
+            <div
+              onClick={() => setOpen(true)}
+              style={{
+                color: "#4473EB",
+                display: "inline-block",
+                cursor: "pointer",
+              }}
+            >
+              Escrow
+            </div>{" "}
+            Fee Applies
           </Text>
         </Center>
       </OnlyMobile>
+
+      <Message
+        show={open}
+        handleClose={() => setOpen(false)}
+        msg="Escrow Fee is a trading fee we charge to guarantee you a secured transaction. We charge from both parties to safe guard token transactions. Our fee’s are not more than 3% per trade. If trades are cancelled at any point in the transaction queue, we would refund all payments inclusive of the Escrow Fee. We provide this feature on all token and coin transactions on our platform. If you have anymore questions please reach us on our email support@vetme.com or via our telegram platform. Thanks for trading with us."
+      />
     </Container>
   );
 };

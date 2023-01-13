@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
-import { CSSTransition } from "react-transition-group";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 import {
@@ -15,13 +14,11 @@ import {
   MMenuInner,
 } from "./styles";
 
-import { Link, NavLink, useLocation } from "react-router-dom";
-import { Avatar, Center, Spacer } from "../";
-import { Flex } from "../";
+import { useLocation } from "react-router-dom";
+import { Center } from "../";
 import { Button } from "@/components/Button";
 import { Connect } from "../Modal";
 import { truncate } from "@/helpers";
-import web3 from "web3";
 import { ConnectorNames } from "@/types";
 // import { hooks, metaMask } from "@/connector/metaMask";
 
@@ -74,9 +71,18 @@ const Navigation = ({ connect, account }: NavInput) => {
             >
               Home
             </Item>
+            <Item to="test-tokens">Test Token</Item>
             <Item to="p2p">P2P Escrow</Item>
-            <Item to="white-paper">White Paper</Item>
-            <Item to="telegram">Telegram</Item>
+            <a href="https://t.me/vetmeportal" target="_blank" className="item">
+              Telegram
+            </a>
+            <a
+              className="item"
+              download
+              href="https://vetmeblock.com/vetme.pdf"
+            >
+              White Paper
+            </a>
           </NavItems>
           <Action>
             {account ? (
@@ -97,8 +103,15 @@ const Navigation = ({ connect, account }: NavInput) => {
             <MMenuInner>
               <MMenuItem to="/">Home</MMenuItem>
               <MMenuItem to="p2p">P2P Escrow</MMenuItem>
+              <MMenuItem to="claim-token">Test Tokens</MMenuItem>
               <MMenuItem to="white-paper">White Paper</MMenuItem>
-              <MMenuItem to="telegram">Telegram</MMenuItem>
+              <a
+                className="mitem"
+                target="_blank"
+                href="https://t.me/vetmeportal"
+              >
+                Telegram
+              </a>
               <Center>
                 {account ? (
                   <Button className="success sm" onClick={() => setShow(true)}>
