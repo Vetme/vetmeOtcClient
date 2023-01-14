@@ -4,8 +4,9 @@ import { Filter, Grid, List, Search } from "@/components/Icons";
 import { useState } from "react";
 import CustomButton from "@/components/Button/CustomButton";
 import { useNavigate } from "react-router-dom";
-
+import { useEffect } from "react";
 import classNames from "classnames";
+
 import {
   Wrapper,
   ActionSwitch,
@@ -30,16 +31,22 @@ import {
 import { useTokenFetch } from "@/hooks/customHooks";
 import { truncate } from "@/helpers";
 import { formatDateTime, formatSecTime, getForever } from "@/utils";
+import { Message } from "@/components/Modal";
 
 const HomePage = () => {
   const [display, setDisplay] = useState<"grid" | "list">("grid");
   const [mode, setMode] = useState<"list" | "swap">("swap");
+  const [open, setOpen] = useState<boolean>(false);
   const { loading, data, setQuery, query } = useTokenFetch();
   const navigate = useNavigate();
 
   const onChangeHandler = async (e: any) => {
     setQuery(e.target.value);
   };
+
+  useEffect(() => {
+    setTimeout(() => setOpen(true), 4000);
+  }, []);
 
   return (
     <Container>
@@ -165,6 +172,14 @@ const HomePage = () => {
             </ListCon>
           )}
         </HomeBody>
+
+        <Message
+          show={open}
+          redirectUrl="test-tokens"
+          handleClose={() => setOpen(false)}
+          headerText="Test Tokens"
+          msg="Claim Free Test tokens to trade on the platform"
+        />
       </Wrapper>
     </Container>
   );

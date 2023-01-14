@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Spacer, Text } from "..";
 import { CSSTransition } from "react-transition-group";
 import { Button } from "../Button";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   position: fixed;
@@ -43,9 +44,18 @@ interface IMessage {
   show: boolean;
   headerText?: string;
   msg: string;
+  redirectUrl?: string;
 }
 
-const Connect = ({ msg, show, headerText, handleClose }: IMessage) => {
+const Message = ({
+  msg,
+  show,
+  headerText,
+  handleClose,
+  redirectUrl,
+}: IMessage) => {
+  const navigate = useNavigate();
+
   return (
     <>
       <CSSTransition in={show} timeout={400} classNames={"alert"} unmountOnExit>
@@ -60,9 +70,22 @@ const Connect = ({ msg, show, headerText, handleClose }: IMessage) => {
             </Text>
             <Spacer height={50} />
             <ButtonWrap>
-              <Button className="primary  m-sm" onClick={() => handleClose()}>
-                Ok
-              </Button>
+              {}
+              {redirectUrl ? (
+                <Button
+                  className="primary  m-sm"
+                  onClick={() => navigate(redirectUrl)}
+                >
+                  Claim
+                </Button>
+              ) : (
+                <Button
+                  className="primary-accent  m-sm"
+                  onClick={() => handleClose()}
+                >
+                  "Ok"
+                </Button>
+              )}
             </ButtonWrap>
           </Inner>
         </Container>
@@ -71,4 +94,4 @@ const Connect = ({ msg, show, headerText, handleClose }: IMessage) => {
   );
 };
 
-export default Connect;
+export default Message;

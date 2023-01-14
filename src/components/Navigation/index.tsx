@@ -103,7 +103,7 @@ const Navigation = ({ connect, account }: NavInput) => {
             <MMenuInner>
               <MMenuItem to="/">Home</MMenuItem>
               <MMenuItem to="p2p">P2P Escrow</MMenuItem>
-              <MMenuItem to="claim-token">Test Tokens</MMenuItem>
+              <MMenuItem to="test-tokens">Test Tokens</MMenuItem>
               <MMenuItem to="white-paper">White Paper</MMenuItem>
               <a
                 className="mitem"
