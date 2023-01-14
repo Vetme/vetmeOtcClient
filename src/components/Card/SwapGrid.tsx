@@ -34,9 +34,17 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media (max-width: 640px) {
+    padding: 17px 20px;
+  }
 `;
 const Body = styled.div`
   padding: 28px 50px;
+
+  @media (max-width: 640px) {
+    padding: 20px 20px;
+  }
 `;
 const Details = styled.div``;
 const Actions = styled.div``;
@@ -73,17 +81,29 @@ const SwapGrid = ({ list }: { list: ListI }) => {
               token={list.token_out_metadata}
               handleClick={() => null}
             />
-            <Spacer width={15} />
-            <Text uppercase weight="800" size="12px" color="#848892">
+            <Spacer width={15} widthM={10} />
+            <Text
+              uppercase
+              weight="800"
+              sizeM="10px"
+              size="12px"
+              color="#848892"
+            >
               Give
             </Text>
           </Flex>
           <Swap />
           <Flex align="center">
-            <Text uppercase weight="800" size="12px" color="#848892">
+            <Text
+              uppercase
+              weight="800"
+              size="12px"
+              sizeM="10px"
+              color="#848892"
+            >
               Get
             </Text>
-            <Spacer width={15} />
+            <Spacer width={15} widthM={10} />
             <TokenBadge
               token={list.token_in_metadata}
               handleClick={() => null}
@@ -92,16 +112,28 @@ const SwapGrid = ({ list }: { list: ListI }) => {
         </Flex>
         <Spacer height={10} />
         <Flex justify="space-between">
-          <Text uppercase weight="800" size="12px" color="#848892">
+          <Text
+            style={{ whiteSpace: "nowrap" }}
+            uppercase
+            weight="800"
+            size="12px"
+            color="#848892"
+          >
             {Number(list.amount_out).toFixed(2)} &nbsp;
             {list.token_out_metadata?.symbol}
           </Text>
           <div style={{ marginTop: "20px" }}>
-            <Text size="12px" color="#848892">
+            <Text size="12px" color="#848892" style={{ whiteSpace: "nowrap" }}>
               Escrow Fee: 3%
             </Text>
           </div>
-          <Text uppercase weight="800" size="12px" color="#848892">
+          <Text
+            uppercase
+            weight="800"
+            size="12px"
+            color="#848892"
+            style={{ whiteSpace: "nowrap" }}
+          >
             {Number(list.amount_in).toFixed(2)} &nbsp;
             {list.token_in_metadata?.symbol}
           </Text>
@@ -129,7 +161,7 @@ const SwapGrid = ({ list }: { list: ListI }) => {
             <CustomButton
               onClick={() => navigate(`trades/${list._id}`)}
               text="Trade"
-              classNames="primary"
+              classNames="primary m-sm"
             />
           </Actions>
         </Flex>

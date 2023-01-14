@@ -16,6 +16,7 @@ const Container = styled.div`
 const ImgWrap = styled.div`
   height: 16px;
   /* width: 16px; */
+  flex-shrink: 0;
   border-radius: 50%;
 
   img {
