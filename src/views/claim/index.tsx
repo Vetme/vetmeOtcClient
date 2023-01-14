@@ -119,7 +119,7 @@ const Claim = () => {
           <CustomButton
             onClick={handleConvertWeth}
             text="Give me WETH 0.04 for ETH"
-            classNames="primary block"
+            classNames="primary block m-sm"
             loading={loading && current === "Convert"}
             disabled={loading && current === "Convert"}
           />
