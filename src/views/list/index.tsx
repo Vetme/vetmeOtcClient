@@ -156,16 +156,16 @@ const Trans = () => {
       </OnlyMobile>
       <TradeWrapper>
         <Center>
-          <Text as="h2" size="24px" weight="700">
+          <Text as="h2" size="s1" weight="700">
             List Transaction Queue
           </Text>
         </Center>
         <Spacer height={20} />
         <TradeItem style={{ textAlign: "center" }}>
-          <Text weight="700" size="24px">
+          <Text weight="700" size="s1">
             {truncate(account || "", 9, "***")}
           </Text>
-          <Text weight="500" size="16px">
+          <Text weight="500" size="s2">
             Wallet Id
           </Text>
         </TradeItem>
@@ -174,13 +174,13 @@ const Trans = () => {
           <LeftContent direction="column" justify="space-between">
             <LTop>
               <TradeItem>
-                <Text weight="500" size="16px">
+                <Text weight="500" size="s2">
                   You give
                 </Text>
-                <Text weight="700" size="24px">
+                <Text weight="700" size="s1">
                   {form.amount_out} {form.token_out_metadata.symbol}
                 </Text>
-                <Text weight="500" size="16px">
+                <Text weight="500" size="s2">
                   (Escrow fee : 1%)
                 </Text>
               </TradeItem>
@@ -202,13 +202,13 @@ const Trans = () => {
           >
             <RTop>
               <TradeItem>
-                <Text weight="500" size="16px">
+                <Text weight="500" size="s2">
                   You get
                 </Text>
-                <Text weight="700" size="24px">
+                <Text weight="700" size="s1">
                   {form.amount_in} {form.token_in_metadata.symbol}
                 </Text>
-                <Text weight="500" size="16px">
+                <Text weight="500" size="s2">
                   (Escrow fee : 1%)
                 </Text>
               </TradeItem>
@@ -223,7 +223,7 @@ const Trans = () => {
           <OnlyDesktop>
             <Spacer height={52} />
             <TradeItem>
-              <Text as="div" weight="700" size="24px">
+              <Text as="div" weight="700" size="s1">
                 NB:{" "}
                 <div
                   onClick={() => setOpen(true)}
@@ -338,7 +338,7 @@ const Trans = () => {
               </Button>
             </BtnWrapper> */}
             <Spacer height={16} />
-            <Text size="16px" weight="500">
+            <Text size="s2" weight="500">
               Your money is safe in our Escrow
             </Text>
           </Center>
@@ -347,7 +347,7 @@ const Trans = () => {
       <Spacer height={20} />
       <OnlyMobile>
         <Center>
-          <Text as="div" weight="700" size="24px">
+          <Text as="div" weight="700" size="s1">
             NB:{" "}
             <div
               onClick={() => setOpen(true)}

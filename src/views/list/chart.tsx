@@ -17,7 +17,7 @@ const Trans = () => {
     <Container>
       <TradeWrapper>
         <Center>
-          <Text as="h2" size="24px" weight="700">
+          <Text as="h2" size="s1" weight="700">
             Transaction Quese
           </Text>
         </Center>

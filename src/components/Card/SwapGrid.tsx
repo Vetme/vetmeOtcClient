@@ -67,10 +67,10 @@ const SwapGrid = ({ list }: { list: ListI }) => {
   return (
     <SwapContainer>
       <Header>
-        <Text weight="700" size="16px">
+        <Text weight="700" size="s2">
           {list.token_out_metadata?.symbol}/{list.token_in_metadata?.symbol}
         </Text>
-        <Text weight="700" size="16px">
+        <Text weight="700" size="s2">
           {truncate(list.receiving_wallet, 9, "***")}
         </Text>
       </Header>
@@ -82,25 +82,13 @@ const SwapGrid = ({ list }: { list: ListI }) => {
               handleClick={() => null}
             />
             <Spacer width={15} widthM={10} />
-            <Text
-              uppercase
-              weight="800"
-              sizeM="10px"
-              size="12px"
-              color="#848892"
-            >
+            <Text uppercase weight="800" sizeM="10px" size="s2" color="#848892">
               Give
             </Text>
           </Flex>
           <Swap />
           <Flex align="center">
-            <Text
-              uppercase
-              weight="800"
-              size="12px"
-              sizeM="10px"
-              color="#848892"
-            >
+            <Text uppercase weight="800" size="s2" sizeM="10px" color="#848892">
               Get
             </Text>
             <Spacer width={15} widthM={10} />
@@ -116,21 +104,21 @@ const SwapGrid = ({ list }: { list: ListI }) => {
             style={{ whiteSpace: "nowrap" }}
             uppercase
             weight="800"
-            size="12px"
+            size="s2"
             color="#848892"
           >
             {Number(list.amount_out).toFixed(2)} &nbsp;
             {list.token_out_metadata?.symbol}
           </Text>
           <div style={{ marginTop: "20px" }}>
-            <Text size="12px" color="#848892" style={{ whiteSpace: "nowrap" }}>
+            <Text size="s2" color="#848892" style={{ whiteSpace: "nowrap" }}>
               Escrow Fee: 3%
             </Text>
           </div>
           <Text
             uppercase
             weight="800"
-            size="12px"
+            size="s2"
             color="#848892"
             style={{ whiteSpace: "nowrap" }}
           >
@@ -143,14 +131,14 @@ const SwapGrid = ({ list }: { list: ListI }) => {
         <Spacer height={21} />
         <Flex justify="space-between" align="center">
           <Details>
-            <Text size="12px" color="#848892">
+            <Text size="s2" color="#848892">
               Amount : {Number(list.amount_in).toFixed(2)} &nbsp;
               {list.token_in_metadata?.symbol}
             </Text>
-            <Text size="12px" color="#848892">
+            <Text size="s2" color="#848892">
               Published : {formatDateTime(list.createdAt)}
             </Text>
-            <Text size="12px" color="#848892">
+            <Text size="s2" color="#848892">
               Expiry Time :{" "}
               {list.deadline == getForever
                 ? "Forever"

@@ -174,7 +174,7 @@ const Trans = () => {
     <Container>
       <TradeWrapper>
         <Center>
-          <Text as="h2" size="24px" weight="700">
+          <Text as="h2" size="s1" weight="700">
             Transaction Queue
           </Text>
         </Center>
@@ -188,26 +188,26 @@ const Trans = () => {
                 <LTop>
                   <TradeItem>
                     {account ? (
-                      <Text weight="700" size="24px">
+                      <Text weight="700" size="s1">
                         {truncate(account || "", 9, "***")}
                       </Text>
                     ) : (
                       <Text color="#ff9800">Wallet not connected</Text>
                     )}
 
-                    <Text weight="500" size="16px">
+                    <Text weight="500" size="s2">
                       Wallet Id
                     </Text>
                   </TradeItem>
                   <Spacer height={26} />
                   <TradeItem>
-                    <Text weight="500" size="16px">
+                    <Text weight="500" size="s2">
                       You give
                     </Text>
-                    <Text weight="700" size="24px">
+                    <Text weight="700" size="s1">
                       {listing?.amount_in} {listing?.token_in_metadata.symbol}
                     </Text>
-                    <Text weight="500" size="16px">
+                    <Text weight="500" size="s2">
                       (Escrow fee : 1%)
                     </Text>
                   </TradeItem>
@@ -215,7 +215,7 @@ const Trans = () => {
 
                 <LBottom>
                   <TradeItem>
-                    <Text as="div" weight="700" size="24px">
+                    <Text as="div" weight="700" size="s1">
                       NB:{" "}
                       <div
                         onClick={() => setOpen(true)}
@@ -275,22 +275,22 @@ const Trans = () => {
               >
                 <RTop>
                   <TradeItem>
-                    <Text weight="700" size="24px">
+                    <Text weight="700" size="s1">
                       {truncate(listing?.receiving_wallet || "", 9, "***")}
                     </Text>
-                    <Text weight="500" size="16px">
+                    <Text weight="500" size="s2">
                       Wallet Id
                     </Text>
                   </TradeItem>
                   <Spacer height={26} />
                   <TradeItem>
-                    <Text weight="500" size="16px">
+                    <Text weight="500" size="s2">
                       You get
                     </Text>
-                    <Text weight="700" size="24px">
+                    <Text weight="700" size="s1">
                       {listing?.amount_out} {listing?.token_out_metadata.symbol}
                     </Text>
-                    <Text weight="500" size="16px">
+                    <Text weight="500" size="s2">
                       (Escrow fee : 1%)
                     </Text>
                   </TradeItem>
@@ -343,7 +343,7 @@ const Trans = () => {
             <Footer>
               <Center style={{ flexDirection: "column" }}>
                 <Spacer height={16} />
-                <Text size="16px" weight="500">
+                <Text size="s2" weight="500">
                   Your money is safe in our Escrow
                 </Text>
               </Center>
@@ -354,7 +354,7 @@ const Trans = () => {
       <Spacer height={20} />
       <OnlyMobile>
         <Center>
-          <Text as="div" weight="700" size="24px">
+          <Text as="div" weight="700" size="s1">
             NB:{" "}
             <div
               onClick={() => setOpen(true)}

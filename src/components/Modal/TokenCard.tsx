@@ -39,10 +39,10 @@ const TokenCard = ({ symbol, name, avatar, address, callback }: IToken) => {
         <img src={avatar} />
       </Avatar>
       <Details>
-        <Text size="16px" weight="700">
+        <Text size="s2" weight="700">
           {symbol}
         </Text>
-        <Text size="12px" weight="500">
+        <Text size="s2" weight="500">
           {name}
         </Text>
       </Details>

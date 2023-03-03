@@ -182,7 +182,7 @@ const ListCard = () => {
     <>
       <SwapContainer>
         <Header>
-          <Text uppercase weight="700" size="16px">
+          <Text uppercase weight="700" size="s2">
             List
           </Text>
         </Header>

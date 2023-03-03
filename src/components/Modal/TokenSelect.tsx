@@ -194,7 +194,7 @@ const TokenSelect = ({ show, handleClose, handleSelected }: TokenSelect) => {
       <ModalWrapper onClick={handleClose}>
         <SwapContainer onClick={(e) => e.stopPropagation()}>
           <Header>
-            <Text weight="700" size="16px">
+            <Text weight="700" size="s2">
               Select an asset
             </Text>
           </Header>

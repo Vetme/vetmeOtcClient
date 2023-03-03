@@ -49,19 +49,19 @@ const SwapGrid = ({ list }: { list: ListI }) => {
           </Wrapper>
           <Spacer height={33} />
           <Wrapper>
-            <Text as="div" size="14px">
+            <Text as="div" size="s2">
               <Text style={{ display: "inline" }} weight="700">
                 Limit
               </Text>{" "}
               <span>: $20</span>
             </Text>
-            <Text size="14px">
+            <Text size="s2">
               <Text style={{ display: "inline" }} weight="700">
                 Selling Rate
               </Text>{" "}
               : {Number(list.amount_in).toFixed(2)}
             </Text>
-            <Text size="14px">
+            <Text size="s2">
               <Text style={{ display: "inline" }} weight="700">
                 Escrow Fee
               </Text>{" "}

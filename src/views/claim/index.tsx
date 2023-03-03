@@ -71,7 +71,7 @@ const Claim = () => {
     <div className="container">
       <SwapContainer>
         <Header>
-          <Text uppercase weight="700" size="16px">
+          <Text uppercase weight="700" size="s2">
             Test Tokens
           </Text>
         </Header>
