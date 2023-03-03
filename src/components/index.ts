@@ -1,9 +1,10 @@
+import { SECONDARY_COLOR_GREEN, PRIMARY_COLOR } from "@/themes";
 import styled from "styled-components";
 export { default as Footer } from "./Footer";
 export { default as TokenBadge } from "./TokenBadge";
 
 export const BodyWrapper = styled.main`
-  background: #fafafa;
+  /* background: #fafafa; */
   padding: 35px 0px;
   flex: 1;
 `;
@@ -30,7 +31,6 @@ export const MetaLoading = styled.div`
   justify-content: center;
   flex-direction: column;
   text-align: center;
-
 `;
 
 export const Container = styled.div.attrs(() => ({
@@ -158,7 +158,20 @@ export const Colorize = styled.span<{
 
 export const Text = styled.span<{
   weight?: string;
-  size?: string;
+  size?:
+    | "h1"
+    | "h2"
+    | "h3"
+    | "h4"
+    | "h5"
+    | "big"
+    | "normal"
+    | "small"
+    | "tiny"
+    | "s1"
+    | "s2"
+    | "s3"
+    | "s4";
   color?: string;
   sizeM?: string;
   padding?: string;
@@ -166,7 +179,34 @@ export const Text = styled.span<{
 }>`
   display: block;
   font-weight: ${({ weight }) => (weight ? weight : "400")};
-  font-size: ${({ size }) => (size ? size : "18px")};
+  font-size: ${({ size }) =>
+    size == "h1"
+      ? "56px"
+      : size == "h2"
+      ? "40px"
+      : size == "h3"
+      ? "26px"
+      : size == "h4"
+      ? "18px"
+      : size == "h5"
+      ? "14px"
+      : size == "big"
+      ? "20px"
+      : size == "normal"
+      ? "18px"
+      : size == "small"
+      ? "16px"
+      : size == "tiny"
+      ? "14px"
+      : size == "s1"
+      ? "18px"
+      : size == "s2"
+      ? "16px"
+      : size == "s3"
+      ? "14px"
+      : size == "s4"
+      ? "14px"
+      : "18px"};
   line-height: 150%;
   color: ${({ color }) => color};
 
@@ -181,7 +221,34 @@ export const Text = styled.span<{
     text-fill-color: transparent;
   }
   @media (max-width: 640px) {
-    font-size: ${({ sizeM }) => (sizeM ? sizeM : "14px")};
+    font-size: ${({ sizeM }) =>
+      sizeM == "h1"
+        ? "56px"
+        : sizeM == "h2"
+        ? "40px"
+        : sizeM == "h3"
+        ? "26px"
+        : sizeM == "h4"
+        ? "18px"
+        : sizeM == "h5"
+        ? "14px"
+        : sizeM == "big"
+        ? "20px"
+        : sizeM == "normal"
+        ? "18px"
+        : sizeM == "small"
+        ? "16px"
+        : sizeM == "tiny"
+        ? "14px"
+        : sizeM == "s1"
+        ? "18px"
+        : sizeM == "s2"
+        ? "16px"
+        : sizeM == "s3"
+        ? "14px"
+        : sizeM == "s4"
+        ? "14px"
+        : "14px"};
   }
 `;
 
@@ -458,5 +525,73 @@ export const Loader = styled.div`
         transform: rotate(360deg);
       }
     }
+  }
+`;
+
+export const CustomLink = styled.a`
+  position: relative;
+  margin: 0px 16px;
+  transition: 0.3s;
+
+  span:nth-child(1),
+  span:nth-child(3) {
+    position: absolute;
+    transition: 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+  }
+  span:nth-child(1) {
+    left: -8px;
+  }
+
+  span:nth-child(3) {
+    right: -8px;
+  }
+
+  &:hover {
+    span:nth-child(1) {
+      left: -14px;
+    }
+    span:nth-child(3) {
+      right: -14px;
+    }
+  }
+`;
+
+export const ActionBtn = styled.div`
+  background: ${SECONDARY_COLOR_GREEN};
+  height: 83px;
+  width: 100%;
+  border: 1px solid #2e203e;
+  border-radius: 12px;
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: 18px;
+  /* Blue/Main (900) */
+  position: relative;
+  line-height: 83px;
+  color: #170728;
+  cursor: pointer;
+
+  div {
+    position: absolute;
+    right: 14px;
+    top: 14px;
+
+    height: 55px;
+    line-height: 55px;
+    width: 55px;
+    border-radius: 100px;
+    background: ${PRIMARY_COLOR};
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    border: 1px solid #2e203e;
+    height: 100%;
+    width: 100%;
+    bottom: -6px;
+    left: -6px;
+    border-radius: 12px;
+    z-index: -1;
   }
 `;

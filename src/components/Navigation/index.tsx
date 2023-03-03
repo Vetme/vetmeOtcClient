@@ -12,14 +12,16 @@ import {
   MobileMenu,
   MMenuItem,
   MMenuInner,
+  IconM,
 } from "./styles";
 
 import { useLocation } from "react-router-dom";
-import { Center } from "../";
+import { Center, Flex, Text, CustomLink, Spacer, ActionBtn } from "../";
 import { Button } from "@/components/Button";
 import { Connect } from "../Modal";
 import { truncate } from "@/helpers";
 import { ConnectorNames } from "@/types";
+import { ArrowRight, Decor, LogoSVG } from "../Icons";
 // import { hooks, metaMask } from "@/connector/metaMask";
 
 interface NavInput {
@@ -60,7 +62,7 @@ const Navigation = ({ connect, account }: NavInput) => {
       <div className="container">
         <NavWrapper>
           <Logo to="/">
-            <img src="/images/logo.png" />
+            <LogoSVG />
           </Logo>
           <NavItems>
             <Item
@@ -69,19 +71,23 @@ const Navigation = ({ connect, account }: NavInput) => {
                 isActive ? "active" : ""
               }
             >
-              Home
+              <span>Home</span>
             </Item>
-            <Item to="test-tokens">Test Token</Item>
-            <Item to="p2p">P2P Escrow</Item>
+            <Item to="test-tokens">
+              <span>Test Token</span>
+            </Item>
+            <Item to="p2p">
+              <span>P2P Escrow</span>
+            </Item>
             <a href="https://t.me/vetmeportal" target="_blank" className="item">
-              Telegram
+              <span>Telegram</span>
             </a>
             <a
               className="item"
               download
               href="https://vetmeblock.com/vetme.pdf"
             >
-              White Paper
+              <span>White Paper</span>
             </a>
           </NavItems>
           <Action>
@@ -100,19 +106,28 @@ const Navigation = ({ connect, account }: NavInput) => {
             <div></div>
           </Bar>
           <MobileMenu className={open ? "added" : ""}>
+            <IconM>
+              <Decor />
+            </IconM>
             <MMenuInner>
               <MMenuItem to="/">Home</MMenuItem>
               <MMenuItem to="p2p">P2P Escrow</MMenuItem>
               <MMenuItem to="test-tokens">Test Tokens</MMenuItem>
               <MMenuItem to="white-paper">White Paper</MMenuItem>
-              <a
-                className="mitem"
-                target="_blank"
-                href="https://t.me/vetmeportal"
-              >
-                Telegram
-              </a>
-              <Center>
+
+              <CustomLink href="https://t.me/vetmeportal" target="_blank">
+                <Flex align="center" style={{ display: "inline-flex" }}>
+                  {" "}
+                  <span>{"{"}</span>
+                  <Text size="s1" sizeM="s1" uppercase>
+                    Telegram
+                  </Text>
+                  <span>{"}"}</span>
+                </Flex>
+              </CustomLink>
+
+              <Spacer height={32} />
+              {/* <Center>
                 {account ? (
                   <Button className="success sm" onClick={() => setShow(true)}>
                     Connected
@@ -122,6 +137,14 @@ const Navigation = ({ connect, account }: NavInput) => {
                     Connect Wallet
                   </Button>
                 )}
+              </Center> */}
+              <Center>
+                <ActionBtn>
+                  Visit App{" "}
+                  <div>
+                    <ArrowRight />
+                  </div>
+                </ActionBtn>
               </Center>
             </MMenuInner>
           </MobileMenu>

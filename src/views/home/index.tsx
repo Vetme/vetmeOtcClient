@@ -45,7 +45,7 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    setTimeout(() => setOpen(true), 4000);
+    // setTimeout(() => setOpen(true), 4000);
   }, []);
 
   return (

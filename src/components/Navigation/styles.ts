@@ -1,7 +1,12 @@
 import styled, { css } from "styled-components";
 import { Flex } from "..";
 import { NavLink } from "react-router-dom";
-import { PRIMARY_COLOR, PRIMARY_HOVER } from "./../../themes";
+import {
+  PRIMARY_COLOR,
+  PRIMARY_HOVER,
+  SECONDARY_COLOR,
+  SECONDARY_COLOR_GREEN,
+} from "./../../themes";
 
 const flex = css`
   display: flex;
@@ -32,12 +37,9 @@ export const Nav = styled.div`
 `;
 
 export const NavContainer = styled.div`
-  height: 121px;
-  /* line-height: 121px; */
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+  height: 72px;
   top: 0;
   position: relative;
-  background: #fff;
 
   z-index: 9999;
 
@@ -46,12 +48,19 @@ export const NavContainer = styled.div`
   }
 
   .item {
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 300;
     padding: 0px 20px;
-    color: #000000;
+    color: #170728;
     transition: 0.3s;
     position: relative;
+
+    &:hover,
+    &.active {
+      span {
+        border-bottom: 1px solid ${PRIMARY_COLOR};
+      }
+    }
   }
 
   .mitem {
@@ -64,7 +73,7 @@ export const NavContainer = styled.div`
   }
 
   @media (max-width: 640px) {
-    height: 111px;
+    height: 72px;
     /* line-height: 111px; */
   }
 `;
@@ -73,7 +82,12 @@ export const NavWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 111px;
+  /* line-height: 72px; */
+  height: 72px;
+  border-radius: 100px;
+  border: 1px solid #5d5169;
+  padding: 0px 16px;
+  margin: 16px 0px;
 `;
 export const NavItems = styled.div`
   @media (max-width: 640px) {
@@ -81,27 +95,23 @@ export const NavItems = styled.div`
   }
 `;
 export const Item = styled(NavLink)`
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 300;
   padding: 0px 20px;
-  color: #000000;
-  transition: 0.3s;
+  color: #170728;
   position: relative;
+  transition: transform 0.5s ease;
 
-  &:hover {
-    color: ${PRIMARY_HOVER};
+  &:after,
+  &.active {
+    transition: transform 0.5s ease;
+    transform: scaleX(0);
   }
 
+  &:hover,
   &.active {
-    color: ${PRIMARY_HOVER};
-
-    &::after {
-      content: "";
-      border: 5px solid #4473eb;
-      position: absolute;
-      width: 39px;
-      top: 39px;
-      left: 33%;
+    span {
+      border-bottom: 1px solid ${PRIMARY_COLOR};
     }
   }
 `;
@@ -214,67 +224,100 @@ export const Action = styled.div`
   }
 `;
 
+export const IconM = styled.div`
+  position: absolute;
+  left: 50%;
+  top: 0px;
+  transform: translateX(-50%);
+`;
+
 export const MobileMenu = styled.div`
   position: absolute;
   background: #fff;
   width: 100%;
-  top: 111px;
-  left: 0px;
+  top: 100px;
+  width: calc(100% - 1.3rem);
+  left: 50%;
+  transform: translateX(-50%);
   max-height: 0px;
+  /* border: 1px solid #5d5169; */
   overflow: hidden;
   background: #ffffff;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  background-image: url(/images/bg/mobile-m.png);
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 100% 100%;
 
-  transition: max-height 0.4s ease;
+  transition: max-height 0.3s;
   &.added {
+    /* border: 1px solid #5d5169; */
     max-height: 400px;
   }
 `;
 export const MMenuInner = styled.div`
-  padding: 34px;
+  padding: 34px 16px;
+  text-align: center;
 `;
 export const MMenuItem = styled(NavLink)`
   text-align: center;
-  font-weight: 700;
-  font-size: 24px;
+  font-weight: 400;
+  font-size: 18px;
   line-height: 33px;
-  margin: 20px 0px;
+  margin: 12px 0px;
   display: block;
+  text-transform: uppercase;
 `;
 
 export const Bar = styled.div`
   display: none;
   cursor: pointer;
+  background: ${PRIMARY_COLOR};
+  height:40px;
+  width:40px;
+  border-radius: 100px;
 
+
+  
   @media (max-width: 640px) {
-    display: block;
     position:relative;
     width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+  
+    
     /* height: 40px; */
     /* overflow-x: hidden; */
-    background:red;
     div,div::before,div::after {
-        background: #000;
+        background: #fff;
         content: "";
         display: block;
-        height: 4px;
-        width: 32px;
+        height: 1px;
+        width: 20px;
         position: absolute;
-        transition: background ease 0.3s, top ease 0.3s 0.3s,
+        transition: background ease 0.3s, top ease 0.3s 0.3s;
           transform ease 0.3s;
   }
 
   div{
     &::before {
-      top: -9px;
+      top: -3px;
       }
 
       &::after {
-          top: 9px;
+          top: 3px;
       }
   }
 
   &.opened{
+       background: ${SECONDARY_COLOR_GREEN};
+       border: 1px solid ${PRIMARY_COLOR};
+
+       div,div::before,div::after {
+        background: ${PRIMARY_COLOR};
+      }
+    
      div{
        background: transparent;
 
@@ -291,4 +334,5 @@ export const Bar = styled.div`
       }
   }
   }
+}
 `;

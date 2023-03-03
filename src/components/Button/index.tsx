@@ -1,30 +1,43 @@
 import styled from "styled-components";
-import { PRIMARY_COLOR, PRIMARY_HOVER, PRIMARY_DISABLED } from "@/themes";
+import {
+  PRIMARY_COLOR,
+  PRIMARY_HOVER,
+  PRIMARY_DISABLED,
+  SECONDARY_COLOR,
+} from "@/themes";
 
 export const Button = styled.button.attrs((props) => ({
   className: props.className,
 }))<{ disabled?: boolean; bg?: string }>`
-  padding: 0px 20px;
   outline: none;
   border: none;
   border-radius: 10px;
-  color: #000000;
   opacity: ${({ disabled }) => (disabled ? 0.7 : 1)};
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   justify-content: center;
   font-weight: 700;
   font-size: 24px;
-  line-height: 24px;
-  height: 53px;
+  padding: 9px 26px;
   white-space: nowrap;
+  height: 40px;
+  border-radius: 100px;
   /* identical to box height */
-
+  font-size: 14px;
   letter-spacing: 0.03em;
   transition: 0.3s;
   background: ${({ bg }) => (bg ? bg : "")};
   position: relative;
   display: flex;
   align-items: center;
+  text-transform: uppercase;
+
+  &:hover,
+  &:target,
+  &:active {
+    background: ${SECONDARY_COLOR};
+    color: ${PRIMARY_COLOR};
+    border: 1px solid ${PRIMARY_COLOR};
+  }
 
   &.loading {
     &::after {
@@ -46,22 +59,20 @@ export const Button = styled.button.attrs((props) => ({
     }
   }
 
-  &:hover {
-    background: ${({ bg }) => (bg ? bg : "")};
-  }
-
   &.primary {
     background: ${PRIMARY_COLOR};
     position: relative;
-    color: #000;
+    color: #ffffff;
 
     a {
       color: #fff;
     }
 
-    &:hover {
-      background: ${({ disabled }) =>
-        disabled ? PRIMARY_COLOR : PRIMARY_HOVER};
+    &:hover,
+    &:target,
+    &:active {
+      background: ${SECONDARY_COLOR};
+      color: ${PRIMARY_COLOR};
     }
   }
   &.primary-accent {

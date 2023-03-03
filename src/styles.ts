@@ -2,7 +2,7 @@ import styled, { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
  :root {
-  font-family: "Nunito", sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
@@ -27,8 +27,8 @@ export const GlobalStyles = createGlobalStyle`
 } */
 
   body {
-    font-family: "Nunito", sans-serif;
-    background:#333333;
+  font-family: 'Space Grotesk', sans-serif;
+    background:#ffffff;
     a{
       color:#000000;
       text-decoration:none;
