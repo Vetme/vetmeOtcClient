@@ -69,6 +69,13 @@
   }
 }
 
+@media (min-width: 1200px) {
+
+  .container-sm {
+    max-width: 1140px;
+  }
+}
+
 @media (min-width: 1400px) {
 
   .container-xxl,
@@ -1960,4 +1967,15 @@ input[type=number] {
 .alert-exit-active {
   opacity: 0;
   transition: opacity 400ms;
+}
+
+
+.social-footer {
+  display: flex;
+}
+
+@media (max-width:640px) {
+  .social-footer {
+    display: none !important;
+  }
 }

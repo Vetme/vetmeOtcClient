@@ -26,6 +26,9 @@ export type ListI = {
   status?: status;
   forever?: boolean;
   createdAt?: any;
+  verified?: boolean;
+  from_token_verified?: boolean;
+  to_token_verified?: boolean;
 };
 
 export enum Blockchain {

@@ -1,6 +1,7 @@
 import { Flex } from "@/components";
 import styled from "styled-components";
 
+export const List = styled.div``;
 export const TradeWrapper = styled.div`
   background: #ececec;
   box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.12);

@@ -41,7 +41,7 @@ const Footer = () => {
             <LogoSVG />
           </Logo>
 
-          <Flex>
+          <Flex className="social-footer">
             <CustomLink href="https://twitter.com/VetmeToken?t=iydy_59nL4QSNB2YfQ8CIA&s=09">
               <Flex align="center">
                 <span>{"{"}</span>

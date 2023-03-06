@@ -1,6 +1,15 @@
-import { Container } from "@/components";
+import { ContainerSm, Flex } from "@/components";
 import { ListCard, SwapGrid, MobileList } from "@/components/Card";
-import { Filter, Grid, List, Search } from "@/components/Icons";
+import {
+  Filter,
+  FilterCircle,
+  Grid,
+  Linear,
+  List,
+  ListGrid,
+  LSearch,
+  Search,
+} from "@/components/Icons";
 import { useState } from "react";
 import CustomButton from "@/components/Button/CustomButton";
 import { useNavigate } from "react-router-dom";
@@ -49,7 +58,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <Container>
+    <ContainerSm>
       <Wrapper>
         <HomeHeader>
           <LeftSide>
@@ -58,37 +67,37 @@ const HomePage = () => {
                 onClick={() => setDisplay("grid")}
                 className={display === "grid" ? "active" : ""}
               >
-                <Grid />
+                <Linear />
               </SwitchItem>
               <SwitchItem
                 onClick={() => setDisplay("list")}
                 className={display === "list" ? "active list" : "list"}
               >
-                <List />
+                <ListGrid />
               </SwitchItem>
             </LayoutSwitch>
+          </LeftSide>
+          <Flex justify="space-between" align="center" style={{ flex: 1 }}>
             <ActionSwitch>
-              <SwitchItem2
-                onClick={() => setMode("swap")}
-                className={mode === "swap" ? "active" : ""}
-              >
+              <SwitchItem2 onClick={() => navigate("/")} className="active">
                 Swap
               </SwitchItem2>
-              <SwitchItem2
-                onClick={() => setMode("list")}
-                className={mode === "list" ? "active" : ""}
-              >
+              <SwitchItem2 onClick={() => navigate("/list/create")}>
                 List
               </SwitchItem2>
             </ActionSwitch>
-          </LeftSide>
-          <SearchContainer className={classNames({ hidden: mode == "list" })}>
-            <InputWrapper>
-              <Search />
-              <input value={query} onChange={(e) => onChangeHandler(e)} />
-              <Filter />
-            </InputWrapper>
-          </SearchContainer>
+            <SearchContainer className={classNames({ hidden: mode == "list" })}>
+              <InputWrapper>
+                <LSearch />
+                <input
+                  placeholder="SEARCH"
+                  value={query}
+                  onChange={(e) => onChangeHandler(e)}
+                />
+                <FilterCircle />
+              </InputWrapper>
+            </SearchContainer>
+          </Flex>
         </HomeHeader>
 
         <HomeBody>
@@ -181,7 +190,7 @@ const HomePage = () => {
           msg="Claim Free Test tokens to trade on the platform"
         />
       </Wrapper>
-    </Container>
+    </ContainerSm>
   );
 };
 

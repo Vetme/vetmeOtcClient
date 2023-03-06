@@ -5,22 +5,29 @@ import { formatDateTime, formatSecTime, getForever } from "@/utils";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
-import { Divider, Flex, Spacer, Text, TokenBadge } from "..";
+import { ActionBtn, Divider, Flex, Spacer, Text, TokenBadge } from "..";
 import CustomButton from "../Button/CustomButton";
-import { Send, Swap } from "../Icons";
+import { Send, Swap, VToken, VUser } from "../Icons";
+
+const common = css`
+  position: absolute;
+  color: #453953;
+`;
 
 const SwapContainer = styled.div`
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.03);
-  border-radius: 20px;
-  width: 508px;
+  width: 540px;
   max-width: 100%;
-  margin-bottom: 114px;
+  margin-bottom: 27px;
+  height: 234px;
+
+  background-image: url(/images/bg/c1.png);
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 100% 100%;
 
   &.completed {
     filter: blur(0.8px);
-    background: #13871345;
+    /* background: #13871345; */
   }
 
   @media (max-width: 640px) {
@@ -28,32 +35,81 @@ const SwapContainer = styled.div`
   }
 `;
 const Header = styled.div`
-  background: rgba(125, 169, 255, 0.47);
+  /* background: rgba(125, 169, 255, 0.47);
   padding: 17px 50px;
   border-radius: 20px 20px 0px 0px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; */
+  position: relative;
 
   @media (max-width: 640px) {
     padding: 17px 20px;
   }
 `;
 const Body = styled.div`
-  padding: 28px 50px;
-
   @media (max-width: 640px) {
-    padding: 20px 20px;
+    /* padding: 10px; */
   }
 `;
 const Details = styled.div``;
-const Actions = styled.div``;
+const Actions = styled.div`
+  width: 179px;
+  height: 54px;
+  display: flex;
+  align-self: end;
+`;
+
+const TopFRight = styled.div`
+  ${common};
+  right: 85px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+const TopFLeft = styled.div`
+  ${common};
+  left: 90px;
+`;
+const BottomFLeft = styled.div`
+  ${common};
+  right: 70px;
+  top: 0px;
+`;
+
+const DetailWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-image: url(/images/bg/c2.png);
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 100% auto;
+  padding: 18px;
+  position: relative;
+`;
+
+const DetailWrapperT = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 39px 18px;
+`;
+
 const ActionWrapper = styled.button`
   background: #ffffff;
   border: 2px solid #7da9ff;
   border-radius: 5px;
   padding: 10px;
   cursor: pointer;
+`;
+
+const Price = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 25px;
+  top: -36px;
+  position: relative;
 `;
 
 const SwapGrid = ({ list }: { list: ListI }) => {
@@ -67,15 +123,18 @@ const SwapGrid = ({ list }: { list: ListI }) => {
   return (
     <SwapContainer>
       <Header>
-        <Text weight="700" size="s2">
-          {list.token_out_metadata?.symbol}/{list.token_in_metadata?.symbol}
-        </Text>
-        <Text weight="700" size="s2">
-          {truncate(list.receiving_wallet, 9, "***")}
-        </Text>
+        <TopFLeft>
+          <Text size="s3" uppercase>
+            {list.token_out_metadata?.symbol}/{list.token_in_metadata?.symbol}
+          </Text>
+        </TopFLeft>
+        <TopFRight>
+          {!list.verified && <VUser />}
+          <Text size="s3">{truncate(list.receiving_wallet, 9, "***")}</Text>
+        </TopFRight>
       </Header>
       <Body>
-        <Flex justify="space-between" align="center">
+        <DetailWrapperT>
           <Flex align="center">
             <TokenBadge
               token={list.token_out_metadata}
@@ -97,48 +156,51 @@ const SwapGrid = ({ list }: { list: ListI }) => {
               handleClick={() => null}
             />
           </Flex>
-        </Flex>
-        <Spacer height={10} />
-        <Flex justify="space-between">
+        </DetailWrapperT>
+        <Price>
           <Text
             style={{ whiteSpace: "nowrap" }}
             uppercase
-            weight="800"
-            size="s2"
-            color="#848892"
+            size="s1"
+            color=" #170728"
           >
             {Number(list.amount_out).toFixed(2)} &nbsp;
             {list.token_out_metadata?.symbol}
           </Text>
-          <div style={{ marginTop: "20px" }}>
-            <Text size="s2" color="#848892" style={{ whiteSpace: "nowrap" }}>
-              Escrow Fee: 3%
-            </Text>
-          </div>
+
           <Text
             uppercase
-            weight="800"
-            size="s2"
-            color="#848892"
+            size="s1"
+            color=" #170728"
             style={{ whiteSpace: "nowrap" }}
           >
             {Number(list.amount_in).toFixed(2)} &nbsp;
             {list.token_in_metadata?.symbol}
           </Text>
-        </Flex>
-        <Spacer height={10} />
-        <Divider />
-        <Spacer height={21} />
-        <Flex justify="space-between" align="center">
+        </Price>
+
+        <DetailWrapper>
+          <BottomFLeft>
+            <Text size="s3">Escrow Fee 3%</Text>
+          </BottomFLeft>
           <Details>
-            <Text size="s2" color="#848892">
-              Amount : {Number(list.amount_in).toFixed(2)} &nbsp;
-              {list.token_in_metadata?.symbol}
-            </Text>
-            <Text size="s2" color="#848892">
+            <Text size="s3" color="#5D5169 " uppercase>
               Published : {formatDateTime(list.createdAt)}
             </Text>
-            <Text size="s2" color="#848892">
+            <Text as="div" size="s3" color="#5D5169" uppercase>
+              Gain relative to Chart Prices::{" "}
+              <Text
+                style={{ display: "inline-block" }}
+                color={true ? "#12B347" : "#B31212"}
+              >
+                {" "}
+                +10%{" "}
+              </Text>
+            </Text>
+            {/* {Number(list.amount_in).toFixed(2)} &nbsp;
+              {list.token_in_metadata?.symbol} */}
+
+            <Text size="s3" color="#5D5169" uppercase>
               Expiry Time :{" "}
               {list.deadline == getForever
                 ? "Forever"
@@ -146,13 +208,14 @@ const SwapGrid = ({ list }: { list: ListI }) => {
             </Text>
           </Details>
           <Actions>
-            <CustomButton
+            <ActionBtn
+              className="sm"
               onClick={() => navigate(`trades/${list._id}`)}
-              text="Trade"
-              classNames="primary m-sm"
-            />
+            >
+              Trade
+            </ActionBtn>
           </Actions>
-        </Flex>
+        </DetailWrapper>
       </Body>
     </SwapContainer>
   );

@@ -17,7 +17,7 @@ export const HomeHeader = styled.div`
   }
 `;
 export const LeftSide = styled.div`
-  width: 55%;
+  width: 30%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -30,13 +30,14 @@ export const LeftSide = styled.div`
 `;
 
 export const LayoutSwitch = styled.div`
-  padding: 8px;
-  background: #d8d8d8;
-  border-radius: 10px;
+  padding: 6px;
+  width: 100px;
+  background: #fff;
+  border: 1px solid #2e203e;
+  border-radius: 12px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  height: 54px;
+  height: 56px;
 
   &.hidden {
     opacity: 0;
@@ -57,48 +58,72 @@ export const LayoutSwitch = styled.div`
 `;
 export const SwitchItem = styled.div`
   cursor: pointer;
-  height: 34px;
+  height: 44px;
+  width: 44px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  &.list {
-    path {
-      transform: translate(6px, 7px);
-    }
+  path {
+    stroke: #453953;
   }
-  &.active {
-    /* padding: 0px 8px; */
-    background: #7da9ff;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 5px;
+
+  text-transform: uppercase;
+  svg {
+    stroke: #453953;
+  }
+  &.active,
+  &:hover {
+    svg,
+    stroke {
+      fill: #ffffff;
+    }
+    background: #170728;
   }
 `;
 
 export const SwitchItem2 = styled.div`
   cursor: pointer;
-  height: 53px;
+  height: 44px;
   display: flex;
+  width: 50%;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 27px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  justify-content: center;
+  transition: 0.3s;
+  border-radius: 8px;
+
   align-items: center;
-  &.active {
-    padding: 10px;
-    background: #7da9ff;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
+  &.active,
+  &:hover {
+    /* White/Main (100) */
+    color: #ffffff;
+    background: #170728;
   }
 `;
 export const ActionSwitch = styled.div`
-  padding: 10px 12px;
-  background: #d8d8d8;
-  border-radius: 20px;
+  padding: 6px 7px;
+  background: #ffffff;
+  border: 1px solid #2e203e;
+  border-radius: 12px;
+  height: 56px;
   display: flex;
   align-items: center;
-  gap: 17px;
-  height: 73px;
-  line-height: 33px;
   font-weight: 800;
   font-size: 24px;
+  width: 396px;
+  max-width: 80%;
+  gap: 7px;
 `;
 
 export const SearchContainer = styled.div`
-  width: 30%;
+  width: 376px;
+  max-width: 80%;
+
   &.hidden {
     display: none;
     pointer-events: none;
@@ -110,13 +135,21 @@ export const SearchContainer = styled.div`
   }
 `;
 export const InputWrapper = styled.div`
-  height: 62px;
+  height: 56px;
   display: flex;
   align-items: center;
   background: #ffffff;
-  border: 3px solid rgba(140, 140, 140, 0.46);
   border-radius: 10px;
-  padding: 0px 27px;
+  padding: 0px 9px 0px 20px;
+
+  background: #ffffff;
+  font-size: 18px;
+
+  color: #170728;
+  /* Blue/800 */
+
+  border: 1px solid #2e203e;
+  border-radius: 12px;
 
   svg {
     flex-shrink: 0;
@@ -126,14 +159,14 @@ export const InputWrapper = styled.div`
     height: 50px;
     outline: none;
     border: none;
-    font-size: 24px;
+    font-size: 18px;
     padding: 0px 19px;
     width: 90%;
   }
 `;
 
 export const HomeBody = styled.div`
-  padding: 41px 0px;
+  padding: 24px 0px;
 `;
 export const GridWrapper = styled.div`
   display: flex;
@@ -153,10 +186,7 @@ export const ListWrapper = styled.div`
     &.mobile {
       display: block;
       background: #ffffff;
-      border: 1px solid rgba(0, 0, 0, 0.05);
-      box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.03);
-      border-radius: 20px;
-      padding: 10px;
+      /* padding: 10px; */
     }
   }
 `;

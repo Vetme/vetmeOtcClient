@@ -88,6 +88,9 @@ export const NavWrapper = styled.div`
   border: 1px solid #5d5169;
   padding: 0px 16px;
   margin: 16px 0px;
+  z-index: 999;
+  position: relative;
+  background: #fff;
 `;
 export const NavItems = styled.div`
   @media (max-width: 640px) {
@@ -233,29 +236,33 @@ export const IconM = styled.div`
 
 export const MobileMenu = styled.div`
   position: absolute;
-  background: #fff;
   width: 100%;
-  top: 100px;
+  top: 84px;
   width: calc(100% - 1.3rem);
   left: 50%;
   transform: translateX(-50%);
-  max-height: 0px;
-  /* border: 1px solid #5d5169; */
+  /* max-height: 0px; */
+  opacity: 0;
   overflow: hidden;
-  background: #ffffff;
+  pointer-events: none;
   background-image: url(/images/bg/mobile-m.png);
   background-repeat: no-repeat;
   background-position: top center;
   background-size: 100% 100%;
+  backdrop-filter: blur(5px);
+  transition: all 0.7s 0s;
 
-  transition: max-height 0.3s;
   &.added {
     /* border: 1px solid #5d5169; */
-    max-height: 400px;
+    /* max-height: 400px; */
+    backdrop-filter: blur(0px);
+    opacity: 1;
+    transition: all 0.7s 0.6s;
+    pointer-events: inherit;
   }
 `;
 export const MMenuInner = styled.div`
-  padding: 34px 16px;
+  padding: 34px 16px 18px 16px;
   text-align: center;
 `;
 export const MMenuItem = styled(NavLink)`

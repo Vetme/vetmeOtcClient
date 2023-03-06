@@ -16,7 +16,15 @@ import {
 } from "./styles";
 
 import { useLocation } from "react-router-dom";
-import { Center, Flex, Text, CustomLink, Spacer, ActionBtn } from "../";
+import {
+  Center,
+  Flex,
+  Text,
+  CustomLink,
+  Spacer,
+  ActionBtn,
+  Overlay,
+} from "../";
 import { Button } from "@/components/Button";
 import { Connect } from "../Modal";
 import { truncate } from "@/helpers";
@@ -155,6 +163,7 @@ const Navigation = ({ connect, account }: NavInput) => {
         connect={(connector) => connectWallet(connector)}
         handleClose={() => setShow(false)}
       />
+      {open && <Overlay />}
     </NavContainer>
   );
 };

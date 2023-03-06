@@ -37,20 +37,24 @@ export const Container = styled.div.attrs(() => ({
   className: "container",
 }))``;
 
-export const ContainerSm = styled.div`
-  width: 100%;
-  padding-right: var(--bs-gutter-x, 0.25rem);
-  padding-left: var(--bs-gutter-x, 0.25rem);
-  margin-right: auto;
-  margin-left: auto;
+export const ContainerSm = styled.div.attrs(() => ({
+  className: "container-sm",
+}))``;
 
-  @media (min-width: 1200px) {
-    max-width: 1200px;
-  }
-  @media (min-width: 1400px) {
-    max-width: 1320px;
-  }
-`;
+// export const ContainerSm = styled.div`
+//   width: 100%;
+//   padding-right: var(--bs-gutter-x, 0.25rem);
+//   padding-left: var(--bs-gutter-x, 0.25rem);
+//   margin-right: auto;
+//   margin-left: auto;
+
+//   @media (min-width: 1200px) {
+//     max-width: 1200px;
+//   }
+//   @media (min-width: 1400px) {
+//     max-width: 1320px;
+//   }
+// `;
 
 export const Avatar = styled.div<{
   size?: "xs" | "sm" | "md" | "lg" | "60px" | "72px";
@@ -570,7 +574,8 @@ export const ActionBtn = styled.div`
   line-height: 83px;
   color: #170728;
   cursor: pointer;
-
+  text-align: center;
+  z-index: 50;
   div {
     position: absolute;
     right: 14px;
@@ -593,5 +598,22 @@ export const ActionBtn = styled.div`
     left: -6px;
     border-radius: 12px;
     z-index: -1;
+    border-top: none;
+    border-right: none;
   }
+
+  &.sm {
+    height: 54px;
+    line-height: 54px;
+  }
+`;
+
+export const Overlay = styled.div`
+  background: rgba(242, 255, 245, 0.7);
+  backdrop-filter: blur(5px);
+  inset: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 996;
+  position: fixed;
 `;
