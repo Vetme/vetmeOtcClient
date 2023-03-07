@@ -116,7 +116,7 @@ export const ActionSwitch = styled.div`
   font-weight: 800;
   font-size: 24px;
   width: 396px;
-  max-width: 80%;
+  max-width: 100%;
   gap: 7px;
 `;
 

@@ -2,27 +2,33 @@ import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { Divider, Flex, IconWrapper, Spacer, Text, TokenBadge } from "..";
 import { Button } from "../Button";
-import { Send, Swap } from "../Icons";
+import { LSearch, Send, Swap } from "../Icons";
 import { CSSTransition } from "react-transition-group";
 import TokenCard from "./TokenCard";
 import { tokens as InitTokens } from "@/data";
 import { useQuery } from "@apollo/react-hooks";
 import { DAI_QUERY, ETH_PRICE_QUERY, ETH_TOKEN_QUERY } from "@/apollo";
 import { TokenI } from "@/types";
+import { ActionSwitch, InputWrapper, SwitchItem2 } from "@/views/home/styles";
 
 const SwapContainer = styled.div`
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.03);
-  border-radius: 20px;
-  width: 508px;
+  width: 396px;
   max-width: 100%;
   margin-bottom: 114px;
-  /* margin: auto; */
-  left: 50%;
-  top: 50%;
+  margin: auto;
+  background-image: url(/images/bg/list-2.png);
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 100% 100%;
   position: relative;
-  transform: translate(-50%, -50%);
+  top: 50%;
+  transform: translateY(-50%);
+
+  .header {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 `;
 const Header = styled.div`
   background: rgba(125, 169, 255, 0.47);
@@ -33,15 +39,11 @@ const Header = styled.div`
   justify-content: center;
 
   @media (max-width: 640px) {
-    padding: 10px 24px;
+    padding: 16px;
   }
 `;
 const Body = styled.div`
-  padding: 28px 50px;
-
-  @media (max-width: 640px) {
-    padding: 20px 25px;
-  }
+  padding: 16px;
 `;
 const InputCon = styled.div`
   label {
@@ -92,19 +94,20 @@ const ModalWrapper = styled.div`
   width: 100%;
   overflow-y: auto;
   z-index: 99999;
-  background: rgba(217, 217, 217, 0.44);
+  background: rgba(242, 255, 245, 0.7);
+  backdrop-filter: blur(5px);
 `;
 
 const ResultCon = styled.div`
   background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.14);
-  border-radius: 20px;
-  padding: 32px 21px;
-  max-height: 210px;
+  border: 1px solid #2e203e;
+  border-radius: 10px;
+  max-height: 319px;
   overflow-y: auto;
+  padding: 21px 16px;
 
   @media (max-width: 640px) {
-    padding: 10px 21px;
+    padding: 21px 16px;
   }
 `;
 const Tabs = styled(Flex)`
@@ -193,31 +196,32 @@ const TokenSelect = ({ show, handleClose, handleSelected }: TokenSelect) => {
     <CSSTransition in={show} timeout={400} classNames={"fade"} unmountOnExit>
       <ModalWrapper onClick={handleClose}>
         <SwapContainer onClick={(e) => e.stopPropagation()}>
-          <Header>
-            <Text weight="700" size="s2">
-              Select an asset
-            </Text>
-          </Header>
+          <Text className="header" weight="400" size="s3" uppercase>
+            Select an asset
+          </Text>
+          <Spacer height={20} />
           <Body>
-            <Tabs>
-              <Tab className="active">Coin</Tab>
-              <Tab title="Not yet available">Nft</Tab>
-            </Tabs>
+            <ActionSwitch>
+              <SwitchItem2 className="active">Coin</SwitchItem2>
+              <SwitchItem2>Nft</SwitchItem2>
+            </ActionSwitch>
 
             <Spacer height={27} />
 
             <InputCon>
-              <InputBox>
-                <Input
-                  onChange={handleSearch}
+              <InputWrapper>
+                <LSearch />
+                <input
+                  placeholder="Type a name or address"
+                  value={query}
                   type="text"
-                  placeholder="Search name or place address"
+                  onChange={handleSearch}
                 />
-              </InputBox>
+              </InputWrapper>
             </InputCon>
             <Spacer height={27} />
             {sTokens?.length ? (
-              <ResultCon>
+              <ResultCon className="custom-scroll">
                 {sTokens?.map((token: any, i) => (
                   <TokenCard {...token} key={i} callback={callback} />
                 ))}

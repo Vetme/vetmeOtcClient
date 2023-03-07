@@ -1,4 +1,8 @@
-import { SECONDARY_COLOR_GREEN, PRIMARY_COLOR } from "@/themes";
+import {
+  SECONDARY_COLOR_GREEN,
+  PRIMARY_COLOR,
+  SECONDARY_COLOR,
+} from "@/themes";
 import styled from "styled-components";
 export { default as Footer } from "./Footer";
 export { default as TokenBadge } from "./TokenBadge";
@@ -560,7 +564,8 @@ export const CustomLink = styled.a`
   }
 `;
 
-export const ActionBtn = styled.div`
+export const ActionBtn = styled.button`
+all:unset;
   background: ${SECONDARY_COLOR_GREEN};
   height: 83px;
   width: 100%;
@@ -576,6 +581,13 @@ export const ActionBtn = styled.div`
   cursor: pointer;
   text-align: center;
   z-index: 50;
+  transition:0.3s ease-in-out;
+
+  &:hover,
+  :active {
+    background: ${SECONDARY_COLOR};
+    
+  }
   div {
     position: absolute;
     right: 14px;

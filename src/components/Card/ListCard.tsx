@@ -4,26 +4,44 @@ import { TokenI } from "@/types";
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
-import { Divider, Flex, IconWrapper, Spacer, Text, TokenBadge } from "..";
+import {
+  ActionBtn,
+  Center,
+  Divider,
+  Flex,
+  IconWrapper,
+  Spacer,
+  Text,
+  TokenBadge,
+} from "..";
 import { Button } from "../Button";
-import { Send, Swap } from "../Icons";
+import { Send, Swap, Add, ArrowRight } from "../Icons";
 import { Connect as ConnectModal, TokenSelect } from "../Modal";
 import { Web3Provider } from "@ethersproject/providers";
 import { useWeb3React } from "@web3-react/core";
 import { ConnectContext, ConnectContextType } from "@/context/ConnectContext";
 import Toggle from "../Toggle";
+import { parseError } from "@/utils";
 
 // import { hooks, metaMask } from "@/connector/metaMask";
 
 const SwapContainer = styled.div`
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.03);
-  border-radius: 20px;
-  width: 508px;
+  width: 396px;
   max-width: 100%;
   margin-bottom: 114px;
+  background: #ffffff;
   margin: auto;
+  background-image: url(/images/bg/list.png);
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 100% 100%;
+  position: relative;
+
+  .header {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 `;
 const Header = styled.div`
   background: rgba(125, 169, 255, 0.47);
@@ -34,7 +52,7 @@ const Header = styled.div`
   justify-content: center;
 `;
 const Body = styled.div`
-  padding: 28px 50px;
+  padding: 16px;
 
   @media (max-width: 640px) {
     padding: 20px 25px;
@@ -42,46 +60,69 @@ const Body = styled.div`
 `;
 const InputCon = styled.div`
   label {
-    font-weight: 500;
+    font-weight: 400;
     font-size: 14px;
-    line-height: 19px;
-    color: #848892;
+    line-height: 21px;
+    color: #453953;
+    text-transform: uppercase;
   }
 `;
 const InputBox = styled.div`
   display: flex;
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.14);
-  border-radius: 20px;
-  height: 80px;
+  background-image: url(/images/bg/input.png);
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 100% 100%;
+  height: 75px;
   align-items: center;
-  padding: 0px 26px;
+  position: relative;
+
+  label {
+    position: absolute;
+    top: 0px;
+    left: 38px;
+  }
 
   @media (max-width: 640px) {
     height: 58px;
   }
 `;
 const Input = styled.input`
-  height: 100%;
+  height: 50px;
+  position: relative;
   border: none;
   outline: none;
   flex: 1;
   font-weight: 700;
-  font-size: 40px;
+  font-weight: 400;
+  font-size: 18px;
   width: 30%;
-  color: #8c8c8c;
+  color: #170728;
+  margin-left: 38px;
 
   @media (max-width: 640px) {
     font-size: 30px;
   }
 `;
 
+const InputInner = styled.div`
+  display: flex;
+  top: 11px;
+  align-items: center;
+  position: relative;
+  padding-right: 10px;
+`;
+
 const IconWrap = styled.div``;
+const SwapCon = styled.div`
+  margin-left: 38px;
+`;
+
 const DurationInput = styled.div`
   flex: 1;
   input {
-    background: #ffffff;
-    border: 1px solid rgba(0, 0, 0, 0.14);
+    /* background: #ffffff; */
+    border: 1px solid rgb(23 7 40);
     border-radius: 20px;
     padding: 10px;
     outline: none;
@@ -145,7 +186,10 @@ const ListCard = () => {
   };
 
   const handleContinue = () => {
-    if (!get || !give) return;
+    if (!get || !give) {
+      parseError("Input field is required");
+      return;
+    }
     setForm((initialState: any) => ({
       ...initialState,
       token_in_metadata: get,
@@ -181,57 +225,71 @@ const ListCard = () => {
   return (
     <>
       <SwapContainer>
-        <Header>
-          <Text uppercase weight="700" size="s2">
-            List
-          </Text>
-        </Header>
+        <Text
+          className="header"
+          uppercase
+          weight="400"
+          size="s3"
+          color="#453953"
+        >
+          List
+        </Text>
         <Body>
           <InputCon>
-            <label htmlFor="">You give</label>
             <InputBox>
-              <Input
-                onChange={handleChange}
-                name="amount_out"
-                type="number"
-                value={form.amount_out}
-                step={0.1}
-              />
-              <div>
-                <TokenBadge
-                  token={give || tokens[1]}
-                  hasCaret={true}
-                  handleClick={() => handleSelect("giving")}
+              <label htmlFor="">You give</label>
+              <InputInner>
+                <Input
+                  onChange={handleChange}
+                  name="amount_out"
+                  placeholder="0.0"
+                  type="number"
+                  value={form.amount_out}
+                  step={0.1}
                 />
-              </div>
+                <div>
+                  <TokenBadge
+                    token={give || tokens[1]}
+                    hasCaret={true}
+                    handleClick={() => handleSelect("giving")}
+                  />
+                </div>
+              </InputInner>
             </InputBox>
           </InputCon>
 
           <Spacer height={31} />
 
-          <IconWrapper style={{ textAlign: "center" }} height={10} width={10}>
-            <Swap />
-          </IconWrapper>
+          <Flex justify="space-between">
+            <div />
+            <SwapCon>
+              <Swap />
+            </SwapCon>
+            <Add />
+          </Flex>
 
           <Spacer height={6} />
 
           <InputCon>
-            <label htmlFor="">You get</label>
             <InputBox>
-              <Input
-                onChange={handleChange}
-                name="amount_in"
-                value={form.amount_in}
-                type="number"
-                step={0.1}
-              />
-              <div>
-                <TokenBadge
-                  token={get || tokens[2]}
-                  hasCaret={true}
-                  handleClick={() => handleSelect("getting")}
+              <label htmlFor="">You get</label>
+              <InputInner>
+                <Input
+                  onChange={handleChange}
+                  name="amount_in"
+                  value={form.amount_in}
+                  type="number"
+                  step={0.1}
+                  placeholder="0.0"
                 />
-              </div>
+                <div>
+                  <TokenBadge
+                    token={get || tokens[2]}
+                    hasCaret={true}
+                    handleClick={() => handleSelect("getting")}
+                  />
+                </div>
+              </InputInner>
             </InputBox>
           </InputCon>
           <Spacer height={15} />
@@ -261,13 +319,14 @@ const ListCard = () => {
           <Spacer height={30} />
 
           {account ? (
-            <Button
-              disabled={!isValid()}
-              className="primary block m-sm"
-              onClick={handleContinue}
-            >
-              Continue
-            </Button>
+            <Center>
+              <ActionBtn disabled={!isValid()} onClick={handleContinue}>
+                Continue{" "}
+                <div>
+                  <ArrowRight />
+                </div>
+              </ActionBtn>
+            </Center>
           ) : (
             <Button
               className="primary block m-sm"

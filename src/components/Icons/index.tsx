@@ -88,18 +88,25 @@ export const Filter = () => (
 
 export const Swap = () => (
   <svg
-    width="12"
-    height="14"
-    viewBox="0 0 12 14"
+    width="40"
+    height="40"
+    viewBox="0 0 40 40"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
+    <rect x="0.5" y="0.5" width="39" height="39" rx="19.5" fill="white" />
+    <rect x="0.5" y="0.5" width="39" height="39" rx="19.5" stroke="#5D5169" />
     <path
-      d="M3.75 7.25L0.75 10.25L3.75 13.25M11.25 10.25H0.75M8.25 0.75L11.25 3.75L8.25 6.75M0.75 3.75H11.25"
-      stroke="#848892"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      d="M13 18.0909H27L21.1604 13"
+      stroke="#453953"
+      stroke-linecap="square"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M27 21.9091L13 21.9091L18.8396 27"
+      stroke="#453953"
+      stroke-linecap="square"
+      stroke-linejoin="round"
     />
   </svg>
 );
@@ -409,6 +416,24 @@ export const VToken = () => (
       stroke="white"
       stroke-linecap="square"
       stroke-linejoin="round"
+    />
+  </svg>
+);
+
+export const Add = () => (
+  <svg
+    width="40"
+    height="40"
+    viewBox="0 0 40 40"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <circle cx="20" cy="20.0001" r="19.5" fill="white" stroke="#5D5169" />
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M19.6318 19.6316V13.0001H20.3686V19.6316H27V20.3685H20.3686V27.0001H19.6318V20.3685H13V19.6316H19.6318Z"
+      fill="#453953"
     />
   </svg>
 );
