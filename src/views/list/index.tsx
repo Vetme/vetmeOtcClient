@@ -1,6 +1,7 @@
 import {
   Center,
   Container,
+  ContainerSm,
   Flex,
   OnlyDesktop,
   OnlyMobile,
@@ -36,11 +37,12 @@ import {
 } from "@/helpers/contract";
 import CustomButton from "@/components/Button/CustomButton";
 import { fromBigNumber, parseSuccess } from "@/utils";
-import { Copy } from "@/components/Icons";
+import { BrandBlock, Copy, PCircle, StepHLine } from "@/components/Icons";
 import { Web3Provider } from "@ethersproject/providers";
 import { useWeb3React } from "@web3-react/core";
 import Api from "@/helpers/apiHelper";
 import { Message } from "@/components/Modal";
+import { ActionSwitch, SwitchItem2 } from "../home/styles";
 
 const Trans = () => {
   const [status, setStatus] = useState<number>(1);
@@ -141,31 +143,36 @@ const Trans = () => {
   };
 
   return (
-    <Container>
+    <ContainerSm>
       <OnlyMobile>
         <Center>
-          <SwitchTab
-            align="center"
-            className={form.is_private ? "invisible" : "visible"}
-          >
-            <Tab onClick={() => setPrivacy(true)}>Private</Tab>
-            <Tab onClick={() => setPrivacy(false)}>Public</Tab>
-          </SwitchTab>
+          <ActionSwitch style={{ margin: "auto" }}>
+            <SwitchItem2
+              className={form.is_private ? "active" : ""}
+              onClick={() => setPrivacy(true)}
+            >
+              Private
+            </SwitchItem2>
+            <SwitchItem2
+              onClick={() => setPrivacy(false)}
+              className={form.is_private ? "" : "active"}
+            >
+              Public
+            </SwitchItem2>
+          </ActionSwitch>
         </Center>
         <Spacer height={40} />
       </OnlyMobile>
       <TradeWrapper>
-        <Center>
-          <Text as="h2" size="s1" weight="700">
-            List Transaction Queue
-          </Text>
-        </Center>
+        <Text className="header" as="h2" size="s3" uppercase>
+          List Transaction Queue
+        </Text>
         <Spacer height={20} />
         <TradeItem style={{ textAlign: "center" }}>
-          <Text weight="700" size="s1">
+          <Text color="#fff" size="s3">
             {truncate(account || "", 9, "***")}
           </Text>
-          <Text weight="500" size="s2">
+          <Text color="#fff" size="s1">
             Wallet Id
           </Text>
         </TradeItem>
@@ -174,26 +181,34 @@ const Trans = () => {
           <LeftContent direction="column" justify="space-between">
             <LTop>
               <TradeItem>
-                <Text weight="500" size="s2">
+                <Text color="#fff" size="s3">
                   You give
                 </Text>
-                <Text weight="700" size="s1">
+                <Text color="#fff" size="s1">
                   {form.amount_out} {form.token_out_metadata.symbol}
                 </Text>
-                <Text weight="500" size="s2">
+                <Spacer height={8} />
+                <Text size="tiny" color=" #E8E6EA">
                   (Escrow fee : 1%)
                 </Text>
               </TradeItem>
             </LTop>
           </LeftContent>
           <OnlyDesktop>
-            <SwitchTab
-              align="center"
-              className={form.is_private ? "invisible" : "visible"}
-            >
-              <Tab onClick={() => setPrivacy(true)}>Private</Tab>
-              <Tab onClick={() => setPrivacy(false)}>Public</Tab>
-            </SwitchTab>
+            <ActionSwitch style={{ margin: "auto" }}>
+              <SwitchItem2
+                className={form.is_private ? "active" : ""}
+                onClick={() => setPrivacy(true)}
+              >
+                Private
+              </SwitchItem2>
+              <SwitchItem2
+                onClick={() => setPrivacy(false)}
+                className={form.is_private ? "" : "active"}
+              >
+                Public
+              </SwitchItem2>
+            </ActionSwitch>
           </OnlyDesktop>
           <RightContent
             direction="column"
@@ -202,13 +217,14 @@ const Trans = () => {
           >
             <RTop>
               <TradeItem>
-                <Text weight="500" size="s2">
+                <Text color="#fff" size="s3">
                   You get
                 </Text>
-                <Text weight="700" size="s1">
+                <Text color="#fff" size="s1">
                   {form.amount_in} {form.token_in_metadata.symbol}
                 </Text>
-                <Text weight="500" size="s2">
+                <Spacer height={8} />
+                <Text size="tiny" color=" #E8E6EA">
                   (Escrow fee : 1%)
                 </Text>
               </TradeItem>
@@ -223,14 +239,13 @@ const Trans = () => {
           <OnlyDesktop>
             <Spacer height={52} />
             <TradeItem>
-              <Text as="div" weight="700" size="s1">
+              <Text as="div" color="#E8E6EA" size="s1" uppercase>
                 NB:{" "}
                 <div
                   onClick={() => setOpen(true)}
                   style={{
-                    color: "#4473EB",
+                    textDecoration: "underline",
                     display: "inline-block",
-                    cursor: "pointer",
                   }}
                 >
                   Escrow
@@ -271,7 +286,7 @@ const Trans = () => {
                     <CustomButton
                       loading={loading || approving}
                       disabled={loading || approving}
-                      classNames="primary m-sm"
+                      classNames="secondary"
                       onClick={() => approve()}
                       text="Approve"
                     />
@@ -280,7 +295,7 @@ const Trans = () => {
                     //   List Token
                     // </Button>
                     <CustomButton
-                      classNames="primary m-sm"
+                      classNames="secondary"
                       text="List Token"
                       onClick={() => listToken()}
                       loading={loading || approving}
@@ -288,10 +303,7 @@ const Trans = () => {
                     />
                   )}
                   <Spacer width={41} />
-                  <Button
-                    className="primary-accent m-sm"
-                    onClick={handleCancel}
-                  >
+                  <Button className="" onClick={handleCancel}>
                     Cancel
                   </Button>
                 </Flex>
@@ -302,7 +314,7 @@ const Trans = () => {
                     <CustomButton
                       loading={loading || approving}
                       disabled={loading || approving}
-                      classNames="primary md"
+                      classNames="secondary"
                       onClick={() => approve()}
                       text="Approve"
                     />
@@ -311,7 +323,7 @@ const Trans = () => {
                     //   List Token
                     // </Button>
                     <CustomButton
-                      classNames="primary md"
+                      classNames="secondary"
                       text="List Token"
                       onClick={() => listToken()}
                       loading={loading || approving}
@@ -320,7 +332,7 @@ const Trans = () => {
                   )}
 
                   <Spacer width={41} />
-                  <Button className="primary-accent md" onClick={handleCancel}>
+                  <Button className="" onClick={handleCancel}>
                     Cancel
                   </Button>
                 </Flex>
@@ -329,16 +341,23 @@ const Trans = () => {
           )}
         </Center>
         <Spacer height={35} />
-
+        <Spacer height={24} />
         <Footer>
+          <Flex align="end" justify="center">
+            <BrandBlock />
+            <Spacer width={24} />
+            <Text
+              style={{ top: "-12px", position: "relative" }}
+              size="s1"
+              uppercase
+              color="#FFFFFF"
+            >
+              Thanks for trading with us
+            </Text>
+          </Flex>
+          <Spacer height={47} />
           <Center style={{ flexDirection: "column" }}>
-            {/* <BtnWrapper>
-              <Button className="block success m-sm">
-                Send Token to Escrow
-              </Button>
-            </BtnWrapper> */}
-            <Spacer height={16} />
-            <Text size="s2" weight="500">
+            <Text size="s2" weight="300" color="#E8E6EA">
               Your money is safe in our Escrow
             </Text>
           </Center>
@@ -347,14 +366,13 @@ const Trans = () => {
       <Spacer height={20} />
       <OnlyMobile>
         <Center>
-          <Text as="div" weight="700" size="s1">
+          <Text as="div" color="#E8E6EA" size="s1" uppercase>
             NB:{" "}
             <div
               onClick={() => setOpen(true)}
               style={{
-                color: "#4473EB",
+                textDecoration: "underline",
                 display: "inline-block",
-                cursor: "pointer",
               }}
             >
               Escrow
@@ -369,7 +387,7 @@ const Trans = () => {
         handleClose={() => setOpen(false)}
         msg="Escrow Fee is a trading fee we charge to guarantee you a secured transaction. We charge from both parties to safe guard token transactions. Our fee’s are not more than 3% per trade. If trades are cancelled at any point in the transaction queue, we would refund all payments inclusive of the Escrow Fee. We provide this feature on all token and coin transactions on our platform. If you have anymore questions please reach us on our email support@vetme.com or via our telegram platform. Thanks for trading with us."
       />
-    </Container>
+    </ContainerSm>
   );
 };
 
@@ -378,15 +396,27 @@ const buildStepper = (status: number) => (
     <Step
       className={status >= 1 ? "active" : ""}
       rightMsg={status == 1 ? "Transaction  Opened" : ""}
-    ></Step>
+    >
+      <PCircle color={status >= 1 ? "#BEFECD" : ""} />
+    </Step>
+    <Flex align="center" style={{ width: "162px" }}>
+      <StepHLine color={status >= 2 ? "#BEFECD" : ""} />
+    </Flex>
     <Step
       className={status >= 2 ? "active" : ""}
       rightMsg={status == 2 ? "Approved" : ""}
-    ></Step>
+    >
+      <PCircle color={status >= 2 ? "#BEFECD" : ""} />
+    </Step>
+    <Flex align="center" style={{ width: "162px" }}>
+      <StepHLine color={status >= 3 ? "#BEFECD" : ""} />
+    </Flex>
     <Step
       className={status >= 3 ? "active" : ""}
       rightMsg={status == 3 ? "Coin Listed" : ""}
-    ></Step>
+    >
+      <PCircle color={status >= 3 ? "#BEFECD" : ""} />
+    </Step>
   </Stepper>
 );
 

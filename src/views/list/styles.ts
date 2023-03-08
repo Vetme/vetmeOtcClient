@@ -3,31 +3,35 @@ import styled from "styled-components";
 
 export const List = styled.div``;
 export const TradeWrapper = styled.div`
-  background: #ececec;
-  box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.12);
-  border-radius: 20px;
+  background-image: url(/images/bg/list-3.png);
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: cover;
+  border-radius: 10px;
+  position: relative;
+
+  .header {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 
   padding: 30px 126px;
-  /* height: 440px; */
   display: flex;
   flex-direction: column;
 
   @media (max-width: 640px) {
     padding: 15px 15px;
-    /* height: 404px; */
   }
 `;
 export const TradeInner = styled(Flex)`
-  /* height: calc(100% - 60px); */
   flex: 1;
 `;
 export const LeftContent = styled(Flex)`
-  height: 90%;
   flex: 1;
 `;
 export const TradeItem = styled.div`
-  text-align: center;
-
   @media (max-width: 640px) {
     text-align: inherit;
   }
@@ -102,62 +106,27 @@ export const BtnWrapper = styled.div`
 `;
 
 export const Stepper = styled.div<{ status: number }>`
-  width: 40%;
+  width: 460px;
   position: relative;
   display: flex;
   justify-content: space-between;
   margin: auto;
 
   @media (max-width: 640px) {
-    width: 80%;
-  }
-
-  &:after {
-    content: "";
-    width: 100%;
-    height: 10px;
-    background: #d9d9d9;
-    position: absolute;
-    /* top: 2px; */
-    top: 50%;
-    transform: translateY(-50%);
-
-    @media (max-width: 640px) {
-      height: 5px;
-    }
-  }
-  &:before {
-    content: "";
-    width: ${({ status }) =>
-      status == 1 ? "0px" : status == 2 ? "150px" : "220px"};
-    height: 10px;
-    background: #7da9ff;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 2;
-    left: 20px;
-
-    @media (max-width: 640px) {
-      height: 5px;
-      left: 0px;
-    }
+    width: 300px;
   }
 `;
 export const Step = styled.div<{ leftMsg?: string; rightMsg?: string }>`
-  width: 25px;
-  height: 25px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background: #d9d9d9;
   position: relative;
   z-index: 3;
-  @media (max-width: 640px) {
-    height: 13px;
-    width: 13px;
-  }
+  color: #fff;
+  font-size: 12px;
 
   &.active {
-    background: #7da9ff;
+    /* background: #7da9ff; */
   }
 
   &:nth-child(1) {
@@ -179,7 +148,7 @@ export const Step = styled.div<{ leftMsg?: string; rightMsg?: string }>`
   &:after {
     content: "${({ rightMsg }) => rightMsg}";
     position: absolute;
-    top: 35px;
+    top: -24px;
     white-space: nowrap;
     left: 50%;
     text-align: start;
@@ -187,7 +156,6 @@ export const Step = styled.div<{ leftMsg?: string; rightMsg?: string }>`
     transform: translateX(-50%);
 
     @media (max-width: 640px) {
-      top: 15px;
       font-size: 12px;
     }
   }

@@ -75,6 +75,24 @@ export const Button = styled.button.attrs((props) => ({
       color: ${PRIMARY_COLOR};
     }
   }
+
+  &.secondary {
+    background: ${SECONDARY_COLOR};
+    position: relative;
+    color: ${PRIMARY_COLOR};
+
+    a {
+      color: ${PRIMARY_COLOR};
+    }
+
+    &:hover,
+    &:target,
+    &:active {
+      background: ${PRIMARY_COLOR};
+      border: 1px solid ${SECONDARY_COLOR};
+      color: ${SECONDARY_COLOR};
+    }
+  }
   &.primary-accent {
     background: rgba(125, 169, 255, 0.3);
     border: 2px solid #7da9ff;

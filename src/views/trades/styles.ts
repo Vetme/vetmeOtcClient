@@ -2,14 +2,25 @@ import { Flex } from "@/components";
 import styled from "styled-components";
 
 export const TradeWrapper = styled.div`
-  background: #ececec;
-  box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.12);
-  border-radius: 20px;
-
+  /* background: #170728; */
+  background-image: url(/images/bg/trade.png);
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: inherit;
+  border-radius: 10px;
+  /* background-size: 100% 100%; */
   padding: 30px 126px;
-  height: 700px;
+  /* height: 700px; */
   display: flex;
   flex-direction: column;
+  position: relative;
+
+  .header {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 
   @media (max-width: 640px) {
     padding: 15px 15px;
@@ -64,7 +75,7 @@ export const BtnWrapper = styled.div`
 `;
 
 export const Stepper = styled.div<{ status: number }>`
-  height: 85%;
+  height: 300px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -74,72 +85,24 @@ export const Stepper = styled.div<{ status: number }>`
     height: 100%;
   }
 
-  &:after {
-    content: "";
-    height: 100%;
-    width: 10px;
-    background: #d9d9d9;
-    position: absolute;
-    /* top: 2px; */
-    left: 50%;
-    transform: translateX(-50%);
-
-    @media (max-width: 640px) {
-      width: 5px;
-    }
-  }
-  &:before {
-    content: "";
-    height: ${({ status }) =>
-      status == 1
-        ? "0px"
-        : status == 2
-        ? "210px"
-        : status == 3
-        ? "425px"
-        : status == 4
-        ? "290px"
-        : "425px"};
-    width: 10px;
-    background: #7da9ff;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 2;
-    top: 20px;
-
-    @media (max-width: 640px) {
-      top: 0px;
-      width: 5px;
-
-      height: ${({ status }) =>
-        status == 1
-          ? "0px"
-          : status == 2
-          ? "107px"
-          : status == 3
-          ? "250px"
-          : status == 4
-          ? "130px"
-          : "250px"};
-    }
-  }
+  /*  */
 `;
 export const Step = styled.div<{ leftMsg?: string; rightMsg?: string }>`
-  width: 25px;
-  height: 25px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background: #d9d9d9;
+  /* background: url(/images/bg/point.png); */
   position: relative;
   z-index: 3;
+  color: #fff;
 
   @media (max-width: 640px) {
-    height: 13px;
-    width: 13px;
+    height: 40px;
+    width: 40px;
   }
 
   &.active {
-    background: #7da9ff;
+    /* background: url(/images/bg/active.png); */
   }
 
   &:nth-child(1) {
@@ -152,16 +115,16 @@ export const Step = styled.div<{ leftMsg?: string; rightMsg?: string }>`
   &:before {
     content: "${({ leftMsg }) => leftMsg}";
     position: absolute;
-    left: -240px;
+    right: 50px;
     width: 230px;
     text-align: end;
     font-weight: 500;
 
     @media (max-width: 640px) {
       width: 75px;
-      font-size: 8px;
+      font-size: 12px;
       line-height: 11px;
-      left: -80px;
+      /* left: -80px; */
       /* top: -5px; */
     }
   }
@@ -169,16 +132,16 @@ export const Step = styled.div<{ leftMsg?: string; rightMsg?: string }>`
     content: "${({ rightMsg }) => rightMsg}";
     position: absolute;
     top: 0px;
-    left: 30px;
+    left: 50px;
     width: 230px;
     text-align: start;
     font-weight: 500;
     @media (max-width: 640px) {
       width: 75px;
       line-height: 11px;
-      font-size: 8px;
+      font-size: 12px;
       /* top: -5px; */
-      left: 20px;
+      /* left: 20px; */
     }
   }
 `;
@@ -192,4 +155,12 @@ export const MobileFooter = styled.div`
       justify-content: space-between;
     }
   }
+`;
+
+export const StepLineCon = styled.div`
+  display: flex;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;

@@ -93,7 +93,7 @@ const DetailWrapperT = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 39px 18px;
+  padding: 39px 18px 18px;
 `;
 
 const ActionWrapper = styled.button`
@@ -108,7 +108,7 @@ const Price = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 0px 25px;
-  top: -36px;
+  top: -20px;
   position: relative;
 `;
 

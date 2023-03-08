@@ -437,3 +437,236 @@ export const Add = () => (
     />
   </svg>
 );
+// #BEFECD;
+export const StepLine = ({ color }: { color?: string }) => (
+  <svg
+    width="8"
+    height="25"
+    viewBox="0 0 8 25"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M0 1L8 1V0L0 0V1ZM8 7L0 7V6L8 6V7ZM8 13H0V12H8V13ZM0 19H8V18H0V19ZM8 25H0V24H8V25Z"
+      fill={color || "#746A7E"}
+    />
+  </svg>
+);
+
+export const PCircle = ({ color }: { color?: string }) => (
+  <svg
+    width="40"
+    height="40"
+    viewBox="0 0 40 40"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect
+      x="39.5"
+      y="0.5"
+      width="39"
+      height="39"
+      rx="19.5"
+      transform="rotate(90 39.5 0.5)"
+      stroke="#5D5169"
+    />
+    <circle
+      cx="20"
+      cy="20"
+      r="5"
+      transform="rotate(90 20 20)"
+      fill={color || "#E8E6EA"}
+    />
+    <circle cx="29" cy="10" r="1" transform="rotate(90 29 10)" fill="#746A7E" />
+    <circle cx="11" cy="10" r="1" transform="rotate(90 11 10)" fill="#746A7E" />
+    <circle cx="29" cy="29" r="1" transform="rotate(90 29 29)" fill="#746A7E" />
+    <circle cx="11" cy="29" r="1" transform="rotate(90 11 29)" fill="#746A7E" />
+  </svg>
+);
+
+export const BrandBlock = () => (
+  <svg
+    width="74"
+    height="75"
+    viewBox="0 0 74 75"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M22.5 67.8C22.5 71.5003 25.4997 74.5 29.2 74.5H66.8C70.5003 74.5 73.5 71.5003 73.5 67.8V30.2C73.5 26.4997 70.5003 23.5 66.8 23.5H32.2426C29.3935 23.5 26.6611 22.3682 24.6464 20.3536C22.6318 18.3389 21.5 15.6065 21.5 12.7574V7.2C21.5 3.49969 18.5003 0.5 14.8 0.5H7.2C3.49969 0.5 0.5 3.49969 0.5 7.2V15.8C0.5 19.5003 3.49969 22.5 7.2 22.5H14.2984C16.1608 22.5 17.9677 23.1338 19.4219 24.2972C21.3674 25.8536 22.5 28.2101 22.5 30.7016V67.8Z"
+      stroke="#E8E6EA"
+    />
+    <circle cx="11.5" cy="11.5" r="2.5" fill="#E8E6EA" />
+    <rect
+      y="0.204839"
+      width="6.52689"
+      height="6.52689"
+      transform="matrix(0.858927 0.512099 -0.858927 0.512099 48.4172 30.0999)"
+      fill="#BEFECD"
+      stroke="white"
+      stroke-width="0.4"
+    />
+    <rect
+      y="0.204839"
+      width="6.52689"
+      height="6.52689"
+      transform="matrix(0.858927 0.512099 -0.858927 0.512099 54.3068 40.93)"
+      fill="white"
+      stroke="white"
+      stroke-width="0.4"
+    />
+    <rect
+      y="0.204839"
+      width="6.52689"
+      height="6.52689"
+      transform="matrix(0.858927 0.512099 -0.858927 0.512099 60.1964 51.7601)"
+      stroke="white"
+      stroke-width="0.4"
+    />
+    <rect
+      y="0.204839"
+      width="6.52689"
+      height="6.52689"
+      transform="matrix(0.858927 0.512099 -0.858927 0.512099 42.3468 40.8968)"
+      stroke="white"
+      stroke-width="0.4"
+    />
+    <rect
+      y="0.204839"
+      width="6.52689"
+      height="6.52689"
+      transform="matrix(0.858927 0.512099 -0.858927 0.512099 36.276 51.6947)"
+      fill="white"
+      stroke="white"
+      stroke-width="0.4"
+    />
+    <rect
+      x="-0.17177"
+      y="-0.0975671"
+      width="6.69497"
+      height="6.5269"
+      transform="matrix(3.6488e-05 -1 -0.858887 0.512165 53.9642 40.5726)"
+      stroke="white"
+      stroke-width="0.4"
+    />
+    <rect
+      x="-0.17177"
+      y="-0.0975671"
+      width="6.69497"
+      height="6.5269"
+      transform="matrix(3.6488e-05 -1 -0.858887 0.512165 59.8543 51.4027)"
+      stroke="white"
+      stroke-width="0.4"
+    />
+    <rect
+      x="-0.17177"
+      y="-0.0975671"
+      width="6.69497"
+      height="6.5269"
+      transform="matrix(3.6488e-05 -1 -0.858887 0.512165 65.7444 62.2328)"
+      stroke="white"
+      stroke-width="0.4"
+    />
+    <rect
+      x="0.17177"
+      y="-0.0975671"
+      width="6.69497"
+      height="6.5269"
+      transform="matrix(-3.65052e-05 -1 0.858887 0.512165 42.3967 40.9171)"
+      stroke="white"
+      stroke-width="0.4"
+    />
+    <rect
+      x="0.17177"
+      y="-0.0975671"
+      width="6.69497"
+      height="6.5269"
+      transform="matrix(-3.65052e-05 -1 0.858887 0.512165 48.2863 51.7462)"
+      stroke="white"
+      stroke-width="0.4"
+    />
+    <rect
+      x="0.17177"
+      y="-0.0975671"
+      width="6.69497"
+      height="6.5269"
+      transform="matrix(-3.65052e-05 -1 0.858887 0.512165 54.1765 62.5763)"
+      stroke="white"
+      stroke-width="0.4"
+    />
+    <rect
+      x="-0.17177"
+      y="-0.0975671"
+      width="6.69497"
+      height="6.5269"
+      transform="matrix(3.6488e-05 -1 -0.858887 0.512165 47.8939 51.3695)"
+      stroke="white"
+      stroke-width="0.4"
+    />
+    <rect
+      x="0.17177"
+      y="-0.0975671"
+      width="6.69497"
+      height="6.5269"
+      transform="matrix(-3.65052e-05 -1 0.858887 0.512165 36.3259 51.714)"
+      stroke="white"
+      stroke-width="0.4"
+    />
+    <rect
+      x="-0.17177"
+      y="-0.0975671"
+      width="6.69497"
+      height="6.5269"
+      transform="matrix(3.6488e-05 -1 -0.858887 0.512165 47.8939 51.3695)"
+      fill="#BEFECD"
+      stroke="white"
+      stroke-width="0.4"
+    />
+    <rect
+      x="0.17177"
+      y="-0.0975671"
+      width="6.69497"
+      height="6.5269"
+      transform="matrix(-3.65052e-05 -1 0.858887 0.512165 36.3259 51.714)"
+      stroke="white"
+      stroke-width="0.4"
+    />
+    <rect
+      x="-0.17177"
+      y="-0.0975671"
+      width="6.69497"
+      height="6.5269"
+      transform="matrix(3.6488e-05 -1 -0.858887 0.512165 41.824 62.1674)"
+      stroke="white"
+      stroke-width="0.4"
+    />
+    <rect
+      x="0.17177"
+      y="-0.0975671"
+      width="6.69497"
+      height="6.5269"
+      transform="matrix(-3.65052e-05 -1 0.858887 0.512165 30.2556 62.5109)"
+      stroke="white"
+      stroke-width="0.4"
+    />
+  </svg>
+);
+
+export const StepHLine = ({ color }: { color?: string }) => (
+  <svg
+    width="163"
+    height="8"
+    viewBox="0 0 163 8"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M1.50542 8L1.50542 0H0.472657L0.472656 8H1.50542ZM7.70202 0L7.70202 8H6.66925L6.66925 0H7.70202ZM13.8986 0V8H12.8659V0H13.8986ZM20.0952 8V0H19.0624V8H20.0952ZM26.2918 0V8H25.259V0H26.2918ZM32.4884 8V0H31.4556V8H32.4884ZM38.685 0V8H37.6522V0H38.685ZM44.8816 8V0H43.8488V8H44.8816ZM51.0782 0V8H50.0454V0H51.0782ZM57.2748 8V0H56.242V8H57.2748ZM63.4714 0V8H62.4386V0H63.4714ZM69.668 8V0H68.6352V8H69.668ZM75.8646 0V8H74.8318V0H75.8646ZM82.0612 8V0H81.0284V8H82.0612ZM88.2578 0V8H87.225V0H88.2578ZM94.4544 8V0H93.4216V8H94.4544ZM100.651 0V8H99.6182V0H100.651ZM106.848 8V0H105.815V8H106.848ZM113.044 0V8H112.011V0H113.044ZM119.241 8V0H118.208V8H119.241ZM125.437 0V8H124.405V0H125.437ZM131.634 8V0H130.601V8H131.634ZM137.831 0V8H136.798V0H137.831ZM144.027 8V0H142.994V8H144.027ZM150.224 0V8H149.191V0H150.224ZM156.42 8V0H155.388V8H156.42ZM162.617 0V8H161.584V0H162.617Z"
+      fill={color || "#746A7E"}
+    />
+  </svg>
+);

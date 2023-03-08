@@ -5,6 +5,7 @@ import {
   Spacer,
   Text,
   OnlyMobile,
+  ContainerSm,
 } from "@/components";
 import { Button } from "@/components/Button";
 import { useState, useEffect } from "react";
@@ -28,6 +29,7 @@ import {
   RBottom,
   RTop,
   MobileFooter,
+  StepLineCon,
 } from "./styles";
 import { useParams, useNavigate } from "react-router-dom";
 import { ListI } from "@/types";
@@ -44,6 +46,7 @@ import CustomButton from "@/components/Button/CustomButton";
 import BigNumber from "bignumber.js";
 import Api from "@/helpers/apiHelper";
 import { Message } from "@/components/Modal";
+import { BrandBlock, PCircle, StepLine } from "@/components/Icons";
 
 const Trans = () => {
   const [status, setStatus] = useState<number>(1); //
@@ -171,13 +174,18 @@ const Trans = () => {
   };
 
   return (
-    <Container>
+    <ContainerSm>
       <TradeWrapper>
-        <Center>
-          <Text as="h2" size="s1" weight="700">
-            Transaction Queue
-          </Text>
-        </Center>
+        <Text
+          className="header"
+          as="h2"
+          uppercase
+          size="s3"
+          color="#453953;"
+          weight="700"
+        >
+          Transaction Queue
+        </Text>
         <Spacer height={20} />
         {loading ? (
           <span>Loading</span>
@@ -188,41 +196,49 @@ const Trans = () => {
                 <LTop>
                   <TradeItem>
                     {account ? (
-                      <Text weight="700" size="s1">
+                      <Text color="#fff" size="s1">
                         {truncate(account || "", 9, "***")}
                       </Text>
                     ) : (
-                      <Text color="#ff9800">Wallet not connected</Text>
+                      <Text color="#fff" size="s1">
+                        Wallet not connected
+                      </Text>
                     )}
 
-                    <Text weight="500" size="s2">
+                    <Text
+                      weight="500"
+                      size="tiny"
+                      color="#E8E6EA;
+"
+                    >
                       Wallet Id
                     </Text>
                   </TradeItem>
                   <Spacer height={26} />
                   <TradeItem>
-                    <Text weight="500" size="s2">
+                    <Text size="s3" color="#E8E6EA" uppercase>
                       You give
                     </Text>
-                    <Text weight="700" size="s1">
+                    <Text size="s1" color="#fff">
                       {listing?.amount_in} {listing?.token_in_metadata.symbol}
                     </Text>
-                    <Text weight="500" size="s2">
+                    <Text size="s2" color="#E8E6EA">
                       (Escrow fee : 1%)
                     </Text>
                   </TradeItem>
                 </LTop>
 
+                <Spacer height={70} />
+
                 <LBottom>
                   <TradeItem>
-                    <Text as="div" weight="700" size="s1">
+                    <Text as="div" color="#E8E6EA" size="s1" uppercase>
                       NB:{" "}
                       <div
                         onClick={() => setOpen(true)}
                         style={{
-                          color: "#4473EB",
+                          textDecoration: "underline",
                           display: "inline-block",
-                          cursor: "pointer",
                         }}
                       >
                         Escrow
@@ -235,7 +251,7 @@ const Trans = () => {
                     <Flex className="">
                       {Number(allowance) < listing?.amount_in ? (
                         <CustomButton
-                          classNames="primary md"
+                          classNames=""
                           onClick={() => approve()}
                           text="Approve"
                           loading={loading || approving}
@@ -243,7 +259,7 @@ const Trans = () => {
                         />
                       ) : (
                         <CustomButton
-                          classNames="primary md"
+                          classNames="secondary"
                           onClick={() => matchOrder()}
                           text="Swap"
                           loading={loading || approving}
@@ -275,41 +291,41 @@ const Trans = () => {
               >
                 <RTop>
                   <TradeItem>
-                    <Text weight="700" size="s1">
+                    <Text color="#fff" size="s1">
                       {truncate(listing?.receiving_wallet || "", 9, "***")}
                     </Text>
-                    <Text weight="500" size="s2">
+                    <Text color=" #E8E6EA" size="tiny">
                       Wallet Id
                     </Text>
                   </TradeItem>
                   <Spacer height={26} />
                   <TradeItem>
-                    <Text weight="500" size="s2">
+                    <Text size="s3" color=" #E8E6EA" uppercase>
                       You get
                     </Text>
-                    <Text weight="700" size="s1">
+                    <Text color="#fff" size="s1">
                       {listing?.amount_out} {listing?.token_out_metadata.symbol}
                     </Text>
-                    <Text weight="500" size="s2">
+                    <Text color="#E8E6EA" size="tiny">
                       (Escrow fee : 1%)
                     </Text>
                   </TradeItem>
                 </RTop>
+                <Spacer height={113} />
                 <RBottom>
-                  <Button className="primary md" onClick={handleConvertWeth}>
+                  <Button className="secondary" onClick={handleConvertWeth}>
                     Give me WETH for ETH
                   </Button>
                 </RBottom>
               </RightContent>
             </TradeInner>
             <MobileFooter>
-              <Spacer height={22} />
               <div className="inner">
                 {account && Number(listing?.status) < 3 ? (
                   <>
                     {Number(allowance) < listing?.amount_in ? (
                       <CustomButton
-                        classNames="primary m-sm"
+                        classNames="secondary"
                         onClick={() => approve()}
                         text="Approve"
                         loading={loading || approving}
@@ -317,7 +333,7 @@ const Trans = () => {
                       />
                     ) : (
                       <CustomButton
-                        classNames="primary  m-sm"
+                        classNames="secondary"
                         onClick={() => matchOrder()}
                         text="Swap"
                         loading={loading || approving}
@@ -325,10 +341,7 @@ const Trans = () => {
                       />
                     )}
                     <Spacer width={41} />
-                    <Button
-                      className="primary-accent m-sm"
-                      onClick={() => navigate("/")}
-                    >
+                    <Button className="" onClick={() => navigate("/")}>
                       Cancel
                     </Button>
                   </>
@@ -338,12 +351,24 @@ const Trans = () => {
 
                 {/* <Button className="primary  m-sm">Chat User</Button> */}
               </div>
-              <Spacer height={17} />
             </MobileFooter>
+            <Spacer height={24} />
             <Footer>
+              <Flex align="end" justify="center">
+                <BrandBlock />
+                <Spacer width={24} />
+                <Text
+                  style={{ top: "-12px", position: "relative" }}
+                  size="s1"
+                  uppercase
+                  color="#FFFFFF"
+                >
+                  Thanks for trading with us
+                </Text>
+              </Flex>
+              <Spacer height={47} />
               <Center style={{ flexDirection: "column" }}>
-                <Spacer height={16} />
-                <Text size="s2" weight="500">
+                <Text size="s2" weight="300" color="#E8E6EA">
                   Your money is safe in our Escrow
                 </Text>
               </Center>
@@ -376,7 +401,7 @@ const Trans = () => {
         handleClose={() => setOpen(false)}
         msg="Escrow Fee is a trading fee we charge to guarantee you a secured transaction. We charge from both parties to safe guard token transactions. Our fee’s are not more than 3% per trade. If trades are cancelled at any point in the transaction queue, we would refund all payments inclusive of the Escrow Fee. We provide this feature on all token and coin transactions on our platform. If you have anymore questions please reach us on our email support@vetme.com or via our telegram platform. Thanks for trading with us."
       />
-    </Container>
+    </ContainerSm>
   );
 };
 
@@ -386,15 +411,31 @@ const buildStepper = (status: number, amount: any, token: string) => (
       className={status >= 1 ? "active" : ""}
       leftMsg={status >= 1 ? "Transaction  Opened" : ""}
       rightMsg={status >= 1 ? "Transaction  Opened" : ""}
-    ></Step>
+    >
+      <PCircle color={status >= 1 ? "#BEFECD" : ""} />
+    </Step>
+    <StepLineCon>
+      <StepLine color={status >= 2 ? "#BEFECD" : ""} />
+      <StepLine color={status >= 2 ? "#BEFECD" : ""} />
+      <StepLine color={status >= 2 ? "#BEFECD" : ""} />
+    </StepLineCon>
     <Step
       className={status >= 2 ? "active" : ""}
       leftMsg={status >= 2 ? `Approved ${amount}${token}` : ""}
-    ></Step>
+    >
+      <PCircle color={status >= 2 ? "#BEFECD" : ""} />
+    </Step>
+    <StepLineCon>
+      <StepLine color={status >= 3 ? "#BEFECD" : ""} />
+      <StepLine color={status >= 3 ? "#BEFECD" : ""} />
+      <StepLine color={status >= 3 ? "#BEFECD" : ""} />
+    </StepLineCon>
     <Step
       className={status >= 3 ? "active" : ""}
       leftMsg={status >= 3 ? "Deal Completed" : ""}
-    ></Step>
+    >
+      <PCircle color={status >= 3 ? "#BEFECD" : ""} />
+    </Step>
   </Stepper>
 );
 
