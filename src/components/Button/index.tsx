@@ -10,7 +10,7 @@ export const Button = styled.button.attrs((props) => ({
   className: props.className,
 }))<{ disabled?: boolean; bg?: string }>`
   outline: none;
-  border: none;
+  border: 1px solid transparent;
   border-radius: 10px;
   opacity: ${({ disabled }) => (disabled ? 0.7 : 1)};
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
@@ -128,10 +128,19 @@ export const Button = styled.button.attrs((props) => ({
     }
   }
 
+  &.semi-rounded {
+    border-radius: 8px !important;
+  }
+
   &.sm {
     padding: 8px 24px;
     max-height: 38px;
     font-size: 14px;
+  }
+
+  &.lg {
+    font-size: 16px;
+    height: 54px;
   }
 
   &.md {

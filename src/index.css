@@ -1928,24 +1928,25 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
-.alert-enter {
+.alert-up-enter {
   opacity: 0;
-  transform: scale(0.9);
+  transform: translateY(100px);
 }
 
-.alert-enter-active {
+.alert-up-enter-active {
   opacity: 1;
-  transform: translateX(0);
+  transform: translateY(0);
   transition: opacity 400ms, transform 400ms;
 }
 
-.alert-exit {
+.alert-up-exit {
+  transform: translateY(0);
   opacity: 1;
 }
 
-.alert-exit-active {
+.alert-up-exit-active {
   opacity: 0;
-  transform: scale(0.9);
+  transform: translateY(100px);
   transition: opacity 400ms, transform 400ms;
 }
 

@@ -41,7 +41,7 @@ import { BrandBlock, Copy, PCircle, StepHLine } from "@/components/Icons";
 import { Web3Provider } from "@ethersproject/providers";
 import { useWeb3React } from "@web3-react/core";
 import Api from "@/helpers/apiHelper";
-import { Message } from "@/components/Modal";
+import { Message, Share } from "@/components/Modal";
 import { ActionSwitch, SwitchItem2 } from "../home/styles";
 
 const Trans = () => {
@@ -49,6 +49,7 @@ const Trans = () => {
   const [approving, setApproving] = useState<boolean>(false);
   const [allowance, setAllowance] = useState<string | number>("");
   const [open, setOpen] = useState<boolean>(false); //
+  const [openS, setOpenS] = useState<boolean>(false); //
   const navigate = useNavigate();
 
   const { setForm, form, saveList, loading, clearLocal, privateLink } =
@@ -57,7 +58,10 @@ const Trans = () => {
   const { library, chainId, account } = context;
 
   const listToken = async () => {
-    await saveList();
+    try {
+      await saveList();
+      setStatus(3);
+    } catch (err) {}
   };
 
   const setPrivacy = (value: boolean) => {
@@ -96,7 +100,8 @@ const Trans = () => {
       account
     );
     setAllowance(fromBigNumber(allowance.toString()));
-    if (fromBigNumber(allowance.toString()) >= form.amount_out) {
+    if (Math.floor(+fromBigNumber(allowance.toString())) >= form.amount_out) {
+      if (status == 3) return;
       setStatus(2);
     }
   };
@@ -259,7 +264,7 @@ const Trans = () => {
             <>
               <Spacer height={24} />
               <Flex>
-                <Text as="div" weight="700">
+                <Text as="div" size="s1" color="#E8E6EA" uppercase>
                   {" "}
                   <span>
                     Private link:{" "}
@@ -281,61 +286,95 @@ const Trans = () => {
             <>
               <Spacer height={24} />
               <OnlyMobile>
-                <Flex>
-                  {Number(allowance) < form.amount_out ? (
+                {status < 3 ? (
+                  <Flex>
+                    {Number(allowance) < form.amount_out ? (
+                      <CustomButton
+                        loading={loading || approving}
+                        disabled={loading || approving}
+                        classNames="secondary"
+                        onClick={() => approve()}
+                        text="Approve"
+                      />
+                    ) : (
+                      // <Button className="primary md" onClick={() => listToken()}>
+                      //   List Token
+                      // </Button>
+                      <CustomButton
+                        classNames="secondary"
+                        text="List Token"
+                        onClick={() => listToken()}
+                        loading={loading || approving}
+                        disabled={loading || approving}
+                      />
+                    )}
+                    <Spacer width={41} />
+                    <Button className="" onClick={handleCancel}>
+                      Cancel
+                    </Button>
+                  </Flex>
+                ) : (
+                  <Flex>
                     <CustomButton
-                      loading={loading || approving}
-                      disabled={loading || approving}
-                      classNames="secondary"
-                      onClick={() => approve()}
-                      text="Approve"
+                      classNames="secondary semi-rounded lg"
+                      onClick={() => alert()}
+                      text="Share your Offer"
                     />
-                  ) : (
-                    // <Button className="primary md" onClick={() => listToken()}>
-                    //   List Token
-                    // </Button>
-                    <CustomButton
-                      classNames="secondary"
-                      text="List Token"
-                      onClick={() => listToken()}
-                      loading={loading || approving}
-                      disabled={loading || approving}
-                    />
-                  )}
-                  <Spacer width={41} />
-                  <Button className="" onClick={handleCancel}>
-                    Cancel
-                  </Button>
-                </Flex>
+                    <Spacer width={8} />
+                    <Button
+                      onClick={() => navigate(`/trades/${form._id}`)}
+                      className="semi-rounded lg"
+                    >
+                      View Listed Coin
+                    </Button>
+                  </Flex>
+                )}
               </OnlyMobile>
               <OnlyDesktop>
-                <Flex>
-                  {Number(allowance) < form.amount_out ? (
-                    <CustomButton
-                      loading={loading || approving}
-                      disabled={loading || approving}
-                      classNames="secondary"
-                      onClick={() => approve()}
-                      text="Approve"
-                    />
-                  ) : (
-                    // <Button className="primary md" onClick={() => listToken()}>
-                    //   List Token
-                    // </Button>
-                    <CustomButton
-                      classNames="secondary"
-                      text="List Token"
-                      onClick={() => listToken()}
-                      loading={loading || approving}
-                      disabled={loading || approving}
-                    />
-                  )}
+                {status < 3 ? (
+                  <Flex>
+                    {Number(allowance) < form.amount_out ? (
+                      <CustomButton
+                        loading={loading || approving}
+                        disabled={loading || approving}
+                        classNames="secondary"
+                        onClick={() => approve()}
+                        text="Approve"
+                      />
+                    ) : (
+                      // <Button className="primary md" onClick={() => listToken()}>
+                      //   List Token
+                      // </Button>
+                      <CustomButton
+                        classNames="secondary"
+                        text="List Token"
+                        onClick={() => listToken()}
+                        loading={loading || approving}
+                        disabled={loading || approving}
+                      />
+                    )}
 
-                  <Spacer width={41} />
-                  <Button className="" onClick={handleCancel}>
-                    Cancel
-                  </Button>
-                </Flex>
+                    <Spacer width={41} />
+                    <Button className="" onClick={handleCancel}>
+                      Cancel
+                    </Button>
+                  </Flex>
+                ) : (
+                  <Flex>
+                    <CustomButton
+                      classNames="secondary semi-rounded lg"
+                      onClick={() => alert()}
+                      text="Share your Offer"
+                    />
+                    <Spacer width={8} />
+                    <Button
+                      onClick={() => navigate(`/trades/${form._id}`)}
+                      className="semi-rounded lg"
+                    >
+                      View Listed Coin
+                    </Button>
+                  </Flex>
+                )}
               </OnlyDesktop>
             </>
           )}
@@ -386,6 +425,12 @@ const Trans = () => {
         show={open}
         handleClose={() => setOpen(false)}
         msg="Escrow Fee is a trading fee we charge to guarantee you a secured transaction. We charge from both parties to safe guard token transactions. Our fee’s are not more than 3% per trade. If trades are cancelled at any point in the transaction queue, we would refund all payments inclusive of the Escrow Fee. We provide this feature on all token and coin transactions on our platform. If you have anymore questions please reach us on our email support@vetme.com or via our telegram platform. Thanks for trading with us."
+      />
+
+      <Share
+        show={openS}
+        handleClose={() => setOpenS(false)}
+        headerText="Share offer via"
       />
     </ContainerSm>
   );

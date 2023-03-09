@@ -13,6 +13,7 @@ import {
   getForever,
 } from "@/utils";
 import BigNumber from "bignumber.js";
+import { List } from "@/views";
 
 export type ListContextType = {
   saveList: () => void;
@@ -85,9 +86,10 @@ const ListProvider: React.FC<Props> = ({ children }) => {
         setPrivateLink(link);
       } else {
         setLoading(false);
-        setForm(initList);
+        alert(JSON.stringify(list));
+        setForm(list);
         clearLocal();
-        navigate("/");
+        // navigate("/");
       }
       parseSuccess("Your Token has been Listed");
     } catch (error: any) {
@@ -100,7 +102,7 @@ const ListProvider: React.FC<Props> = ({ children }) => {
   const clearLocal = () => {
     localStorage.removeItem("list_data");
     setPrivateLink("");
-    setForm(initList);
+    // setForm(initList);
   };
 
   return (
