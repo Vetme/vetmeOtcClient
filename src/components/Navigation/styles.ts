@@ -343,3 +343,18 @@ export const Bar = styled.div`
   }
 }
 `;
+
+export const SideBarCon = styled.div`
+  min-width: 224px;
+  background: #eff1ea;
+  border: 1px solid #453953;
+  border-radius: 20px;
+  height: 100%;
+  min-height: 500px;
+  padding: 32px;
+  /* min-height: 100vh; */
+`;
+
+export const DashBody = styled.div`
+  flex: 1;
+`;

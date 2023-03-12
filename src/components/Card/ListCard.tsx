@@ -107,7 +107,7 @@ const Input = styled.input`
 
 const InputInner = styled.div`
   display: flex;
-  top: 11px;
+  top: 11.5px;
   align-items: center;
   position: relative;
   padding-right: 10px;

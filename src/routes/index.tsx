@@ -10,8 +10,10 @@ import {
   Chart,
   Claim,
   CreateList,
+  MyListings,
 } from "../views";
 import MainLayout from "../views/layouts/main";
+import Dashboard from "../views/layouts/dashboard";
 
 const AnimatedRouter = () => {
   return (
@@ -25,6 +27,10 @@ const AnimatedRouter = () => {
         <Route path="/test-tokens" element={<Claim />} />
         <Route path="doc" element={<Escrow />} />
         <Route path="/trades/:id" element={<Trades />} />
+        <Route path="/dashboard" element={<Dashboard />}>
+          <Route index element={<MyListings />} />
+          <Route path="/dashboard/my-listings" element={<MyListings />} />
+        </Route>
         <Route path="*" element={<Page404 />} />
       </Route>
     </Routes>

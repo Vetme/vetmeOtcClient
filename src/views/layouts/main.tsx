@@ -10,6 +10,15 @@ import { ConnectorNames } from "@/types";
 import { walletconnect } from "@/connector/walletConnect";
 import ConnectProvider from "@/context/ConnectContext";
 
+TopBarProgress.config({
+  barColors: {
+    "0": "#170728",
+    "0.7": "#ABE5B9",
+  },
+  barThickness: 2,
+  shadowBlur: 0,
+});
+
 const MainLayout = () => {
   const [progress, setProgress] = useState(false);
   const [prevLoc, setPrevLoc] = useState("");

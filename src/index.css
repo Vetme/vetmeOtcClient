@@ -1950,6 +1950,28 @@ input[type=number] {
   transition: opacity 400ms, transform 400ms;
 }
 
+.alert-zoom-enter {
+  opacity: 0;
+  transform: scale(0);
+}
+
+.alert-zoom-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 400ms, transform 400ms;
+}
+
+.alert-zoom-exit {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.alert-zoom-exit-active {
+  opacity: 0;
+  transform: scale(0);
+  transition: opacity 400ms, transform 400ms;
+}
+
 
 
 .alert-enter {

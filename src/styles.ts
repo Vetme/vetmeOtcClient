@@ -47,3 +47,7 @@ export const GlobalStyles = createGlobalStyle`
 `;
 
 export const OtcBg = styled.div``;
+
+export const Dashboard = styled.div`
+  display: flex;
+`;
