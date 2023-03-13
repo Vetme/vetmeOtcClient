@@ -40,7 +40,7 @@ const SideBar = () => {
           Trade
         </Text>
       </SItems>
-      <SItems to="/history">
+      <SItems to="/dashboard/history">
         <Text size="s1" uppercase>
           History
         </Text>

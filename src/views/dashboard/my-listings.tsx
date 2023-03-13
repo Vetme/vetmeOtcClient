@@ -34,6 +34,9 @@ function MyListings() {
           {tabs.map((tab, i) => (
             <TabItems onClick={() => setActive(i)} key={i}>
               {tab}
+              {i == active && (
+                <span className={active == 0 ? "" : "space"}>{tab}</span>
+              )}
             </TabItems>
           ))}
         </ListingTabs>

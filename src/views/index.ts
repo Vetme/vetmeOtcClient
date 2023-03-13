@@ -9,3 +9,4 @@ export { default as Claim } from "./claim";
 export { default as CreateList } from "./list/create";
 export { default as MyListings } from "./dashboard/my-listings";
 export { default as Profile } from "./dashboard/profile";
+export { default as History } from "./dashboard/history";
