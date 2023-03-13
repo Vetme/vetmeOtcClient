@@ -565,7 +565,7 @@ export const CustomLink = styled.a`
 `;
 
 export const ActionBtn = styled.button`
-all:unset;
+  all: unset;
   background: ${SECONDARY_COLOR_GREEN};
   height: 83px;
   width: 100%;
@@ -581,12 +581,11 @@ all:unset;
   cursor: pointer;
   text-align: center;
   z-index: 50;
-  transition:0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
 
   &:hover,
   :active {
     background: ${SECONDARY_COLOR};
-    
   }
   div {
     position: absolute;
@@ -618,6 +617,20 @@ all:unset;
     height: 54px;
     line-height: 54px;
   }
+
+  &.secondary {
+    background: #fbf2ff;
+    border: 1px solid #2e203e;
+    &:hover,
+    :active {
+      background: #f7f0fb;
+    }
+  }
+  &.icon {
+    svg {
+      margin-top: 14px;
+    }
+  }
 `;
 
 export const Overlay = styled.div`
@@ -628,4 +641,75 @@ export const Overlay = styled.div`
   width: 100vw;
   z-index: 996;
   position: fixed;
+`;
+
+export const InputCon = styled.div`
+  label {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: #453953;
+    text-transform: uppercase;
+  }
+`;
+export const InputBox = styled.div`
+  display: flex;
+  background-image: url(/images/bg/input.png);
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 100% 100%;
+  height: 75px;
+  align-items: center;
+  position: relative;
+
+  input {
+    text-transform: uppercase;
+  }
+
+  label {
+    position: absolute;
+    top: 0px;
+    text-transform: uppercase;
+    left: 38px;
+  }
+
+  @media (max-width: 640px) {
+    height: 58px;
+  }
+
+  &.standard {
+    width: 383px;
+    @media (max-width: 640px) {
+      width: inherit;
+    }
+
+    div {
+      width: 100% !important;
+    }
+  }
+`;
+export const Input = styled.input`
+  height: 50px;
+  position: relative;
+  border: none;
+  outline: none;
+  flex: 1;
+  font-weight: 700;
+  font-weight: 400;
+  font-size: 18px;
+  width: 30%;
+  color: #170728;
+  margin-left: 38px;
+
+  @media (max-width: 640px) {
+    font-size: 30px;
+  }
+`;
+
+export const InputInner = styled.div`
+  display: flex;
+  top: 11.5px;
+  align-items: center;
+  position: relative;
+  padding-right: 10px;
 `;

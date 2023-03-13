@@ -109,7 +109,7 @@ const HomePage = () => {
                     <span>loading...</span>
                   ) : (
                     data.map((list: any, i: number) => (
-                      <SwapGrid list={list} key={i} />
+                      <SwapGrid list={list} key={i} state="guest" />
                     ))
                   )}
                 </GridWrapper>

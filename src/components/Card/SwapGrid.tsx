@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { ActionBtn, Divider, Flex, Spacer, Text, TokenBadge } from "..";
 import CustomButton from "../Button/CustomButton";
-import { Send, Swap, VToken, VUser } from "../Icons";
+import { Delete, Send, Swap, VToken, VUser } from "../Icons";
 
 const common = css`
   position: absolute;
@@ -28,6 +28,11 @@ const SwapContainer = styled.div`
   &.completed {
     filter: blur(0.8px);
     /* background: #13871345; */
+  }
+
+  &.auth {
+    width: 520px;
+    background-image: url(/images/bg/c3.png);
   }
 
   @media (max-width: 640px) {
@@ -60,12 +65,26 @@ const Actions = styled.div`
   align-self: end;
 `;
 
+const Action2 = styled.div`
+  width: 104px;
+  height: 54px;
+`;
+
+const ActionIcon = styled.div`
+  height: 54px;
+  width: 54px;
+`;
+
 const TopFRight = styled.div`
   ${common};
   right: 85px;
   display: flex;
   align-items: center;
   gap: 8px;
+
+  &.auth {
+    right: 78px;
+  }
 `;
 const TopFLeft = styled.div`
   ${common};
@@ -112,7 +131,13 @@ const Price = styled.div`
   position: relative;
 `;
 
-const SwapGrid = ({ list }: { list: ListI }) => {
+const SwapGrid = ({
+  list,
+  state,
+}: {
+  list: ListI;
+  state: "auth" | "guest";
+}) => {
   const navigate = useNavigate();
   function translateY(
     arg0: number
@@ -121,14 +146,14 @@ const SwapGrid = ({ list }: { list: ListI }) => {
   }
 
   return (
-    <SwapContainer>
+    <SwapContainer className={state == "auth" ? "auth" : "guest"}>
       <Header>
         <TopFLeft>
           <Text size="s3" uppercase>
             {list.token_out_metadata?.symbol}/{list.token_in_metadata?.symbol}
           </Text>
         </TopFLeft>
-        <TopFRight>
+        <TopFRight className={state == "auth" ? "auth" : "guest"}>
           {!list.verified && <VUser />}
           <Text size="s3">{truncate(list.receiving_wallet, 9, "***")}</Text>
         </TopFRight>
@@ -207,14 +232,36 @@ const SwapGrid = ({ list }: { list: ListI }) => {
                 : formatSecTime(list.deadline)}
             </Text>
           </Details>
-          <Actions>
-            <ActionBtn
-              className="sm"
-              onClick={() => navigate(`trades/${list._id}`)}
-            >
-              Trade
-            </ActionBtn>
-          </Actions>
+
+          {state == "auth" ? (
+            <Flex gap={16} style={{ marginTop: 10 }}>
+              <ActionIcon>
+                <ActionBtn
+                  className="sm secondary icon"
+                  onClick={() => navigate(`/trades/${list._id}`)}
+                >
+                  <Delete />
+                </ActionBtn>
+              </ActionIcon>
+              <Action2>
+                <ActionBtn
+                  className="sm"
+                  onClick={() => navigate(`trades/${list._id}`)}
+                >
+                  Edit
+                </ActionBtn>
+              </Action2>
+            </Flex>
+          ) : (
+            <Actions>
+              <ActionBtn
+                className="sm"
+                onClick={() => navigate(`trades/${list._id}`)}
+              >
+                Trade
+              </ActionBtn>
+            </Actions>
+          )}
         </DetailWrapper>
       </Body>
     </SwapContainer>

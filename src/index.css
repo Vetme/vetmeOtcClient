@@ -2024,3 +2024,17 @@ input[type=number] {
 .custom-scroll::-webkit-scrollbar-thumb:hover {
   background: #4a395e;
 }
+
+
+svg.loading {
+  stroke-dasharray: 15px;
+  stroke-dashoffset: 0px;
+  animation: loader 4s infinite linear;
+}
+
+
+@keyframes loader {
+  100% {
+    stroke-dashoffset: 60px;
+  }
+}

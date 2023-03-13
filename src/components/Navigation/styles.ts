@@ -348,7 +348,7 @@ export const SideBarCon = styled.div`
   min-width: 224px;
   background: #eff1ea;
   border: 1px solid #453953;
-  border-radius: 20px;
+  border-radius: 10px;
   height: 100%;
   min-height: 500px;
   padding: 32px;

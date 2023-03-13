@@ -11,6 +11,7 @@ import {
   Claim,
   CreateList,
   MyListings,
+  Profile,
 } from "../views";
 import MainLayout from "../views/layouts/main";
 import Dashboard from "../views/layouts/dashboard";
@@ -30,6 +31,7 @@ const AnimatedRouter = () => {
         <Route path="/dashboard" element={<Dashboard />}>
           <Route index element={<MyListings />} />
           <Route path="/dashboard/my-listings" element={<MyListings />} />
+          <Route path="/dashboard/profile" element={<Profile />} />
         </Route>
         <Route path="*" element={<Page404 />} />
       </Route>

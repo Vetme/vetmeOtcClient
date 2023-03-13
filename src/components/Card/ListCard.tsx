@@ -10,6 +10,10 @@ import {
   Divider,
   Flex,
   IconWrapper,
+  Input,
+  InputBox,
+  InputCon,
+  InputInner,
   Spacer,
   Text,
   TokenBadge,
@@ -57,60 +61,6 @@ const Body = styled.div`
   @media (max-width: 640px) {
     padding: 20px 25px;
   }
-`;
-const InputCon = styled.div`
-  label {
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 21px;
-    color: #453953;
-    text-transform: uppercase;
-  }
-`;
-const InputBox = styled.div`
-  display: flex;
-  background-image: url(/images/bg/input.png);
-  background-repeat: no-repeat;
-  background-position: top center;
-  background-size: 100% 100%;
-  height: 75px;
-  align-items: center;
-  position: relative;
-
-  label {
-    position: absolute;
-    top: 0px;
-    left: 38px;
-  }
-
-  @media (max-width: 640px) {
-    height: 58px;
-  }
-`;
-const Input = styled.input`
-  height: 50px;
-  position: relative;
-  border: none;
-  outline: none;
-  flex: 1;
-  font-weight: 700;
-  font-weight: 400;
-  font-size: 18px;
-  width: 30%;
-  color: #170728;
-  margin-left: 38px;
-
-  @media (max-width: 640px) {
-    font-size: 30px;
-  }
-`;
-
-const InputInner = styled.div`
-  display: flex;
-  top: 11.5px;
-  align-items: center;
-  position: relative;
-  padding-right: 10px;
 `;
 
 const IconWrap = styled.div``;

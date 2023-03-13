@@ -5,7 +5,7 @@ export const MyListingWrapper = styled.div`
 `;
 
 export const ListingInner = styled.div`
-  padding: 8px;
+  padding: 50px 8px;
 `;
 export const ListingTabs = styled.div`
   display: flex;
@@ -31,4 +31,43 @@ export const TabItems = styled.div`
 `;
 export const SearchCon = styled.div`
   /* min-width: 376px; */
+`;
+export const ListingBody = styled.div``;
+
+export const ProfileInner = styled.div`
+  padding: 0px 8px 50px 8px;
+`;
+
+export const ProfileBody = styled.div`
+  padding-left: 54px;
+`;
+
+export const ActionU = styled.div`
+  width: 300px;
+  margin-left: 32px;
+`;
+
+export const AvatarCon = styled.div`
+  height: 97px;
+  width: 97px;
+  background-image: url(/images/bg/a.png);
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 100% 100%;
+  position: relative;
+
+  div {
+    height: 60px;
+    width: 60px;
+    position: absolute;
+    right: 4px;
+    bottom: 4px;
+
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+  }
 `;

@@ -1,15 +1,17 @@
 import { Flex, Spacer } from "@/components";
+import { SwapGrid } from "@/components/Card";
 import { AscDesc, FilterCircle, LSearch } from "@/components/Icons";
-import { ListModal, Message } from "@/components/Modal";
+import { ListModal, Message, Settings } from "@/components/Modal";
 import { useTokenFetch } from "@/hooks/customHooks";
 import { useState, useMemo } from "react";
-import { InputWrapper, SearchContainer } from "../home/styles";
+import { GridWrapper, InputWrapper, SearchContainer } from "../home/styles";
 import {
   ListingInner,
   ListingTabs,
   MyListingWrapper,
   TabItems,
   SearchCon,
+  ListingBody,
 } from "./styles";
 
 function MyListings() {
@@ -49,7 +51,19 @@ function MyListings() {
           </InputWrapper>
         </SearchCon>
       </Flex>
-      <ListingInner onClick={() => setOpen(true)}>Hello</ListingInner>
+      <ListingInner>
+        <ListingBody>
+          <GridWrapper>
+            {loading ? (
+              <span>loading...</span>
+            ) : (
+              data.map((list: any, i: number) => (
+                <SwapGrid list={list} key={i} state="auth" />
+              ))
+            )}
+          </GridWrapper>
+        </ListingBody>
+      </ListingInner>
 
       {/* <Message
         msg="Your trade has been edited"
@@ -57,7 +71,8 @@ function MyListings() {
         show={open}
         handleClose={() => setOpen(false)}
       /> */}
-      <ListModal show={open} handleClose={() => setOpen(false)} />
+      {/* <ListModal show={open} handleClose={() => setOpen(false)} /> */}
+      <Settings show={open} handleClose={() => setOpen(false)} />
     </MyListingWrapper>
   );
 }

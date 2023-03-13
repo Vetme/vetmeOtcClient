@@ -2,12 +2,14 @@ import React from "react";
 import { Text } from "..";
 import { SideBarCon } from "./styles";
 import styled, { css } from "styled-components";
+import { NavLink } from "react-router-dom";
 
-const SItems = styled.div`
+const SItems = styled(NavLink)`
   margin: 24px 0px;
   cursor: pointer;
   position: relative;
   width: fit-content;
+  display: block;
 
   span {
     transition: 0.5s;
@@ -33,17 +35,17 @@ const SItems = styled.div`
 const SideBar = () => {
   return (
     <SideBarCon>
-      <SItems className="active">
+      <SItems to="/dashboard/my-listings">
         <Text size="s1" uppercase>
           Trade
         </Text>
       </SItems>
-      <SItems>
+      <SItems to="/history">
         <Text size="s1" uppercase>
           History
         </Text>
       </SItems>
-      <SItems>
+      <SItems to="/dashboard/profile">
         <Text size="s1" uppercase>
           My Profile
         </Text>

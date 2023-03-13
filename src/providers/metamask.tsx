@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { injected } from "@/connector/injected";
 import { useWeb3React } from "@web3-react/core";
-import { Loading } from "@/components/Icons";
-import { Text, MetaLoading } from "@/components";
+import { Loading, Loading2 } from "@/components/Icons";
+import { Text, MetaLoading, Spacer } from "@/components";
 
 function MetamaskProvider({ children }: { children: any }) {
   const {
@@ -30,8 +30,9 @@ function MetamaskProvider({ children }: { children: any }) {
   return (
     <MetaLoading>
       <div>
-        <Text color="#7aa3f3">Connecting your Web3 provider</Text>
-        <Loading />
+        <Text color="#170728">Connecting your Web3 provider</Text>
+        <Spacer height={20} />
+        <Loading2 />
       </div>
     </MetaLoading>
   );
