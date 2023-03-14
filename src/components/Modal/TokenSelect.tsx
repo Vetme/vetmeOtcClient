@@ -201,7 +201,7 @@ const TokenSelect = ({ show, handleClose, handleSelected }: TokenSelect) => {
           </Text>
           <Spacer height={20} />
           <Body>
-            <ActionSwitch>
+            <ActionSwitch className="list">
               <SwitchItem2 className="active">Coin</SwitchItem2>
               <SwitchItem2>Nft</SwitchItem2>
             </ActionSwitch>

@@ -94,8 +94,11 @@ const ListProvider: React.FC<Props> = ({ children }) => {
       parseSuccess("Your Token has been Listed");
     } catch (error: any) {
       setLoading(false);
-      if (error.message.includes("user rejected signing")) return;
+      if (error.message.includes("user rejected signing")) {
+        return Promise.reject(error);
+      }
       parseError(error);
+      return Promise.reject(error);
     }
   };
 

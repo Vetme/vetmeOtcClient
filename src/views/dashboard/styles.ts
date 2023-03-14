@@ -16,6 +16,10 @@ export const ListingTabs = styled.div`
   background-size: 100% 100%;
   padding-left: 95px;
   border-top: 2px solid #50455d;
+
+  @media (max-width: 767px) {
+    display: none;
+  } ;
 `;
 export const TabItems = styled.div`
   padding: 0px 26px;
@@ -59,6 +63,10 @@ export const ProfileInner = styled.div`
 
 export const ProfileBody = styled.div`
   padding-left: 54px;
+
+  @media (max-width: 640px) {
+    padding-left: 10px;
+  }
 `;
 
 export const ActionU = styled.div`

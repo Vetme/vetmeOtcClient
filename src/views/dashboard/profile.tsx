@@ -24,7 +24,7 @@ function MyListings() {
         <ProfileBody>
           <UserAvatar />
           <Spacer height={32} />
-          <Flex gap={32}>
+          <Flex gap={32} wrap>
             <InputBox className="standard">
               <label htmlFor="">First Name</label>
               <InputInner>
@@ -54,7 +54,7 @@ function MyListings() {
 
           <Spacer height={16} />
 
-          <Flex gap={32}>
+          <Flex gap={32} wrap>
             <InputBox className="standard">
               <label htmlFor="">Email</label>
               <InputInner>
@@ -84,7 +84,7 @@ function MyListings() {
 
           <Spacer height={16} />
 
-          <Flex gap={32}>
+          <Flex gap={32} wrap>
             <InputBox className="standard">
               <label htmlFor="">telegram</label>
               <InputInner>

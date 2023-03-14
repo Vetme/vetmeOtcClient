@@ -24,7 +24,7 @@ export const TradeWrapper = styled.div`
 
   @media (max-width: 640px) {
     padding: 15px 15px;
-    height: 404px;
+    /* height: 404px; */
   }
 `;
 export const TradeInner = styled(Flex)`

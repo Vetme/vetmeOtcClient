@@ -10,7 +10,7 @@ const CreateListing = () => {
   return (
     <Container>
       <div>
-        <ActionSwitch style={{ margin: "auto" }}>
+        <ActionSwitch className="list" style={{ margin: "auto" }}>
           <SwitchItem2 onClick={() => navigate("/")}>Swap</SwitchItem2>
           <SwitchItem2
             onClick={() => navigate("/list/create")}

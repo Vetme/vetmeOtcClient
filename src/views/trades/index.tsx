@@ -384,9 +384,9 @@ const Trans = () => {
             <div
               onClick={() => setOpen(true)}
               style={{
-                color: "#4473EB",
                 display: "inline-block",
                 cursor: "pointer",
+                textDecoration: "underline",
               }}
             >
               Escrow
@@ -399,6 +399,8 @@ const Trans = () => {
       <Message
         show={open}
         handleClose={() => setOpen(false)}
+        headerText="Escrow Fee"
+        type="info"
         msg="Escrow Fee is a trading fee we charge to guarantee you a secured transaction. We charge from both parties to safe guard token transactions. Our fee’s are not more than 3% per trade. If trades are cancelled at any point in the transaction queue, we would refund all payments inclusive of the Escrow Fee. We provide this feature on all token and coin transactions on our platform. If you have anymore questions please reach us on our email support@vetme.com or via our telegram platform. Thanks for trading with us."
       />
     </ContainerSm>

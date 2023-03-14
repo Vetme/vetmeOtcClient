@@ -56,10 +56,10 @@ const Header = styled.div`
   justify-content: center;
 `;
 const Body = styled.div`
-  padding: 16px;
+  padding: 40px 16px 16px;
 
   @media (max-width: 640px) {
-    padding: 20px 25px;
+    /* padding: 20px 25px; */
   }
 `;
 

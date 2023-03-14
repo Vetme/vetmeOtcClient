@@ -353,6 +353,10 @@ export const SideBarCon = styled.div`
   min-height: 500px;
   padding: 32px;
   /* min-height: 100vh; */
+
+  @media (max-width: 767px) {
+    display: none;
+  } ;
 `;
 
 export const DashBody = styled.div`

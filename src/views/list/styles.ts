@@ -15,6 +15,7 @@ export const TradeWrapper = styled.div`
     top: 10px;
     left: 50%;
     transform: translate(-50%, -50%);
+    white-space: nowrap;
   }
 
   padding: 30px 126px;

@@ -31,6 +31,11 @@ const Inner = styled.div`
   position: relative;
   transform: translate(-50%, -50%);
   padding: 50px 16px;
+
+  @media (max-width: 640px) {
+    height: auto;
+    background-image: url(/images/bg/message-m.png);
+  }
 `;
 
 const Close = styled.div`
@@ -45,12 +50,24 @@ const Close = styled.div`
   display: grid;
   place-content: center;
   cursor: pointer;
+
+  @media (max-width: 640px) {
+    width: 50px;
+    height: 50px;
+    top: -3px;
+    right: 5px;
+  }
 `;
 
 const Anc = styled.div`
   position: absolute;
   left: 90px;
   top: 0px;
+
+  @media (max-width: 640px) {
+    left: 78px;
+    top: -2px;
+  }
 `;
 const Contain = styled.div`
   padding: 10px;
@@ -63,7 +80,7 @@ interface IMessage {
   show: boolean;
   headerText?: string;
   msg: string;
-  redirectUrl?: string;
+  type: string;
 }
 
 const Message = ({
@@ -71,7 +88,7 @@ const Message = ({
   show,
   headerText,
   handleClose,
-  redirectUrl,
+  type = "state",
 }: IMessage) => {
   const navigate = useNavigate();
 
@@ -132,8 +149,12 @@ const Message = ({
                 {headerText}
               </Text>
               <Spacer height={16} />
-              <LoadingIll />
-              <Spacer height={20} />
+              {type == "state" && (
+                <>
+                  <LoadingIll />
+                  <Spacer height={20} />
+                </>
+              )}
 
               <Text>{msg}</Text>
             </Contain>

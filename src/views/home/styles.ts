@@ -13,7 +13,8 @@ export const HomeHeader = styled.div`
   top: 10px;
 
   @media (max-width: 640px) {
-    flex-direction: column;
+    /* flex-direction: column; */
+    gap: 20px;
   }
 `;
 export const LeftSide = styled.div`
@@ -23,7 +24,7 @@ export const LeftSide = styled.div`
   align-items: center;
 
   @media (max-width: 640px) {
-    flex-direction: column;
+    /* flex-direction: column; */
     width: 100%;
     gap: 20px;
   }
@@ -118,6 +119,14 @@ export const ActionSwitch = styled.div`
   width: 396px;
   max-width: 100%;
   gap: 7px;
+
+  @media (max-width: 640px) {
+    width: 200px;
+
+    &.list {
+      width: 100%;
+    }
+  }
 `;
 
 export const SearchContainer = styled.div`
@@ -132,6 +141,7 @@ export const SearchContainer = styled.div`
   @media (max-width: 640px) {
     width: 100%;
     margin-top: 20px;
+    display: none !important;
   }
 `;
 export const InputWrapper = styled.div`

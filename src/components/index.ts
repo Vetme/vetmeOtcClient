@@ -248,6 +248,8 @@ export const Text = styled.span<{
         ? "16px"
         : sizeM == "tiny"
         ? "14px"
+        : sizeM == "tiny-2"
+        ? "10px"
         : sizeM == "s1"
         ? "18px"
         : sizeM == "s2"
@@ -674,13 +676,13 @@ export const InputBox = styled.div`
   }
 
   @media (max-width: 640px) {
-    height: 58px;
+    /* height: 58px; */
   }
 
   &.standard {
     width: 383px;
     @media (max-width: 640px) {
-      width: inherit;
+      width: 100%;
     }
 
     div {
@@ -702,7 +704,7 @@ export const Input = styled.input`
   margin-left: 38px;
 
   @media (max-width: 640px) {
-    font-size: 30px;
+    /* font-size: 30px; */
   }
 `;
 

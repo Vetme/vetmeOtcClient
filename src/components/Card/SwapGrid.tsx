@@ -32,11 +32,24 @@ const SwapContainer = styled.div`
 
   &.auth {
     width: 520px;
+    max-width: 100%;
     background-image: url(/images/bg/c3.png);
   }
 
   @media (max-width: 640px) {
-    margin-bottom: 46px;
+    margin-bottom: 30px;
+    margin-top: 10px;
+    height: inherit;
+    background-image: none;
+
+    border: 1px solid #a19ba8;
+    border-radius: 10px;
+    &.auth {
+      background-image: none;
+      width: 100%;
+      border: 1px solid #a19ba8;
+      border-radius: 10px;
+    }
   }
 `;
 const Header = styled.div`
@@ -85,15 +98,29 @@ const TopFRight = styled.div`
   &.auth {
     right: 78px;
   }
+
+  @media (max-width: 640px) {
+    right: 40px;
+    top: 5px;
+  }
 `;
 const TopFLeft = styled.div`
   ${common};
   left: 90px;
+
+  @media (max-width: 640px) {
+    left: 40px;
+    top: 5px;
+  }
 `;
 const BottomFLeft = styled.div`
   ${common};
   right: 70px;
   top: 0px;
+
+  @media (max-width: 640px) {
+    right: 40px;
+  }
 `;
 
 const DetailWrapper = styled.div`
@@ -106,6 +133,7 @@ const DetailWrapper = styled.div`
   background-size: 100% auto;
   padding: 18px;
   position: relative;
+  gap: 10px;
 `;
 
 const DetailWrapperT = styled.div`
@@ -206,7 +234,9 @@ const SwapGrid = ({
 
         <DetailWrapper>
           <BottomFLeft>
-            <Text size="s3">Escrow Fee 3%</Text>
+            <Text size="s3" sizeM="tiny-2">
+              Escrow Fee 3%
+            </Text>
           </BottomFLeft>
           <Details>
             <Text size="s3" color="#5D5169 " uppercase>
