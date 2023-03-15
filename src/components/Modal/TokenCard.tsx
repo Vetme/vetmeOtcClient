@@ -27,16 +27,22 @@ const Details = styled.div``;
 interface IToken {
   symbol: string;
   name?: string;
-  avatar?: string;
+  icon?: string;
   address: string;
   callback: (arg: string) => void;
 }
+{
+  /* symbol == title  */
+}
+{
+  /* name == fullTitle  */
+}
 
-const TokenCard = ({ symbol, name, avatar, address, callback }: IToken) => {
+const TokenCard = ({ symbol, name, icon, address, callback }: IToken) => {
   return (
     <Container align="center" onClick={() => callback(address)}>
       <Avatar>
-        <img src={avatar} />
+        <img src={icon} />
       </Avatar>
       <Details>
         <Text size="s1" weight="400" color="#170728">

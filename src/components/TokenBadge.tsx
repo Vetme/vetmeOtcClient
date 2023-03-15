@@ -38,7 +38,7 @@ const TokenBadge = ({ token, hasCaret, handleClick }: BadgeI) => {
   return (
     <Container onClick={() => handleClick()}>
       <ImgWrap>
-        <img src={token.avatar} />
+        <img src={token.icon} />
       </ImgWrap>
       <Spacer width={6} />
       <Text size="s2" uppercase weight="400">
@@ -55,8 +55,8 @@ const TokenBadge = ({ token, hasCaret, handleClick }: BadgeI) => {
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
+            fillRule="evenodd"
+            clipRule="evenodd"
             d="M4.5406 7.68966V1H5.45939V7.68966L8.35032 5.04788L9 5.64157L5.32484 9H4.67516L1 5.64157L1.64968 5.04788L4.5406 7.68966Z"
             fill="white"
           />

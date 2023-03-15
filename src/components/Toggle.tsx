@@ -4,9 +4,10 @@ import "./toggle.css";
 
 interface IToggle {
   text?: string;
+  name?: string;
   size?: any;
   disabled?: boolean;
-  checked: boolean;
+  checked?: boolean;
   offstyle?: string;
   onstyle?: string;
   onChange: (arg: any) => void;
@@ -15,6 +16,7 @@ interface IToggle {
 const Toggle = ({
   text,
   size = "default",
+  name,
   checked,
   disabled,
   onChange,
@@ -30,6 +32,7 @@ const Toggle = ({
           <input
             type="checkbox"
             checked={checked}
+            name={name}
             disabled={disabled}
             onChange={(e) => onChange(e)}
           />

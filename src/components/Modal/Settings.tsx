@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { ListContext, ListContextType } from "@/context/Listcontext";
 import {
   ActionBtn,
   Center,
@@ -12,7 +13,7 @@ import {
   InputInner,
 } from "..";
 import { CSSTransition } from "react-transition-group";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Toggle from "../Toggle";
 import { ArrowRight } from "../Icons";
 
@@ -71,6 +72,20 @@ interface IMessage {
 const Settings = ({ show, handleClose }: IMessage) => {
   const [hasDeadline, setHasDeadline] = useState<boolean>(false);
 
+  const { setForm, form } = useContext(ListContext) as ListContextType;
+
+  const handleSetting = (e: any) => {
+    let value = e.target.value;
+    const name = e.target.name;
+
+    setForm((prevState: any) => {
+      return {
+        ...prevState,
+        [name]: !prevState[name],
+      };
+    });
+  };
+
   return (
     <>
       <CSSTransition
@@ -98,8 +113,9 @@ const Settings = ({ show, handleClose }: IMessage) => {
                 </Text>
 
                 <Toggle
-                  checked={hasDeadline}
-                  onChange={() => null}
+                  checked={form.is_friction}
+                  onChange={handleSetting}
+                  name="is_friction"
                   offstyle="btn-off"
                   onstyle="btn-on"
                 />
@@ -130,8 +146,8 @@ const Settings = ({ show, handleClose }: IMessage) => {
 
                   <div>
                     <Toggle
-                      checked={hasDeadline}
-                      onChange={() => null}
+                      checked={false}
+                      onChange={handleSetting}
                       offstyle="btn-off"
                       onstyle="btn-on"
                     />
@@ -144,8 +160,8 @@ const Settings = ({ show, handleClose }: IMessage) => {
                 </Text>
 
                 <Toggle
-                  checked={hasDeadline}
-                  onChange={() => null}
+                  checked={false}
+                  onChange={handleSetting}
                   offstyle="btn-off"
                   onstyle="btn-on"
                 />
@@ -157,8 +173,9 @@ const Settings = ({ show, handleClose }: IMessage) => {
                 </Text>
 
                 <Toggle
-                  checked={hasDeadline}
-                  onChange={() => null}
+                  checked={false}
+                  name=""
+                  onChange={handleSetting}
                   offstyle="btn-off"
                   onstyle="btn-on"
                 />

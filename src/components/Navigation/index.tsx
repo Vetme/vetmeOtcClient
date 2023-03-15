@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 import {
   NavContainer,
@@ -41,6 +42,7 @@ const Navigation = ({ connect, account }: NavInput) => {
   const [show, setShow] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const connectWallet = (connector: ConnectorNames) => {
     setShow(false);
@@ -100,7 +102,10 @@ const Navigation = ({ connect, account }: NavInput) => {
           </NavItems>
           <Action>
             {account ? (
-              <Button className="success ">
+              <Button
+                onClick={() => navigate("/dashboard")}
+                className="success "
+              >
                 {" "}
                 {truncate(account || "", 9)}{" "}
               </Button>

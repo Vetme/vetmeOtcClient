@@ -20,7 +20,7 @@ import {
 } from "..";
 import { Button } from "../Button";
 import { Send, Swap, Add, ArrowRight } from "../Icons";
-import { Connect as ConnectModal, TokenSelect } from "../Modal";
+import { Connect as ConnectModal, Settings, TokenSelect } from "../Modal";
 import { Web3Provider } from "@ethersproject/providers";
 import { useWeb3React } from "@web3-react/core";
 import { ConnectContext, ConnectContextType } from "@/context/ConnectContext";
@@ -81,6 +81,7 @@ const DurationInput = styled.div`
 
 const ListCard = () => {
   const [open, setOpen] = useState<boolean>(false);
+  const [openS, setOpenS] = useState<boolean>(false);
   const [give, setGive] = useState<TokenI | undefined>(undefined);
   const [get, setGet] = useState<TokenI | undefined>(undefined);
   const [action, setAction] = useState<"giving" | "getting">("giving");
@@ -116,7 +117,7 @@ const ListCard = () => {
   };
 
   const getByAddress = (address: string) => {
-    return tokens.find((token) => token.address === address);
+    return tokens.find((token) => token?.address === address);
   };
 
   const handleChange = (e: any) => {
@@ -215,7 +216,9 @@ const ListCard = () => {
             <SwapCon>
               <Swap />
             </SwapCon>
-            <Add />
+            <div onClick={() => setOpenS(true)}>
+              <Add />
+            </div>
           </Flex>
 
           <Spacer height={6} />
@@ -292,6 +295,8 @@ const ListCard = () => {
         show={open}
         handleClose={() => setOpen(false)}
       />
+
+      <Settings show={openS} handleClose={() => setOpenS(false)} />
 
       <ConnectModal
         show={show}

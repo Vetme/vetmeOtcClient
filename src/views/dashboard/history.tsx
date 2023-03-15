@@ -1,7 +1,7 @@
 import { Flex, Spacer, Text } from "@/components";
 import { AscDesc, FilterCircle, LSearch } from "@/components/Icons";
 import { Settings } from "@/components/Modal";
-import { useTokenFetch } from "@/hooks/customHooks";
+import { useListFetch } from "@/hooks/customHooks";
 import { formatDateTime } from "@/utils";
 import { GridWrapper, InputWrapper } from "../home/styles";
 import {
@@ -18,7 +18,7 @@ import {
 } from "./styles";
 
 function History() {
-  const { loading, data, setQuery, query } = useTokenFetch();
+  const { loading, data, setQuery, query } = useListFetch();
 
   const onChangeHandler = async (e: any) => {
     setQuery(e.target.value);
@@ -83,7 +83,7 @@ const ListItem = ({ list, i }: any) => {
       <TableItem>{list.amount_in}</TableItem>
       <TableItem>{formatDateTime(list.createdAt)}</TableItem>
       <div>
-        <BuildBadge type={state} text={state} />
+        <BuildBadge type={"successful"} text={state} />
       </div>
     </Row>
   );

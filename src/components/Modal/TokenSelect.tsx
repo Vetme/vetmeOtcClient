@@ -5,11 +5,13 @@ import { Button } from "../Button";
 import { LSearch, Send, Swap } from "../Icons";
 import { CSSTransition } from "react-transition-group";
 import TokenCard from "./TokenCard";
-import { tokens as InitTokens } from "@/data";
+// import { tokens as InitTokens, defaultToken as InitialTokens } from "@/data";
 import { useQuery } from "@apollo/react-hooks";
 import { DAI_QUERY, ETH_PRICE_QUERY, ETH_TOKEN_QUERY } from "@/apollo";
 import { TokenI } from "@/types";
 import { ActionSwitch, InputWrapper, SwitchItem2 } from "@/views/home/styles";
+import { useTokenFetch } from "@/hooks/customHooks";
+import { setLocalToken } from "@/helpers";
 
 const SwapContainer = styled.div`
   width: 396px;
@@ -151,10 +153,10 @@ interface TokenSelect {
 }
 
 const TokenSelect = ({ show, handleClose, handleSelected }: TokenSelect) => {
-  const [tokens, setTokens] = useState(InitTokens);
+  // const [tokens, setTokens] = useState(getD);
   const [sTokens, setSTokens] = useState<any[]>([]);
   const [query, setQuery] = useState<string>("");
-  // const { loading, error, data } = useQuery(ETH_TOKEN_QUERY);
+  const { loading, error, results } = useTokenFetch(query);
 
   // const refinedData = data?.pairs.map((token: any) => {
   //   return {
@@ -171,16 +173,16 @@ const TokenSelect = ({ show, handleClose, handleSelected }: TokenSelect) => {
   //   },
   // });
 
-  useEffect(() => {
-    setSTokens([]);
-    // let newToken = refinedData?.filter((token: any) =>
-    //   Object.values(token).join("").toLowerCase().includes(query.toLowerCase())
-    // );
-    let newToken = tokens?.filter((token: any) =>
-      Object.values(token).join("").toLowerCase().includes(query.toLowerCase())
-    );
-    setSTokens(newToken);
-  }, [query]);
+  // useEffect(() => {
+  //   setSTokens([]);
+  // let newToken = refinedData?.filter((token: any) =>
+  //   Object.values(token).join("").toLowerCase().includes(query.toLowerCase())
+  // );
+  //   let newToken = tokens?.filter((token: any) =>
+  //     Object.values(token).join("").toLowerCase().includes(query.toLowerCase())
+  //   );
+  //   setSTokens(newToken);
+  // }, [query]);
 
   const handleSearch = (e: any) => {
     const val = e.target.value;
@@ -188,8 +190,10 @@ const TokenSelect = ({ show, handleClose, handleSelected }: TokenSelect) => {
   };
 
   const callback = (address: string) => {
-    let token = sTokens.find((token) => token.address === address);
+    let token = results.find((token) => token.address === address);
     handleSelected(token);
+
+    // setLocalToken(token);
   };
 
   return (
@@ -205,9 +209,7 @@ const TokenSelect = ({ show, handleClose, handleSelected }: TokenSelect) => {
               <SwitchItem2 className="active">Coin</SwitchItem2>
               <SwitchItem2>Nft</SwitchItem2>
             </ActionSwitch>
-
             <Spacer height={27} />
-
             <InputCon>
               <InputWrapper>
                 <LSearch />
@@ -220,9 +222,9 @@ const TokenSelect = ({ show, handleClose, handleSelected }: TokenSelect) => {
               </InputWrapper>
             </InputCon>
             <Spacer height={27} />
-            {sTokens?.length ? (
+            {results?.length ? (
               <ResultCon className="custom-scroll">
-                {sTokens?.map((token: any, i) => (
+                {results?.map((token: any, i: number) => (
                   <TokenCard {...token} key={i} callback={callback} />
                 ))}
               </ResultCon>

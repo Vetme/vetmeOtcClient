@@ -2,7 +2,7 @@ export declare type TokenI = {
   id?: string | number;
   address: string;
   symbol?: string;
-  avatar?: string;
+  icon?: string;
   name?: string;
 };
 
@@ -29,6 +29,7 @@ export type ListI = {
   verified?: boolean;
   from_token_verified?: boolean;
   to_token_verified?: boolean;
+  is_friction?: boolean;
 };
 
 export enum Blockchain {

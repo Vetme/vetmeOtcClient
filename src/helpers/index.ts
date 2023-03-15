@@ -1,4 +1,6 @@
 import axios from "axios";
+import { tokens as InitTokens, defaultToken as InitialTokens } from "@/data";
+import { ethers } from "ethers";
 
 export const truncate = (
   fullStr: string,
@@ -27,3 +29,28 @@ export const truncate = (
 export const formatExplorerUrl = (address: string) => {
   return `https://test.bscscan.com/address/${address}`;
 };
+
+export const getDefaultTokens = () => {
+  return import.meta.env.VITE_APP_MODE === "testnet"
+    ? InitTokens
+    : InitialTokens;
+};
+export const getLocalTokens = () => {
+  return JSON.parse(localStorage.getItem("localTokens") as string);
+};
+
+export const setLocalToken = (data: any) => {
+  let lTokens = getLocalTokens();
+
+  if (lTokens) {
+    lTokens.push(data);
+  } else {
+    lTokens = [data];
+  }
+  console.log(lTokens, "local");
+
+  localStorage.setItem("localTokens", JSON.stringify(lTokens));
+  return true;
+};
+
+export const isAddress = (value: string) => ethers.utils.isAddress(value);

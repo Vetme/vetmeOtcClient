@@ -2,7 +2,7 @@ import { Flex, Spacer } from "@/components";
 import { SwapGrid } from "@/components/Card";
 import { AscDesc, FilterCircle, LSearch } from "@/components/Icons";
 import { ListModal, Message, Settings } from "@/components/Modal";
-import { useTokenFetch } from "@/hooks/customHooks";
+import { useListFetch } from "@/hooks/customHooks";
 import { useState, useMemo } from "react";
 import { GridWrapper, InputWrapper, SearchContainer } from "../home/styles";
 import {
@@ -17,7 +17,7 @@ import {
 function MyListings() {
   const [active, setActive] = useState<number>(0);
   const [open, setOpen] = useState<boolean>(false);
-  const { loading, data, setQuery, query } = useTokenFetch();
+  const { loading, data, setQuery, query } = useListFetch();
   const tabs = useMemo(
     () => ["All Trades", "Successful trades", "Failed trade", "Counter Offers"],
     []
@@ -75,7 +75,6 @@ function MyListings() {
         handleClose={() => setOpen(false)}
       /> */}
       {/* <ListModal show={open} handleClose={() => setOpen(false)} /> */}
-      <Settings show={open} handleClose={() => setOpen(false)} />
     </MyListingWrapper>
   );
 }

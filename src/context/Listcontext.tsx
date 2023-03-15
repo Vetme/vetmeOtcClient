@@ -45,6 +45,7 @@ const initList: ListI = {
   nonce: 0,
   is_active: false,
   forever: true,
+  is_friction: false,
 };
 
 const ListProvider: React.FC<Props> = ({ children }) => {

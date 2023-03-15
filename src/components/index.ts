@@ -715,3 +715,12 @@ export const InputInner = styled.div`
   position: relative;
   padding-right: 10px;
 `;
+
+export const ErrorMsg = styled.div`
+  font-size: 12px;
+  color: #f04438;
+  line-height: 16px;
+  margin-left: 25px;
+  position: absolute;
+  bottom: -16px;
+`;
