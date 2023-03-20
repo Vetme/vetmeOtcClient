@@ -40,15 +40,18 @@ import {
 import { useListFetch, useTokenFetch } from "@/hooks/customHooks";
 import { truncate } from "@/helpers";
 import { formatDateTime, formatSecTime, getForever } from "@/utils";
-import { Chart, Message } from "@/components/Modal";
+import { Chart, Counter, CounterOffer, Message } from "@/components/Modal";
+import { ListI } from "@/types";
 
 const HomePage = () => {
   const [display, setDisplay] = useState<"grid" | "list">("grid");
   const [mode, setMode] = useState<"list" | "swap">("swap");
   const [open, setOpen] = useState<boolean>(false);
-  const [openChart, setOpenChart] = useState<boolean>(true);
   const { loading, data, setQuery, query } = useListFetch();
   const navigate = useNavigate();
+  const [openC, setOpenC] = useState<boolean>(false);
+  const [openO, setOpenO] = useState<boolean>(false);
+  const [counterList, setCounterList] = useState<any>(null);
 
   const onChangeHandler = async (e: any) => {
     setQuery(e.target.value);
@@ -57,6 +60,19 @@ const HomePage = () => {
   useEffect(() => {
     // setTimeout(() => setOpen(true), 4000);
   }, []);
+
+  const handleFriction = (list: ListI) => {
+    setOpenC(true);
+    setCounterList(list);
+  };
+
+  const handleAccept = () => {
+    navigate(`/trades/${counterList._id}`);
+  };
+  const handleCounter = () => {
+    setOpenC(false);
+    setOpenO(true);
+  };
 
   return (
     <ContainerSm>
@@ -109,7 +125,12 @@ const HomePage = () => {
                     <span>loading...</span>
                   ) : (
                     data.map((list: any, i: number) => (
-                      <SwapGrid list={list} key={i} state="guest" />
+                      <SwapGrid
+                        confirmFriction={(list) => handleFriction(list)}
+                        list={list}
+                        key={i}
+                        state="guest"
+                      />
                     ))
                   )}
                 </GridWrapper>
@@ -187,6 +208,21 @@ const HomePage = () => {
           handleClose={() => setOpen(false)}
           msg="Claim Free Test tokens to trade on the platform"
         />
+
+        <Counter
+          show={openC}
+          handleClose={() => setOpenC(false)}
+          handleAccept={() => handleAccept()}
+          handleCounter={() => handleCounter()}
+        />
+
+        {counterList && (
+          <CounterOffer
+            show={openO}
+            handleClose={() => setOpenO(false)}
+            firstOffer={counterList}
+          />
+        )}
       </Wrapper>
     </ContainerSm>
   );

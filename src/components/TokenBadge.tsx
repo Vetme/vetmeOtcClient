@@ -34,7 +34,7 @@ interface BadgeI {
   handleClick: () => void;
 }
 
-const TokenBadge = ({ token, hasCaret, handleClick }: BadgeI) => {
+const TokenBadge = ({ token, hasCaret = true, handleClick }: BadgeI) => {
   return (
     <Container onClick={() => handleClick()}>
       <ImgWrap>
@@ -45,24 +45,24 @@ const TokenBadge = ({ token, hasCaret, handleClick }: BadgeI) => {
         {token.symbol}
       </Text>
       <Spacer width={6} />
-      {/* {hasCaret && ( */}
-      <div>
-        <svg
-          width="10"
-          height="10"
-          viewBox="0 0 10 10"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M4.5406 7.68966V1H5.45939V7.68966L8.35032 5.04788L9 5.64157L5.32484 9H4.67516L1 5.64157L1.64968 5.04788L4.5406 7.68966Z"
-            fill="white"
-          />
-        </svg>
-      </div>
-      {/* )} */}
+      {hasCaret && (
+        <div>
+          <svg
+            width="10"
+            height="10"
+            viewBox="0 0 10 10"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M4.5406 7.68966V1H5.45939V7.68966L8.35032 5.04788L9 5.64157L5.32484 9H4.67516L1 5.64157L1.64968 5.04788L4.5406 7.68966Z"
+              fill="white"
+            />
+          </svg>
+        </div>
+      )}
     </Container>
   );
 };

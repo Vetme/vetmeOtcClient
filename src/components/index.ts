@@ -715,6 +715,9 @@ export const InputInner = styled.div`
   align-items: center;
   position: relative;
   padding-right: 10px;
+
+  justify-content: space-between;
+  width: 100%;
 `;
 
 export const ErrorMsg = styled.div`

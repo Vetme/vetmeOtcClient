@@ -8,7 +8,7 @@ import styled, { css } from "styled-components";
 import { ActionBtn, Divider, Flex, Spacer, Text, TokenBadge } from "..";
 import CustomButton from "../Button/CustomButton";
 import { Delete, Send, Swap, VToken, VUser } from "../Icons";
-import { Chart } from "../Modal";
+import { Chart, Counter } from "../Modal";
 
 const common = css`
   position: absolute;
@@ -163,9 +163,11 @@ const Price = styled.div`
 const SwapGrid = ({
   list,
   state,
+  confirmFriction,
 }: {
   list: ListI;
   state: "auth" | "guest";
+  confirmFriction?: (list: ListI) => void;
 }) => {
   const [token, setToken] = useState<any>(null);
   const [open, setOpen] = useState<boolean>(false);
@@ -180,6 +182,14 @@ const SwapGrid = ({
   const handleChart = (token: any) => {
     setOpen(true);
     setToken(token);
+  };
+
+  const handleTrade = (list: ListI) => {
+    if (list.is_friction) {
+      confirmFriction(list);
+    } else {
+      navigate(`/trades/${list._id}`);
+    }
   };
 
   return (
@@ -290,7 +300,7 @@ const SwapGrid = ({
                 <ActionIcon>
                   <ActionBtn
                     className="sm secondary icon"
-                    onClick={() => navigate(`/trades/${list._id}`)}
+                    onClick={() => handleTrade(list)}
                   >
                     <Delete />
                   </ActionBtn>
@@ -306,10 +316,7 @@ const SwapGrid = ({
               </Flex>
             ) : (
               <Actions>
-                <ActionBtn
-                  className="sm"
-                  onClick={() => navigate(`trades/${list._id}`)}
-                >
+                <ActionBtn className="sm" onClick={() => handleTrade(list)}>
                   Trade
                 </ActionBtn>
               </Actions>
@@ -318,11 +325,7 @@ const SwapGrid = ({
         </Body>
       </SwapContainer>
       {token && (
-        <Chart
-          show={open}
-          handleClose={() => setOpen(false)}
-          token={token}
-        />
+        <Chart show={open} handleClose={() => setOpen(false)} token={token} />
       )}
     </>
   );

@@ -24,7 +24,7 @@ const Container = styled.div`
   }
 `;
 const Inner = styled.div`
-  max-width: 95%;
+  max-width: 100%;
   /* margin: auto; */
   left: 50%;
   top: 50%;
@@ -32,15 +32,13 @@ const Inner = styled.div`
   transform: translate(-50%, -50%);
   text-align: center;
   padding: 30px;
-`;
 
-const ButtonWrap = styled.div`
-  display: flex;
-  gap: 10px;
-  width: 70%;
-  margin: auto;
-  @media (max-width: 640px) {
-    width: 100%;
+  @media (max-width: 740px) {
+    left: 50%;
+    top: 10%;
+    position: relative;
+    transform: translate(-50%, 0%);
+    padding: 10px;
   }
 `;
 
@@ -59,6 +57,10 @@ const MainChart = styled.div`
     position: relative;
     top: 50%;
     transform: translateY(-50%);
+  }
+
+  @media (max-width: 740px) {
+    width: 100%;
   }
   /* display:flex; */
   /* align-items:center; */
@@ -87,6 +89,10 @@ const DetailsCard = styled.div`
     top: 0px;
     transform: translateX(-50%);
   }
+
+  @media (max-width: 740px) {
+    width: 100%;
+  }
 `;
 
 interface IChart {
@@ -102,7 +108,7 @@ const Chart = ({ handleClose, show, token }: IChart) => {
     },
   ]);
 
-  const chartOption = useMemo(() => {
+  const chartOption: ApexOptions = useMemo(() => {
     return {
       chart: {
         type: "candlestick",
@@ -118,7 +124,6 @@ const Chart = ({ handleClose, show, token }: IChart) => {
       },
       title: {
         text: "",
-        align: "left",
       },
       xaxis: {
         type: "datetime",
