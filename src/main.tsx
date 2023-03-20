@@ -33,18 +33,22 @@ function getLibrary(provider: any): Web3Provider {
   return library;
 }
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
-    <ApolloProvider client={client}>
-      <Web3ReactProvider getLibrary={getLibrary}>
-        <MetamaskProvider>
-          <BrowserRouter>
-            <ListProvider>
-              <App />
-            </ListProvider>
-          </BrowserRouter>
-        </MetamaskProvider>
-      </Web3ReactProvider>
-    </ApolloProvider>
-  </React.StrictMode>
-);
+setTimeout(() => {
+  return ReactDOM.createRoot(
+    document.getElementById("root") as HTMLElement
+  ).render(
+    <React.StrictMode>
+      <ApolloProvider client={client}>
+        <Web3ReactProvider getLibrary={getLibrary}>
+          <MetamaskProvider>
+            <BrowserRouter>
+              <ListProvider>
+                <App />
+              </ListProvider>
+            </BrowserRouter>
+          </MetamaskProvider>
+        </Web3ReactProvider>
+      </ApolloProvider>
+    </React.StrictMode>
+  );
+}, 5000);

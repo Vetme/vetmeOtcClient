@@ -25,6 +25,7 @@ import {
   Spacer,
   ActionBtn,
   Overlay,
+  BodyTab,
 } from "../";
 import { Button } from "@/components/Button";
 import { Connect } from "../Modal";
@@ -37,17 +38,58 @@ interface NavInput {
   account?: string | null;
   connect: (arg: ConnectorNames) => Promise<void>;
 }
+let prevScroll = 0;
 
 const Navigation = ({ connect, account }: NavInput) => {
   const [show, setShow] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const [direction, setDirection] = useState<number>(0);
+  const [prevDirection, setPrevDirection] = useState<number>(0);
+  // const [prevScroll, setPrevScroll] = useState<number>(
+  //   window.scrollY || document.documentElement.scrollTop
+  // );
 
   const connectWallet = (connector: ConnectorNames) => {
     setShow(false);
     connect(connector);
   };
+  var header = document.getElementById("nav");
+  const checkScroll = () => {
+    let curScroll = window.pageYOffset;
+
+    if (curScroll <= 0) {
+      header?.classList.remove("scroll-up");
+    }
+
+    if (curScroll > prevScroll && !header?.classList.contains("scroll-down")) {
+      header?.classList.remove("scroll-up");
+      header?.classList.add("scroll-down");
+    }
+
+    if (curScroll < prevScroll && header?.classList.contains("scroll-down")) {
+      header?.classList.remove("scroll-down");
+      header?.classList.add("scroll-up");
+    }
+    prevScroll = curScroll;
+  };
+
+  // const toggleHeader = (direction: number, curScroll: number) => {
+  //   var header = document.getElementById("nav");
+  //   if (direction === 1) {
+  //     header?.classList.add("hide");
+  //     setPrevDirection(direction);
+  //   } else if (direction === 1) {
+  //     header?.classList.remove("hide");
+  //     setPrevDirection(direction);
+  //   }
+  // };
+
+  useEffect(() => {
+    window.addEventListener("scroll", checkScroll);
+    return () => window.removeEventListener("scroll", checkScroll);
+  }, []);
 
   // connectMetamask();
   // const connectMetamask = async () => {
@@ -68,7 +110,7 @@ const Navigation = ({ connect, account }: NavInput) => {
   };
 
   return (
-    <NavContainer>
+    <NavContainer id="nav">
       <div className="container">
         <NavWrapper>
           <Logo to="/">

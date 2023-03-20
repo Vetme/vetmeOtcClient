@@ -2,12 +2,13 @@ import { tokens } from "@/data";
 import { truncate } from "@/helpers";
 import { ListI } from "@/types";
 import { formatDateTime, formatSecTime, getForever } from "@/utils";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { ActionBtn, Divider, Flex, Spacer, Text, TokenBadge } from "..";
 import CustomButton from "../Button/CustomButton";
 import { Delete, Send, Swap, VToken, VUser } from "../Icons";
+import { Chart } from "../Modal";
 
 const common = css`
   position: absolute;
@@ -166,6 +167,9 @@ const SwapGrid = ({
   list: ListI;
   state: "auth" | "guest";
 }) => {
+  const [token, setToken] = useState<any>(null);
+  const [open, setOpen] = useState<boolean>(false);
+
   const navigate = useNavigate();
   function translateY(
     arg0: number
@@ -173,128 +177,154 @@ const SwapGrid = ({
     throw new Error("Function not implemented.");
   }
 
+  const handleChart = (token: any) => {
+    setOpen(true);
+    setToken(token);
+  };
+
   return (
-    <SwapContainer className={state == "auth" ? "auth" : "guest"}>
-      <Header>
-        <TopFLeft>
-          <Text size="s3" uppercase>
-            {list.token_out_metadata?.symbol}/{list.token_in_metadata?.symbol}
-          </Text>
-        </TopFLeft>
-        <TopFRight className={state == "auth" ? "auth" : "guest"}>
-          {!list.verified && <VUser />}
-          <Text size="s3">{truncate(list.receiving_wallet, 9, "***")}</Text>
-        </TopFRight>
-      </Header>
-      <Body>
-        <DetailWrapperT>
-          <Flex align="center">
-            <TokenBadge
-              token={list.token_out_metadata}
-              handleClick={() => null}
-            />
-            <Spacer width={15} widthM={10} />
-            <Text uppercase weight="800" sizeM="10px" size="s2" color="#848892">
-              Give
+    <>
+      <SwapContainer className={state == "auth" ? "auth" : "guest"}>
+        <Header>
+          <TopFLeft>
+            <Text size="s3" uppercase>
+              {list.token_out_metadata?.symbol}/{list.token_in_metadata?.symbol}
             </Text>
-          </Flex>
-          <Swap />
-          <Flex align="center">
-            <Text uppercase weight="800" size="s2" sizeM="10px" color="#848892">
-              Get
-            </Text>
-            <Spacer width={15} widthM={10} />
-            <TokenBadge
-              token={list.token_in_metadata}
-              handleClick={() => null}
-            />
-          </Flex>
-        </DetailWrapperT>
-        <Price>
-          <Text
-            style={{ whiteSpace: "nowrap" }}
-            uppercase
-            size="s1"
-            color=" #170728"
-          >
-            {Number(list.amount_out).toFixed(2)} &nbsp;
-            {list.token_out_metadata?.symbol}
-          </Text>
-
-          <Text
-            uppercase
-            size="s1"
-            color=" #170728"
-            style={{ whiteSpace: "nowrap" }}
-          >
-            {Number(list.amount_in).toFixed(2)} &nbsp;
-            {list.token_in_metadata?.symbol}
-          </Text>
-        </Price>
-
-        <DetailWrapper>
-          <BottomFLeft>
-            <Text size="s3" sizeM="tiny-2">
-              Escrow Fee 3%
-            </Text>
-          </BottomFLeft>
-          <Details>
-            <Text size="s3" color="#5D5169 " uppercase>
-              Published : {formatDateTime(list.createdAt)}
-            </Text>
-            <Text as="div" size="s3" color="#5D5169" uppercase>
-              Gain relative to Chart Prices::{" "}
+          </TopFLeft>
+          <TopFRight className={state == "auth" ? "auth" : "guest"}>
+            {!list.verified && <VUser />}
+            <Text size="s3">{truncate(list.receiving_wallet, 9, "***")}</Text>
+          </TopFRight>
+        </Header>
+        <Body>
+          <DetailWrapperT>
+            <Flex align="center">
+              <TokenBadge
+                token={list.token_out_metadata}
+                handleClick={() => handleChart(list.token_out_metadata)}
+              />
+              <Spacer width={15} widthM={10} />
               <Text
-                style={{ display: "inline-block" }}
-                color={true ? "#12B347" : "#B31212"}
+                uppercase
+                weight="800"
+                sizeM="10px"
+                size="s2"
+                color="#848892"
               >
-                {" "}
-                +10%{" "}
+                Give
               </Text>
+            </Flex>
+            <Swap />
+            <Flex align="center">
+              <Text
+                uppercase
+                weight="800"
+                size="s2"
+                sizeM="10px"
+                color="#848892"
+              >
+                Get
+              </Text>
+              <Spacer width={15} widthM={10} />
+              <TokenBadge
+                token={list.token_in_metadata}
+                handleClick={() => null}
+              />
+            </Flex>
+          </DetailWrapperT>
+          <Price>
+            <Text
+              style={{ whiteSpace: "nowrap" }}
+              uppercase
+              size="s1"
+              color=" #170728"
+            >
+              {Number(list.amount_out).toFixed(2)} &nbsp;
+              {list.token_out_metadata?.symbol}
             </Text>
-            {/* {Number(list.amount_in).toFixed(2)} &nbsp;
+
+            <Text
+              uppercase
+              size="s1"
+              color=" #170728"
+              style={{ whiteSpace: "nowrap" }}
+            >
+              {Number(list.amount_in).toFixed(2)} &nbsp;
+              {list.token_in_metadata?.symbol}
+            </Text>
+          </Price>
+
+          <DetailWrapper>
+            <BottomFLeft>
+              <Text size="s3" sizeM="tiny-2">
+                Escrow Fee 3%
+              </Text>
+            </BottomFLeft>
+            <Details>
+              <Text size="s3" color="#5D5169 " uppercase>
+                Published : {formatDateTime(list.createdAt)}
+              </Text>
+              <Text as="div" size="s3" color="#5D5169" uppercase>
+                Gain relative to Chart Prices::{" "}
+                <Text
+                  style={{ display: "inline-block" }}
+                  color={true ? "#12B347" : "#B31212"}
+                >
+                  {" "}
+                  +10%{" "}
+                </Text>
+              </Text>
+              {/* {Number(list.amount_in).toFixed(2)} &nbsp;
               {list.token_in_metadata?.symbol} */}
 
-            <Text size="s3" color="#5D5169" uppercase>
-              Expiry Time :{" "}
-              {list.deadline == getForever
-                ? "Forever"
-                : formatSecTime(list.deadline)}
-            </Text>
-          </Details>
+              <Text size="s3" color="#5D5169" uppercase>
+                Expiry Time :{" "}
+                {list.deadline == getForever
+                  ? "Forever"
+                  : formatSecTime(list.deadline)}
+              </Text>
+            </Details>
 
-          {state == "auth" ? (
-            <Flex gap={16} style={{ marginTop: 10 }}>
-              <ActionIcon>
-                <ActionBtn
-                  className="sm secondary icon"
-                  onClick={() => navigate(`/trades/${list._id}`)}
-                >
-                  <Delete />
-                </ActionBtn>
-              </ActionIcon>
-              <Action2>
+            {state == "auth" ? (
+              <Flex gap={16} style={{ marginTop: 10 }}>
+                <ActionIcon>
+                  <ActionBtn
+                    className="sm secondary icon"
+                    onClick={() => navigate(`/trades/${list._id}`)}
+                  >
+                    <Delete />
+                  </ActionBtn>
+                </ActionIcon>
+                <Action2>
+                  <ActionBtn
+                    className="sm"
+                    onClick={() => navigate(`trades/${list._id}`)}
+                  >
+                    Edit
+                  </ActionBtn>
+                </Action2>
+              </Flex>
+            ) : (
+              <Actions>
                 <ActionBtn
                   className="sm"
                   onClick={() => navigate(`trades/${list._id}`)}
                 >
-                  Edit
+                  Trade
                 </ActionBtn>
-              </Action2>
-            </Flex>
-          ) : (
-            <Actions>
-              <ActionBtn
-                className="sm"
-                onClick={() => navigate(`trades/${list._id}`)}
-              >
-                Trade
-              </ActionBtn>
-            </Actions>
-          )}
-        </DetailWrapper>
-      </Body>
-    </SwapContainer>
+              </Actions>
+            )}
+          </DetailWrapper>
+        </Body>
+      </SwapContainer>
+      {token && (
+        <Chart
+          show={open}
+          handleClose={() => setOpen(false)}
+          token={token}
+        />
+      )}
+    </>
   );
 };
 

@@ -38,11 +38,19 @@ export const Nav = styled.div`
 
 export const NavContainer = styled.div`
   height: 72px;
-  top: 0;
   position: relative;
+  position: fixed;
+  width: 100%;
+  transition: 0.3s ease;
+  /* z-index: 9999; */
+  z-index: 99999;
 
-  z-index: 9999;
-
+  &.scroll-up {
+    /* transform: translate3d(0px, -100px, 0px); */
+  }
+  &.scroll-down {
+    transform: translate3d(0px, -100px, 0px);
+  }
   &.added {
     position: sticky;
   }
@@ -88,9 +96,10 @@ export const NavWrapper = styled.div`
   border: 1px solid #5d5169;
   padding: 0px 16px;
   margin: 16px 0px;
-  z-index: 999;
+  z-index: 9999;
   position: relative;
   background: #fff;
+  /* width: calc(100% - 50px); */
 `;
 export const NavItems = styled.div`
   @media (max-width: 640px) {
@@ -251,6 +260,7 @@ export const MobileMenu = styled.div`
   background-size: 100% 100%;
   backdrop-filter: blur(5px);
   transition: all 0.7s 0s;
+  z-index: 99999;
 
   &.added {
     /* border: 1px solid #5d5169; */

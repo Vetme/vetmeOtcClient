@@ -11,6 +11,7 @@ export const BodyWrapper = styled.main`
   /* background: #fafafa; */
   padding: 35px 0px;
   flex: 1;
+  margin-top: 80px;
 `;
 export const OnlyMobile = styled.div`
   display: none;

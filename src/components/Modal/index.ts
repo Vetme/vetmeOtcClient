@@ -5,3 +5,4 @@ export { default as TokenCard } from "./TokenCard";
 export { default as Share } from "./Share";
 export { default as ListModal } from "./List";
 export { default as Settings } from "./Settings";
+export { default as Chart } from "./Chart";

@@ -40,12 +40,13 @@ import {
 import { useListFetch, useTokenFetch } from "@/hooks/customHooks";
 import { truncate } from "@/helpers";
 import { formatDateTime, formatSecTime, getForever } from "@/utils";
-import { Message } from "@/components/Modal";
+import { Chart, Message } from "@/components/Modal";
 
 const HomePage = () => {
   const [display, setDisplay] = useState<"grid" | "list">("grid");
   const [mode, setMode] = useState<"list" | "swap">("swap");
   const [open, setOpen] = useState<boolean>(false);
+  const [openChart, setOpenChart] = useState<boolean>(true);
   const { loading, data, setQuery, query } = useListFetch();
   const navigate = useNavigate();
 
@@ -69,8 +70,8 @@ const HomePage = () => {
               >
                 <Linear />
               </SwitchItem>
+              {/* onClick={() => setDisplay("list")} */}
               <SwitchItem
-                onClick={() => setDisplay("list")}
                 className={display === "list" ? "active list" : "list"}
               >
                 <ListGrid />
@@ -180,8 +181,6 @@ const HomePage = () => {
             </ListCon>
           )}
         </HomeBody>
-        {/* // redirectUrl="test-tokens" */}
-        {/* headerText="Test Tokens" */}
         <Message
           type="ld"
           show={open}
