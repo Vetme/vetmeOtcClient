@@ -38,7 +38,6 @@ interface NavInput {
   account?: string | null;
   connect: (arg: ConnectorNames) => Promise<void>;
 }
-let prevScroll = 0;
 
 const Navigation = ({ connect, account }: NavInput) => {
   const [show, setShow] = useState<boolean>(false);
@@ -47,6 +46,7 @@ const Navigation = ({ connect, account }: NavInput) => {
   const navigate = useNavigate();
   const [direction, setDirection] = useState<number>(0);
   const [prevDirection, setPrevDirection] = useState<number>(0);
+  let prevScroll = 0;
   // const [prevScroll, setPrevScroll] = useState<number>(
   //   window.scrollY || document.documentElement.scrollTop
   // );

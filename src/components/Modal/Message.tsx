@@ -80,7 +80,7 @@ interface IMessage {
   show: boolean;
   headerText?: string;
   msg: string;
-  type: string;
+  type?: string;
 }
 
 const Message = ({

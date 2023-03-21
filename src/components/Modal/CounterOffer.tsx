@@ -1,5 +1,3 @@
-import { ListContext, ListContextType } from "@/context/Listcontext";
-import { tokens } from "@/data";
 import { ListI, TokenI } from "@/types";
 import React, { useState, useContext, useEffect } from "react";
 import { CSSTransition } from "react-transition-group";
@@ -19,14 +17,9 @@ import {
   Text,
   TokenBadge,
 } from "..";
-import { Button } from "../Button";
-import { Send, Swap, Add, ArrowRight } from "../Icons";
-import { Connect as ConnectModal, Settings, TokenSelect } from "../Modal";
-import { Web3Provider } from "@ethersproject/providers";
-import { useWeb3React } from "@web3-react/core";
-import { ConnectContext, ConnectContextType } from "@/context/ConnectContext";
-import Toggle from "../Toggle";
 import { parseError } from "@/utils";
+import apiHelper from "@/helpers/apiHelper";
+import Message from "./Message";
 
 // import { hooks, metaMask } from "@/connector/metaMask";
 const Container = styled.div`
@@ -127,6 +120,10 @@ const InputWrapper = styled.div`
   background-repeat: no-repeat;
   background-position: top;
   padding: 24px 16px 16px;
+
+  @media (max-width: 640px) {
+    background-size: 100%;
+  }
 `;
 
 interface ICounter {
@@ -135,10 +132,16 @@ interface ICounter {
   firstOffer: ListI;
 }
 
+const init = {
+  amount_in: "",
+  amount_out: "",
+};
+
 const ListCard = ({ handleClose, show, firstOffer }: ICounter) => {
   const navigate = useNavigate();
-
-  const [form, setForm] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [form, setForm] = useState(init);
 
   const isValid = () => {
     // return form.amount_in !== (0 || "") && form.amount_out !== (0 || "");
@@ -148,14 +151,26 @@ const ListCard = ({ handleClose, show, firstOffer }: ICounter) => {
     let value = e.target.value;
     const name = e.target.name;
 
-    setForm((initialState: any) => ({
-      ...initialState,
+    setForm((prevState: any) => ({
+      ...prevState,
       [name]: value,
     }));
   };
 
-  const handleContinue = () => {
-    alert();
+  const handleSubmit = async () => {
+    const data = { ...form, list_id: firstOffer._id };
+    try {
+      setLoading(true);
+      const res = await apiHelper.counter(data);
+      handleClose();
+      setOpen(true);
+      setForm(init);
+    } catch (error) {
+      parseError("Opps, something went wrong");
+    } finally {
+      setLoading(false);
+    }
+
     // navigate("/list");
   };
 
@@ -215,7 +230,8 @@ const ListCard = ({ handleClose, show, firstOffer }: ICounter) => {
                       handleClick={() => null}
                     />
                     <Text size="s1" sizeM="s1" color="#170728">
-                      400 vetme
+                      {firstOffer.amount_in}{" "}
+                      {firstOffer.token_in_metadata.symbol}
                     </Text>
                   </Flex>
                   <Spacer height={16} />
@@ -226,7 +242,8 @@ const ListCard = ({ handleClose, show, firstOffer }: ICounter) => {
                       handleClick={() => null}
                     />
                     <Text size="s1" sizeM="s1" color="#170728">
-                      400 vetme
+                      {firstOffer.amount_out}{" "}
+                      {firstOffer.token_out_metadata.symbol}
                     </Text>
                   </Flex>
                 </DetailsWrapper>
@@ -249,10 +266,10 @@ const ListCard = ({ handleClose, show, firstOffer }: ICounter) => {
                       <InputInner>
                         <Input
                           onChange={handleChange}
-                          name="amount_out"
+                          name="amount_in"
                           placeholder="0.0"
                           type="number"
-                          value={firstOffer.token_in}
+                          value={form.amount_in}
                           step={0.1}
                         />
                         <div>
@@ -271,8 +288,8 @@ const ListCard = ({ handleClose, show, firstOffer }: ICounter) => {
                       <InputInner>
                         <Input
                           onChange={handleChange}
-                          name="amount_in"
-                          value={firstOffer.token_out}
+                          name="amount_out"
+                          value={form.amount_out}
                           type="number"
                           step={0.1}
                           placeholder="0.0"
@@ -291,7 +308,9 @@ const ListCard = ({ handleClose, show, firstOffer }: ICounter) => {
                   <Spacer height={20} />
                   {/* disabled={!isValid()} */}
                   <Center>
-                    <ActionBtn onClick={handleContinue}>Send offer</ActionBtn>
+                    <ActionBtn disabled={loading} onClick={handleSubmit}>
+                      Send offer
+                    </ActionBtn>
                   </Center>
                 </InputWrapper>
               </Body>
@@ -299,6 +318,13 @@ const ListCard = ({ handleClose, show, firstOffer }: ICounter) => {
           </Inner>
         </Container>
       </CSSTransition>
+
+      <Message
+        show={open}
+        handleClose={() => setOpen(false)}
+        msg="Your offer has been sent successfully"
+        headerText="Success"
+      />
     </>
   );
 };

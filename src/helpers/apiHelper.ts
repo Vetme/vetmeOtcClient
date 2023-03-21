@@ -6,6 +6,7 @@ export default {
   getAccount: (account: string | null | undefined) =>
     axios.get(`${BASE_URL}/users/${account}`),
   upDateList: (data: any) => axios.patch(`${BASE_URL}/lists/${data.id}`, data),
+  counter: (data: any) => axios.post(`${BASE_URL}/lists/counter`, data),
   getTokenDetails: (address: any) =>
     axios.get(
       `https://api.coingecko.com/api/v3/coins/ethereum/contract/${address}`
