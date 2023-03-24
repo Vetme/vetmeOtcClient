@@ -100,7 +100,7 @@ const Trans = () => {
       account
     );
     setAllowance(fromBigNumber(allowance.toString()));
-    if (Math.floor(+fromBigNumber(allowance.toString())) >= form.amount_out) {
+    if (+fromBigNumber(allowance.toString()) >= form.amount_out) {
       if (status == 3) return;
       setStatus(2);
     }
@@ -114,6 +114,7 @@ const Trans = () => {
         library,
         chainId
       );
+
       const approval = await approveToken(
         form?.token_out_metadata?.address,
         library,
@@ -130,7 +131,7 @@ const Trans = () => {
       if (err === undefined) return;
 
       toast.error("Opps, something went wrong!", {
-        position: toast.POSITION.TOP_RIGHT,
+        position: toast.POSITION.BOTTOM_RIGHT,
       });
     } finally {
       setApproving(false);
@@ -146,7 +147,6 @@ const Trans = () => {
     navigator.clipboard.writeText(privateLink);
     parseSuccess("Copied");
   };
-
   return (
     <ContainerSm>
       <OnlyMobile>
@@ -317,7 +317,7 @@ const Trans = () => {
                   <Flex>
                     <CustomButton
                       classNames="secondary semi-rounded lg"
-                      onClick={() => alert()}
+                      onClick={() => setOpenS(true)}
                       text="Share your Offer"
                     />
                     <Spacer width={8} />
@@ -363,7 +363,7 @@ const Trans = () => {
                   <Flex>
                     <CustomButton
                       classNames="secondary semi-rounded lg"
-                      onClick={() => alert()}
+                      onClick={() => setOpenS(true)}
                       text="Share your Offer"
                     />
                     <Spacer width={8} />

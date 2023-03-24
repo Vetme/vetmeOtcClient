@@ -41,12 +41,13 @@ const SwapContainer = styled.div`
   background-image: url(/images/bg/counter-offer.png);
   background-repeat: no-repeat;
   background-position: top center;
-  background-size: cover;
+  /* background-size: cover; */
+  background-size: 100% 100%;
   position: relative;
 
   .header {
     position: absolute;
-    left: 64px;
+    left: 58px;
 
     @media (max-width: 640px) {
       left: 48px;
@@ -111,7 +112,7 @@ const Close = styled.div`
 `;
 
 const DetailsWrapper = styled.div`
-  padding: 56px 16px 16px;
+  padding: 0px 16px 16px;
 `;
 
 const InputWrapper = styled.div`
@@ -158,7 +159,10 @@ const ListCard = ({ handleClose, show, firstOffer }: ICounter) => {
   };
 
   const handleSubmit = async () => {
-    const data = { ...form, list_id: firstOffer._id };
+    const data = {
+      ...form,
+      list_id: firstOffer._id,
+    };
     try {
       setLoading(true);
       const res = await apiHelper.counter(data);

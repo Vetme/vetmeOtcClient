@@ -8,7 +8,7 @@ import {
   ContainerSm,
 } from "@/components";
 import { Button } from "@/components/Button";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Web3Provider } from "@ethersproject/providers";
 import { useWeb3React } from "@web3-react/core";
 
@@ -45,16 +45,22 @@ import { fromBigNumber, listSign, parseError, parseSuccess } from "@/utils";
 import CustomButton from "@/components/Button/CustomButton";
 import BigNumber from "bignumber.js";
 import Api from "@/helpers/apiHelper";
-import { Message } from "@/components/Modal";
+import { Message, Connect as ConnectModal } from "@/components/Modal";
 import { BrandBlock, PCircle, StepLine } from "@/components/Icons";
+import { ConnectContext, ConnectContextType } from "@/context/ConnectContext";
 
 const Trans = () => {
-  const [status, setStatus] = useState<number>(1); //
-  const [loading, setLoading] = useState<boolean>(false); //
-  const [open, setOpen] = useState<boolean>(false); //
+  const [status, setStatus] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
   const [approving, setApproving] = useState<boolean>(false);
-  const [listing, setListing] = useState<ListI | undefined>(undefined); //
+  const [listing, setListing] = useState<ListI | undefined>(undefined);
   const [allowance, setAllowance] = useState<string>("");
+  const [amount, setAmount] = useState<any>(listing?.amount_out_balance);
+  const [error, setError] = useState<any>("");
+  const { connect } = useContext(ConnectContext) as ConnectContextType;
+  const [show, setShow] = useState<boolean>(false);
+
   let { id } = useParams();
   const navigate = useNavigate();
 
@@ -77,6 +83,7 @@ const Trans = () => {
       setLoading(false);
       setListing(listing);
       setStatus(listing.status);
+      setAmount(listing.amount_out_balance);
     } catch (e) {
       console.log({ error84: e });
     }
@@ -157,13 +164,14 @@ const Trans = () => {
         id: listing?._id,
         account,
         transactionHash: response.transactionHash,
+        amount: amount,
       };
 
-      await Api.upDateList(data);
+      await Api.upDateListComp(data);
       setStatus(3);
       parseSuccess("Swap Successful");
     } catch (err: any) {
-      parseError(err.reason);
+      parseError(err.reason || err.message);
     } finally {
       setApproving(false);
     }
@@ -172,6 +180,19 @@ const Trans = () => {
   const handleConvertWeth = async () => {
     await convertWeth(library, chainId);
   };
+
+  const handleChange = (e: any) => {
+    setError("");
+    const val = e.target.value;
+    console.log(listing?.amount_out_balance, val);
+    if (val > listing?.amount_out_balance) {
+      setError("Amount exceeds available");
+    }
+    setAmount(val);
+  };
+
+  const amountComputed =
+    (listing?.amount_in * amount) / listing?.amount_out_balance;
 
   return (
     <ContainerSm>
@@ -220,7 +241,8 @@ const Trans = () => {
                       You give
                     </Text>
                     <Text size="s1" color="#fff">
-                      {listing?.amount_in} {listing?.token_in_metadata.symbol}
+                      {/* {listing?.amount_in} {listing?.token_in_metadata.symbol} */}
+                      {amountComputed} {listing?.token_in_metadata.symbol}
                     </Text>
                     <Text size="s2" color="#E8E6EA">
                       (Escrow fee : 1%)
@@ -247,6 +269,7 @@ const Trans = () => {
                     </Text>
                   </TradeItem>
                   <Spacer height={24} />
+                  <span className="error">{error}</span>
                   {account && Number(listing?.status) < 3 ? (
                     <Flex className="">
                       {Number(allowance) < listing?.amount_in ? (
@@ -258,13 +281,26 @@ const Trans = () => {
                           disabled={loading || approving}
                         />
                       ) : (
-                        <CustomButton
-                          classNames="secondary"
-                          onClick={() => matchOrder()}
-                          text="Swap"
-                          loading={loading || approving}
-                          disabled={loading || approving}
-                        />
+                        <Flex gap={8}>
+                          {listing?.is_friction && (
+                            <input
+                              className={!!error ? "error s-input" : "s-input"}
+                              step="0.5"
+                              value={amount}
+                              name="value"
+                              onChange={handleChange}
+                              placeholder="0.0"
+                              type="number"
+                            />
+                          )}
+                          <CustomButton
+                            classNames="secondary"
+                            onClick={() => matchOrder()}
+                            text="Swap"
+                            loading={loading || approving}
+                            disabled={loading || approving || !!error}
+                          />
+                        </Flex>
                       )}
                       {/* <Spacer width={41} />
                       <Button
@@ -275,7 +311,9 @@ const Trans = () => {
                       </Button> */}
                     </Flex>
                   ) : (
-                    <></>
+                    <Button className="secondary" onClick={() => setShow(true)}>
+                      Connect
+                    </Button>
                   )}
                 </LBottom>
               </LeftContent>
@@ -332,21 +370,37 @@ const Trans = () => {
                         disabled={loading || approving}
                       />
                     ) : (
-                      <CustomButton
-                        classNames="secondary"
-                        onClick={() => matchOrder()}
-                        text="Swap"
-                        loading={loading || approving}
-                        disabled={loading || approving}
-                      />
+                      <Flex gap={8}>
+                        {listing?.is_friction && (
+                          <input
+                            className={!!error ? "error s-input" : "s-input"}
+                            step="0.5"
+                            value={amount}
+                            name="value"
+                            onChange={handleChange}
+                            placeholder="0.0"
+                            type="number"
+                          />
+                        )}
+                        <CustomButton
+                          classNames="secondary"
+                          onClick={() => matchOrder()}
+                          text="Swap"
+                          loading={loading || approving}
+                          disabled={loading || approving}
+                        />
+                      </Flex>
                     )}
+
                     <Spacer width={41} />
                     <Button className="" onClick={() => navigate("/")}>
                       Cancel
                     </Button>
                   </>
                 ) : (
-                  <></>
+                  <Button className="secondary" onClick={() => setShow(true)}>
+                    Connect
+                  </Button>
                 )}
 
                 {/* <Button className="primary  m-sm">Chat User</Button> */}
@@ -402,6 +456,15 @@ const Trans = () => {
         headerText="Escrow Fee"
         type="info"
         msg="Escrow Fee is a trading fee we charge to guarantee you a secured transaction. We charge from both parties to safe guard token transactions. Our fee’s are not more than 3% per trade. If trades are cancelled at any point in the transaction queue, we would refund all payments inclusive of the Escrow Fee. We provide this feature on all token and coin transactions on our platform. If you have anymore questions please reach us on our email support@vetme.com or via our telegram platform. Thanks for trading with us."
+      />
+
+      <ConnectModal
+        show={show}
+        connect={(connector) => {
+          setShow(false);
+          connect(connector);
+        }}
+        handleClose={() => setShow(false)}
       />
     </ContainerSm>
   );

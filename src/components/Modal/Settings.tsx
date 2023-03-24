@@ -182,7 +182,7 @@ const Settings = ({ show, handleClose }: IMessage) => {
               </Flex>
               <Spacer height={32} />
               <Center>
-                <ActionBtn onClick={() => alert()}>
+                <ActionBtn onClick={() => handleClose()}>
                   Continue{" "}
                   <div>
                     <ArrowRight />

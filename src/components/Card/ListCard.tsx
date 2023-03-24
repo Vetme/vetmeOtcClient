@@ -47,14 +47,7 @@ const SwapContainer = styled.div`
     transform: translateX(-50%);
   }
 `;
-const Header = styled.div`
-  background: rgba(125, 169, 255, 0.47);
-  padding: 17px 50px;
-  border-radius: 20px 20px 0px 0px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+
 const Body = styled.div`
   padding: 40px 16px 16px;
 

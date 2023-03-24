@@ -86,10 +86,7 @@ const Navigation = ({ connect, account }: NavInput) => {
   //   }
   // };
 
-  useEffect(() => {
-    window.addEventListener("scroll", checkScroll);
-    return () => window.removeEventListener("scroll", checkScroll);
-  }, []);
+  window.addEventListener("scroll", checkScroll);
 
   // connectMetamask();
   // const connectMetamask = async () => {

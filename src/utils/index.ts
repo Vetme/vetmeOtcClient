@@ -74,18 +74,19 @@ export const parseError = (err: any) => {
     const errors = err.response.data.errors;
     const msg: any = Object.values(errors);
     toast.error(msg[0].msg, {
-      position: toast.POSITION.TOP_RIGHT,
+      position: toast.POSITION.BOTTOM_RIGHT,
     });
   } else {
     toast.error(err || "Opps, something went wrong!", {
-      position: toast.POSITION.TOP_RIGHT,
+      position: toast.POSITION.BOTTOM_RIGHT,
     });
   }
 };
 
 export const parseSuccess = (msg: string) => {
   toast.success(msg, {
-    position: toast.POSITION.TOP_RIGHT,
+    position: toast.POSITION.BOTTOM_RIGHT,
+    hideProgressBar: true,
   });
 };
 

@@ -47,35 +47,35 @@ export const tokens = [
     address: "0x63bEf5e5bd830F61aD5C19fD8Db80462D44ea323",
     symbol: "VETME",
     name: "VetMe Token",
-    avatar: "/images/coins/ethereum.png",
+    icon: "/images/coins/polygon.png",
   },
   {
     id: 1,
     address: "0x9a2992BA2d4dF6ea92Bae65951a68da48fbb70fB",
     symbol: "COOL",
     name: "Cool Token",
-    avatar: "/images/coins/ethereum.png",
+    icon: "/images/coins/doge.png",
   },
   {
     id: 1,
     address: "0x1004e8AE4387B587eCb06dcf4398c2A395c4b2F2",
     symbol: "HOT",
     name: "Hot",
-    avatar: "/images/coins/ethereum.png",
+    icon: "/images/coins/bnb.png",
   },
   {
     id: 1,
     address: "0xa1FacC25A9ff9fECEb9d23A9b6d53b5839F62160",
     symbol: "MESS",
     name: "Messi Token",
-    avatar: "/images/coins/ethereum.png",
+    icon: "/images/coins/dai.png",
   },
   {
     id: 1,
     address: "0x1a237400185127d8b19d6ba7cad5d952a661dd56",
     symbol: "WETH",
     name: "Wrap Ether",
-    avatar: "/images/coins/ethereum.png",
+    icon: "/images/coins/ethereum.png",
   },
 ];
 
@@ -260,5 +260,23 @@ export const defaultToken = [
     name: "Huobi Token",
     address: "0x6f259637dcd74c767781e37bc6133cd6a68aa161",
     icon: "",
+  },
+];
+
+export const pairs = [
+  {
+    chain: 1,
+    name: "ETH",
+    address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+  },
+  {
+    chain: 1,
+    name: "USDC",
+    address: "0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc",
+  },
+  {
+    chain: 1,
+    name: "USDT",
+    address: "0xdac17f958d2ee523a2206206994597c13d831ec7",
   },
 ];

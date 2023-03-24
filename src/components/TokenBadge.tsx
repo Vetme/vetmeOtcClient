@@ -15,8 +15,9 @@ const Container = styled.div`
   height: 32px;
 `;
 const ImgWrap = styled.div`
-  height: 16px;
-  /* width: 16px; */
+  height: 20px;
+  width: 20px;
+  background: #f6f6f7;
   flex-shrink: 0;
   border-radius: 50%;
 
@@ -24,6 +25,7 @@ const ImgWrap = styled.div`
     height: 100%;
     width: 100%;
     border-radius: 50%;
+    object-fit: contain;
   }
 `;
 

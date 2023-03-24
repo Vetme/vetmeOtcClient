@@ -1,14 +1,21 @@
 import { tokens } from "@/data";
 import { truncate } from "@/helpers";
+import apiHelper from "@/helpers/apiHelper";
 import { ListI } from "@/types";
-import { formatDateTime, formatSecTime, getForever } from "@/utils";
+import {
+  formatDateTime,
+  formatSecTime,
+  getForever,
+  parseError,
+  parseSuccess,
+} from "@/utils";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { ActionBtn, Divider, Flex, Spacer, Text, TokenBadge } from "..";
 import CustomButton from "../Button/CustomButton";
 import { Delete, Send, Swap, VToken, VUser } from "../Icons";
-import { Chart, Counter } from "../Modal";
+import { Chart, Counter, ListModal } from "../Modal";
 
 const common = css`
   position: absolute;
@@ -163,14 +170,17 @@ const Price = styled.div`
 const SwapGrid = ({
   list,
   state,
+  account,
   confirmFriction,
 }: {
   list: ListI;
   state: "auth" | "guest";
-  confirmFriction?: (list: ListI) => void;
+  account?: string | null;
+  confirmFriction: (list: ListI) => void;
 }) => {
   const [token, setToken] = useState<any>(null);
   const [open, setOpen] = useState<boolean>(false);
+  const [openEdit, setEditOpen] = useState<boolean>(false);
 
   const navigate = useNavigate();
   function translateY(
@@ -185,10 +195,18 @@ const SwapGrid = ({
   };
 
   const handleTrade = (list: ListI) => {
-    if (list.is_friction) {
-      confirmFriction(list);
-    } else {
-      navigate(`/trades/${list._id}`);
+    confirmFriction(list);
+  };
+
+  const handleRemove = async (list: ListI) => {
+    const confirm_it = confirm("Are you sure ?");
+    if (!confirm_it) return;
+
+    try {
+      await apiHelper.removeList({ id: list._id, account: account });
+      parseSuccess("List Deleted");
+    } catch (error) {
+      parseError("Unable to delete");
     }
   };
 
@@ -216,10 +234,10 @@ const SwapGrid = ({
               <Spacer width={15} widthM={10} />
               <Text
                 uppercase
-                weight="800"
+                weight="400"
                 sizeM="10px"
-                size="s2"
-                color="#848892"
+                size="s3"
+                color="#453953"
               >
                 Give
               </Text>
@@ -228,17 +246,17 @@ const SwapGrid = ({
             <Flex align="center">
               <Text
                 uppercase
-                weight="800"
-                size="s2"
+                weight="400"
+                size="s3"
                 sizeM="10px"
-                color="#848892"
+                color="#453953"
               >
                 Get
               </Text>
               <Spacer width={15} widthM={10} />
               <TokenBadge
                 token={list.token_in_metadata}
-                handleClick={() => null}
+                handleClick={() => handleChart(list.token_in_metadata)}
               />
             </Flex>
           </DetailWrapperT>
@@ -281,7 +299,8 @@ const SwapGrid = ({
                   color={true ? "#12B347" : "#B31212"}
                 >
                   {" "}
-                  +10%{" "}
+                  --
+                  {/* +10%{" "} */}
                 </Text>
               </Text>
               {/* {Number(list.amount_in).toFixed(2)} &nbsp;
@@ -300,16 +319,13 @@ const SwapGrid = ({
                 <ActionIcon>
                   <ActionBtn
                     className="sm secondary icon"
-                    onClick={() => handleTrade(list)}
+                    onClick={() => handleRemove(list)}
                   >
                     <Delete />
                   </ActionBtn>
                 </ActionIcon>
                 <Action2>
-                  <ActionBtn
-                    className="sm"
-                    onClick={() => navigate(`trades/${list._id}`)}
-                  >
+                  <ActionBtn className="sm" onClick={() => setEditOpen(true)}>
                     Edit
                   </ActionBtn>
                 </Action2>
@@ -326,6 +342,14 @@ const SwapGrid = ({
       </SwapContainer>
       {token && (
         <Chart show={open} handleClose={() => setOpen(false)} token={token} />
+      )}
+
+      {openEdit && (
+        <ListModal
+          show={openEdit}
+          handleClose={() => setEditOpen(false)}
+          list={list}
+        />
       )}
     </>
   );

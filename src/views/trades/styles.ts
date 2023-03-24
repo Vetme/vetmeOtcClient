@@ -47,7 +47,7 @@ export const RightContent = styled(Flex)`
 `;
 export const LTop = styled.div`
   @media (max-width: 640px) {
-    margin-top: 10px;
+    margin-top: 20px;
   }
 `;
 export const LBottom = styled.div`
@@ -57,7 +57,7 @@ export const LBottom = styled.div`
 `;
 export const RTop = styled.div`
   @media (max-width: 640px) {
-    margin-top: 10px;
+    margin-top: 20px;
   }
 `;
 export const RBottom = styled.div`

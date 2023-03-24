@@ -30,6 +30,7 @@ export type ListI = {
   from_token_verified?: boolean;
   to_token_verified?: boolean;
   is_friction?: boolean;
+  amount_out_balance?:any;
 };
 
 export enum Blockchain {

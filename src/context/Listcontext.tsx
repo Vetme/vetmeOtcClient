@@ -87,7 +87,6 @@ const ListProvider: React.FC<Props> = ({ children }) => {
         setPrivateLink(link);
       } else {
         setLoading(false);
-        alert(JSON.stringify(list));
         setForm(list);
         clearLocal();
         // navigate("/");

@@ -2038,3 +2038,22 @@ svg.loading {
     stroke-dashoffset: 60px;
   }
 }
+
+.s-input {
+  height: 43px;
+  border-radius: 100px;
+  border: none;
+  background: #ffffff5c;
+  padding: 12px;
+  color: #fff;
+}
+
+.s-input.error {
+  border: 1px solid #b72121;
+  background: #b8181a1c;
+}
+
+.error {
+  color: #b72121;
+  font-size: 12px;
+}
