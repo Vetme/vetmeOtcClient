@@ -270,7 +270,7 @@ const Trans = () => {
                   </TradeItem>
                   <Spacer height={24} />
                   <span className="error">{error}</span>
-                  {account && Number(listing?.status) < 3 ? (
+                  {account && status < 3 ? (
                     <Flex className="">
                       {Number(allowance) < listing?.amount_in ? (
                         <CustomButton
@@ -311,9 +311,14 @@ const Trans = () => {
                       </Button> */}
                     </Flex>
                   ) : (
-                    <Button className="secondary" onClick={() => setShow(true)}>
-                      Connect
-                    </Button>
+                    !account && (
+                      <Button
+                        className="secondary"
+                        onClick={() => setShow(true)}
+                      >
+                        Connect
+                      </Button>
+                    )
                   )}
                 </LBottom>
               </LeftContent>
@@ -359,7 +364,7 @@ const Trans = () => {
             </TradeInner>
             <MobileFooter>
               <div className="inner">
-                {account && Number(listing?.status) < 3 ? (
+                {account && status < 3 ? (
                   <>
                     {Number(allowance) < listing?.amount_in ? (
                       <CustomButton
@@ -398,9 +403,11 @@ const Trans = () => {
                     </Button>
                   </>
                 ) : (
-                  <Button className="secondary" onClick={() => setShow(true)}>
-                    Connect
-                  </Button>
+                  !account && (
+                    <Button className="secondary" onClick={() => setShow(true)}>
+                      Connect
+                    </Button>
+                  )
                 )}
 
                 {/* <Button className="primary  m-sm">Chat User</Button> */}

@@ -110,6 +110,10 @@ const TopFRight = styled.div`
   @media (max-width: 640px) {
     right: 40px;
     top: 5px;
+
+    &.auth {
+      right: 40px;
+    }
   }
 `;
 const TopFLeft = styled.div`
@@ -119,6 +123,10 @@ const TopFLeft = styled.div`
   @media (max-width: 640px) {
     left: 40px;
     top: 5px;
+
+    &.auth {
+      left: 40px;
+    }
   }
 `;
 const BottomFLeft = styled.div`
@@ -324,11 +332,14 @@ const SwapGrid = ({
                     <Delete />
                   </ActionBtn>
                 </ActionIcon>
-                <Action2>
-                  <ActionBtn className="sm" onClick={() => setEditOpen(true)}>
-                    Edit
-                  </ActionBtn>
-                </Action2>
+
+                {(list.status as number) < 3 && (
+                  <Action2>
+                    <ActionBtn className="sm" onClick={() => setEditOpen(true)}>
+                      Edit
+                    </ActionBtn>
+                  </Action2>
+                )}
               </Flex>
             ) : (
               <Actions>

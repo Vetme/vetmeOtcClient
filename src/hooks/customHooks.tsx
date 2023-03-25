@@ -26,7 +26,7 @@ function useThrottle<T>(value: T, interval = 500): T {
 }
 
 export const useListFetch = () => {
-  const [loading, setStatus] = useState(false);
+  const [loading, setStatus] = useState(true);
   const [query, setQuery] = useState("");
   const [data, setData] = useState<ListI[]>([]);
 
@@ -43,7 +43,6 @@ export const useListFetch = () => {
       .then((response) => {
         const data = response.data.listings;
         setData(data);
-        setStatus(false);
       })
       .catch((error: any) => {
         if (axios.isCancel(error)) {
@@ -53,7 +52,9 @@ export const useListFetch = () => {
         }
       })
       .finally(() => {
-        setStatus(false);
+        setTimeout(() => {
+          setStatus(false);
+        }, 1000);
       });
 
     return () => {

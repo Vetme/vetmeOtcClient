@@ -6,7 +6,7 @@ export declare type TokenI = {
   name?: string;
 };
 
-type status = 1 | 2 | 3 | 4 | 5;
+type statusT = 1 | 2 | 3 | 4 | 5;
 
 export type ListI = {
   _id?: any;
@@ -23,14 +23,14 @@ export type ListI = {
   nonce?: number | string;
   is_active: boolean;
   is_private: boolean;
-  status?: status;
+  status?: statusT;
   forever?: boolean;
   createdAt?: any;
   verified?: boolean;
   from_token_verified?: boolean;
   to_token_verified?: boolean;
   is_friction?: boolean;
-  amount_out_balance?:any;
+  amount_out_balance?: any;
 };
 
 export enum Blockchain {

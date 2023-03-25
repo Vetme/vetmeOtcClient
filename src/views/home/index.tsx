@@ -42,6 +42,7 @@ import { truncate } from "@/helpers";
 import { formatDateTime, formatSecTime, getForever } from "@/utils";
 import { Chart, Counter, CounterOffer, Message } from "@/components/Modal";
 import { ListI } from "@/types";
+import Empty from "@/components/Empty";
 
 const HomePage = () => {
   const [display, setDisplay] = useState<"grid" | "list">("grid");
@@ -123,6 +124,8 @@ const HomePage = () => {
                 <GridWrapper>
                   {loading ? (
                     <span>loading...</span>
+                  ) : data.length < 1 ? (
+                    <Empty />
                   ) : (
                     data.map((list: any, i: number) => (
                       <SwapGrid

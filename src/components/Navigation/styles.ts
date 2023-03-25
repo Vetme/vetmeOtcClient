@@ -371,4 +371,8 @@ export const SideBarCon = styled.div`
 
 export const DashBody = styled.div`
   flex: 1;
+
+  @media (max-width: 767px) {
+    overflow: hidden;
+  }
 `;

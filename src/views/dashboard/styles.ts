@@ -2,10 +2,18 @@ import styled from "styled-components";
 
 export const MyListingWrapper = styled.div`
   margin-top: 30px;
+
+  @media (max-width: 767px) {
+    margin-top: 0px;
+  } ;
 `;
 
 export const ListingInner = styled.div`
   padding: 50px 8px;
+
+  @media (max-width: 767px) {
+    padding: 30px 0px;
+  } ;
 `;
 export const ListingTabs = styled.div`
   display: flex;
@@ -18,7 +26,14 @@ export const ListingTabs = styled.div`
   border-top: 2px solid #50455d;
 
   @media (max-width: 767px) {
-    display: none;
+    overflow-x: auto;
+    /* background-image: none; */
+    /* border: none; */
+    width: 100%;
+    height: 50px;
+    overflow-y: clip;
+    padding-bottom: 15px;
+    padding-left: 10px;
   } ;
 `;
 export const TabItems = styled.div`

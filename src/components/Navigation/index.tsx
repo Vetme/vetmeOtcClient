@@ -107,108 +107,123 @@ const Navigation = ({ connect, account }: NavInput) => {
   };
 
   return (
-    <NavContainer id="nav">
-      <div className="container">
-        <NavWrapper>
-          <Logo to="/">
-            <LogoSVG />
-          </Logo>
-          <NavItems>
-            <Item
-              to="/"
-              className={({ isActive }: { isActive: boolean }) =>
-                isActive ? "active" : ""
-              }
-            >
-              <span>Home</span>
-            </Item>
-            <Item to="test-tokens">
-              <span>Test Token</span>
-            </Item>
-            <Item to="p2p">
-              <span>P2P Escrow</span>
-            </Item>
-            <a href="https://t.me/vetmeportal" target="_blank" className="item">
-              <span>Telegram</span>
-            </a>
-            <a
-              className="item"
-              download
-              href="https://vetmeblock.com/vetme.pdf"
-            >
-              <span>White Paper</span>
-            </a>
-          </NavItems>
-          <Action>
-            {account ? (
-              <Button
-                onClick={() => navigate("/dashboard")}
-                className="success "
+    <>
+      <NavContainer id="nav">
+        <div className="container">
+          <NavWrapper>
+            <Logo to="/">
+              <LogoSVG />
+            </Logo>
+            <NavItems>
+              <Item
+                to="/"
+                className={({ isActive }: { isActive: boolean }) =>
+                  isActive ? "active" : ""
+                }
               >
-                {" "}
-                {truncate(account || "", 9)}{" "}
-              </Button>
-            ) : (
-              <Button className="primary " onClick={() => setShow(true)}>
-                Connect Wallet
-              </Button>
-            )}
-          </Action>
-          <Bar className={open ? "opened" : ""} onClick={() => setOpen(!open)}>
-            <div></div>
-          </Bar>
-          <MobileMenu className={open ? "added" : ""}>
-            <IconM>
-              <Decor />
-            </IconM>
-            <MMenuInner>
-              <MMenuItem to="/">Home</MMenuItem>
-              <MMenuItem to="p2p">P2P Escrow</MMenuItem>
-              <MMenuItem to="test-tokens">Test Tokens</MMenuItem>
-              <MMenuItem to="white-paper">White Paper</MMenuItem>
-
-              <CustomLink href="https://t.me/vetmeportal" target="_blank">
-                <Flex align="center" style={{ display: "inline-flex" }}>
+                <span>Home</span>
+              </Item>
+              {/* <Item to="test-tokens">
+                <span>Test Token</span>
+              </Item> */}
+              <Item to="p2p">
+                <span>P2P Escrow</span>
+              </Item>
+              <a
+                className="item"
+                download
+                href="https://vetmeblock.com/vetme.pdf"
+              >
+                <span>White Paper</span>
+              </a>
+              <a
+                href="https://t.me/vetmeportal"
+                target="_blank"
+                className="item"
+              >
+                <span>Telegram</span>
+              </a>
+            </NavItems>
+            <Action>
+              {account ? (
+                <Button
+                  onClick={() => navigate("/dashboard")}
+                  className="success "
+                >
                   {" "}
-                  <span>{"{"}</span>
-                  <Text size="s1" sizeM="s1" uppercase>
-                    Telegram
-                  </Text>
-                  <span>{"}"}</span>
-                </Flex>
-              </CustomLink>
+                  {truncate(account || "", 9)}{" "}
+                </Button>
+              ) : (
+                <Button className="primary " onClick={() => setShow(true)}>
+                  Connect Wallet
+                </Button>
+              )}
+            </Action>
+            <Bar
+              className={open ? "opened" : ""}
+              onClick={() => setOpen(!open)}
+            >
+              <div></div>
+            </Bar>
+            <MobileMenu className={open ? "added" : ""}>
+              <IconM>
+                <Decor />
+              </IconM>
+              <MMenuInner>
+                <MMenuItem to="/">Home</MMenuItem>
+                <MMenuItem to="p2p">P2P Escrow</MMenuItem>
+                {/* <MMenuItem to="test-tokens">Test Tokens</MMenuItem> */}
+                <MMenuItem to="white-paper">White Paper</MMenuItem>
 
-              <Spacer height={32} />
-              {/* <Center>
-                {account ? (
-                  <Button className="success sm" onClick={() => setShow(true)}>
-                    Connected
-                  </Button>
-                ) : (
-                  <Button className="primary sm" onClick={() => setShow(true)}>
-                    Connect Wallet
-                  </Button>
-                )}
-              </Center> */}
-              <Center>
-                <ActionBtn>
-                  Visit App{" "}
-                  <div>
-                    <ArrowRight />
-                  </div>
-                </ActionBtn>
-              </Center>
-            </MMenuInner>
-          </MobileMenu>
-        </NavWrapper>
-      </div>
+                <CustomLink href="https://t.me/vetmeportal" target="_blank">
+                  <Flex align="center" style={{ display: "inline-flex" }}>
+                    {" "}
+                    <span>{"{"}</span>
+                    <Text size="s1" sizeM="s1" uppercase>
+                      Telegram
+                    </Text>
+                    <span>{"}"}</span>
+                  </Flex>
+                </CustomLink>
+
+                <Spacer height={32} />
+                <Center>
+                  {account ? (
+                    <Button
+                      onClick={() => navigate("/dashboard")}
+                      className="success "
+                    >
+                      {" "}
+                      {truncate(account || "", 9)}{" "}
+                    </Button>
+                  ) : (
+                    <Button className="primary" onClick={() => setShow(true)}>
+                      Connect Wallet
+                    </Button>
+                  )}
+                </Center>
+                <Spacer height={12} />
+
+                <Center>
+                  <ActionBtn>
+                    Visit App{" "}
+                    <div>
+                      <ArrowRight />
+                    </div>
+                  </ActionBtn>
+                </Center>
+              </MMenuInner>
+            </MobileMenu>
+          </NavWrapper>
+        </div>
+        {open && <Overlay />}
+      </NavContainer>
       <Connect
         show={show}
         connect={(connector) => connectWallet(connector)}
         handleClose={() => setShow(false)}
       />
-      {open && <Overlay />}
-    </NavContainer>
+    </>
   );
 };
 

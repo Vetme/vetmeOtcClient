@@ -63,7 +63,7 @@ function MyListings() {
   const handleActive = (i: number) => {
     const copies = listings;
     if (i == 1) {
-      const s = copies.filter((list) => list.status == 5);
+      const s = copies.filter((list) => list.status == 3);
       setFiltered(s);
     } else if (i == 2) {
       const s = copies.filter((list) => list.status == 6);
@@ -77,8 +77,8 @@ function MyListings() {
 
   return (
     <MyListingWrapper>
-      <Flex align="flex-end" gap={10}>
-        <ListingTabs>
+      <Flex directionM="column-reverse" align="flex-end" gap={15}>
+        <ListingTabs className="custom-scroll">
           {tabs.map((tab, i) => (
             <TabItems onClick={() => handleActive(i)} key={i}>
               {tab}
