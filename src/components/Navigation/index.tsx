@@ -32,6 +32,7 @@ import { Connect } from "../Modal";
 import { truncate } from "@/helpers";
 import { ConnectorNames } from "@/types";
 import { ArrowRight, Decor, LogoSVG } from "../Icons";
+import { BASE_URL } from "@/helpers/apiHelper";
 // import { hooks, metaMask } from "@/connector/metaMask";
 
 interface NavInput {
@@ -103,7 +104,7 @@ const Navigation = ({ connect, account }: NavInput) => {
 
   const storeUser = async () => {
     if (!account && account === undefined) return;
-    await axios.post(`${import.meta.env.VITE_BASE_URL}/users`, { account });
+    await axios.post(`${BASE_URL}/users`, { account });
   };
 
   return (

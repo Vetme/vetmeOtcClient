@@ -557,6 +557,10 @@ export const CustomLink = styled.a`
     right: -8px;
   }
 
+  button{
+    text-transform:uppercase;
+  }
+
   &:hover {
     span:nth-child(1) {
       left: -14px;

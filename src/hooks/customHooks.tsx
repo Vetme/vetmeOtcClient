@@ -3,6 +3,7 @@ import axios from "axios";
 import { ListI } from "@/types";
 import { parseError } from "@/utils";
 import { getDefaultTokens, getLocalTokens, isAddress } from "@/helpers";
+import { BASE_URL } from "@/helpers/apiHelper";
 
 function useThrottle<T>(value: T, interval = 500): T {
   const [throttledValue, setThrottledValue] = useState<T>(value);
@@ -37,7 +38,7 @@ export const useListFetch = () => {
     source = CancelToken.source();
     setStatus(true);
     axios
-      .get(`${import.meta.env.VITE_BASE_URL}/lists?s=${query}`, {
+      .get(`${BASE_URL}/lists?s=${query}`, {
         cancelToken: source.token,
       })
       .then((response) => {

@@ -118,7 +118,7 @@ const TopFRight = styled.div`
 `;
 const TopFLeft = styled.div`
   ${common};
-  left: 90px;
+  left: 95px;
 
   @media (max-width: 640px) {
     left: 40px;
@@ -223,7 +223,7 @@ const SwapGrid = ({
       <SwapContainer className={state == "auth" ? "auth" : "guest"}>
         <Header>
           <TopFLeft>
-            <Text size="s3" uppercase>
+            <Text style={{ fontSize: "12px" }} uppercase>
               {list.token_out_metadata?.symbol}/{list.token_in_metadata?.symbol}
             </Text>
           </TopFLeft>
@@ -238,6 +238,7 @@ const SwapGrid = ({
               <TokenBadge
                 token={list.token_out_metadata}
                 handleClick={() => handleChart(list.token_out_metadata)}
+                hasChart={true}
               />
               <Spacer width={15} widthM={10} />
               <Text
@@ -265,6 +266,7 @@ const SwapGrid = ({
               <TokenBadge
                 token={list.token_in_metadata}
                 handleClick={() => handleChart(list.token_in_metadata)}
+                hasChart={true}
               />
             </Flex>
           </DetailWrapperT>
@@ -275,7 +277,7 @@ const SwapGrid = ({
               size="s1"
               color=" #170728"
             >
-              {Number(list.amount_out).toFixed(2)} &nbsp;
+              {Number(list.amount_out).toFixed(4)} &nbsp;
               {list.token_out_metadata?.symbol}
             </Text>
 
@@ -285,7 +287,7 @@ const SwapGrid = ({
               color=" #170728"
               style={{ whiteSpace: "nowrap" }}
             >
-              {Number(list.amount_in).toFixed(2)} &nbsp;
+              {Number(list.amount_in).toFixed(4)} &nbsp;
               {list.token_in_metadata?.symbol}
             </Text>
           </Price>

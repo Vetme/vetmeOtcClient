@@ -118,7 +118,7 @@ export const TableWrapper = styled.div`
   background-image: url(/images/bg/table.png);
   background-repeat: no-repeat;
   background-position: top center;
-  background-size: contain;
+  background-size: cover;
   overflow-x: hidden;
 `;
 export const TableHeading = styled.div`

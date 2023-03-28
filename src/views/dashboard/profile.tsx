@@ -24,7 +24,7 @@ import { useWeb3React } from "@web3-react/core";
 import axios from "axios";
 import { parseError, parseSuccess } from "@/utils";
 import { useEffect, useState } from "react";
-import Api from "@/helpers/apiHelper";
+import Api, { BASE_URL } from "@/helpers/apiHelper";
 
 const updateSchema = Yup.object().shape({
   first_name: Yup.string().min(2, "Too Short!").required("First name Required"),
@@ -64,10 +64,14 @@ function MyListings() {
       twitter,
     }) => {
       try {
-        const response = await axios.patch(
-          `${import.meta.env.VITE_BASE_URL}/users/${account}`,
-          { first_name, last_name, email, phone, telegram, twitter }
-        );
+        const response = await axios.patch(`${BASE_URL}/users/${account}`, {
+          first_name,
+          last_name,
+          email,
+          phone,
+          telegram,
+          twitter,
+        });
         parseSuccess("Account Updated");
       } catch (err) {
         parseError("Opps, something went wrong");

@@ -123,6 +123,7 @@ export const Step = styled.div<{ leftMsg?: string; rightMsg?: string }>`
     @media (max-width: 640px) {
       width: 75px;
       font-size: 12px;
+      top: 15px;
       line-height: 11px;
       /* left: -80px; */
       /* top: -5px; */

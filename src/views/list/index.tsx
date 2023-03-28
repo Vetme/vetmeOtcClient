@@ -36,7 +36,7 @@ import {
   getTotalSupply,
 } from "@/helpers/contract";
 import CustomButton from "@/components/Button/CustomButton";
-import { fromBigNumber, parseSuccess } from "@/utils";
+import { fromBigNumber, getTradeLink, parseSuccess } from "@/utils";
 import { BrandBlock, Copy, PCircle, StepHLine } from "@/components/Icons";
 import { Web3Provider } from "@ethersproject/providers";
 import { useWeb3React } from "@web3-react/core";
@@ -79,6 +79,10 @@ const Trans = () => {
   useEffect(() => {
     getAccount();
   }, [account]);
+
+  if (form.amount_in == "") {
+    window.location.replace("/");
+  }
 
   const getAccount = async () => {
     const {
@@ -429,11 +433,14 @@ const Trans = () => {
         msg="Escrow Fee is a trading fee we charge to guarantee you a secured transaction. We charge from both parties to safe guard token transactions. Our fee’s are not more than 3% per trade. If trades are cancelled at any point in the transaction queue, we would refund all payments inclusive of the Escrow Fee. We provide this feature on all token and coin transactions on our platform. If you have anymore questions please reach us on our email support@vetme.com or via our telegram platform. Thanks for trading with us."
       />
 
-      <Share
-        show={openS}
-        handleClose={() => setOpenS(false)}
-        headerText="Share offer via"
-      />
+      {form._id && (
+        <Share
+          show={openS}
+          handleClose={() => setOpenS(false)}
+          headerText="Share offer via"
+          url={getTradeLink(form._id)}
+        />
+      )}
     </ContainerSm>
   );
 };

@@ -19,7 +19,14 @@ import {
   TokenBadge,
 } from "..";
 import { Button } from "../Button";
-import { Send, Swap, Add, ArrowRight } from "../Icons";
+import {
+  Send,
+  Swap,
+  Add,
+  ArrowRight,
+  Settings as SettingsIcon,
+  Settings2 as SettingsIcon2,
+} from "../Icons";
 import { Connect as ConnectModal, Settings, TokenSelect } from "../Modal";
 import { Web3Provider } from "@ethersproject/providers";
 import { useWeb3React } from "@web3-react/core";
@@ -204,13 +211,13 @@ const ListCard = () => {
 
           <Spacer height={31} />
 
-          <Flex justify="space-between">
+          <Flex align="center" justify="space-between">
             <div />
             <SwapCon>
               <Swap />
             </SwapCon>
             <div onClick={() => setOpenS(true)}>
-              <Add />
+              <SettingsIcon2 />
             </div>
           </Flex>
 

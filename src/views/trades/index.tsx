@@ -44,7 +44,7 @@ import {
 import { fromBigNumber, listSign, parseError, parseSuccess } from "@/utils";
 import CustomButton from "@/components/Button/CustomButton";
 import BigNumber from "bignumber.js";
-import Api from "@/helpers/apiHelper";
+import Api, { BASE_URL } from "@/helpers/apiHelper";
 import { Message, Connect as ConnectModal } from "@/components/Modal";
 import { BrandBlock, PCircle, StepLine } from "@/components/Icons";
 import { ConnectContext, ConnectContextType } from "@/context/ConnectContext";
@@ -79,7 +79,7 @@ const Trans = () => {
       setLoading(true);
       const {
         data: { listing },
-      } = await axios.get(`${import.meta.env.VITE_BASE_URL}/lists/${id}`);
+      } = await axios.get(`${BASE_URL}/lists/${id}`);
       setLoading(false);
       setListing(listing);
       setStatus(listing.status);
@@ -132,7 +132,19 @@ const Trans = () => {
     }
   };
 
+  console.log(import.meta.env);
+
   const matchOrder = async () => {
+    const amountComputedIn =
+      (listing?.amount_in * amount) / listing?.amount_out_balance;
+
+    const aIn = listing?.is_friction ? amountComputedIn : listing?.amount_in;
+    const aOut = listing?.is_friction ? amount : listing?.amount_out_balance;
+    let listingCopy: any = { ...listing };
+
+    listingCopy.amount_in = aIn;
+    listingCopy.amount_out = aOut;
+
     try {
       setApproving(true);
       let signatureData = {
@@ -154,7 +166,7 @@ const Trans = () => {
         chainId,
         listing?.signature,
         signature,
-        listing,
+        listingCopy,
         account
       );
 

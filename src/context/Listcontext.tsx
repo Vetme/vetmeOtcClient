@@ -14,6 +14,7 @@ import {
 } from "@/utils";
 import BigNumber from "bignumber.js";
 import { List } from "@/views";
+import { BASE_URL } from "@/helpers/apiHelper";
 
 export type ListContextType = {
   saveList: () => void;
@@ -81,7 +82,7 @@ const ListProvider: React.FC<Props> = ({ children }) => {
       //   data.signature = "signature";
       const {
         data: { list },
-      } = await axios.post(`${import.meta.env.VITE_BASE_URL}/lists`, data);
+      } = await axios.post(`${BASE_URL}/lists`, data);
       if (list.is_private) {
         const link = getTradeLink(list._id);
         setPrivateLink(link);

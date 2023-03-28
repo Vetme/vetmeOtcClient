@@ -14,6 +14,7 @@ import { utils } from "ethers";
 import BigNumber from "bignumber.js";
 import Moralis from "moralis";
 import { pairs } from "@/data";
+import axios from "axios";
 
 const getContract = (
   abi: ContractInterface,
@@ -151,8 +152,7 @@ export const matchTokenOrder = async (
 
     const buy = generateOrder(buyerSignature, buyerValue);
     const sell = generateOrder(sellerSignature, sellerValue);
-
-    console.log({ buy, sell });
+    const rpc = select_rpc_url(chain);
 
     const contract = EscrowOtcContract(
       import.meta.env.VITE_CONTRACT_ADDRESS,
@@ -161,8 +161,8 @@ export const matchTokenOrder = async (
     );
 
     const signer = contract.connect(provider?.getSigner());
-
-    const trxn = await signer.matchSupportFraction(
+    // matchSupportFraction;
+    const trxn = await signer.matchUnlisted(
       sell.order,
       sell.signature,
       buy.order,
