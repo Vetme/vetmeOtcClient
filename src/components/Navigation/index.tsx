@@ -124,9 +124,9 @@ const Navigation = ({ connect, account }: NavInput) => {
               >
                 <span>Home</span>
               </Item>
-              {/* <Item to="test-tokens">
+              <Item to="test-tokens">
                 <span>Test Token</span>
-              </Item> */}
+              </Item>
               <Item to="p2p">
                 <span>P2P Escrow</span>
               </Item>
@@ -173,7 +173,7 @@ const Navigation = ({ connect, account }: NavInput) => {
               <MMenuInner>
                 <MMenuItem to="/">Home</MMenuItem>
                 <MMenuItem to="p2p">P2P Escrow</MMenuItem>
-                {/* <MMenuItem to="test-tokens">Test Tokens</MMenuItem> */}
+                <MMenuItem to="test-tokens">Test Tokens</MMenuItem>
                 <MMenuItem to="white-paper">White Paper</MMenuItem>
 
                 <CustomLink href="https://t.me/vetmeportal" target="_blank">

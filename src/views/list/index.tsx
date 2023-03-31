@@ -326,7 +326,7 @@ const Trans = () => {
                     />
                     <Spacer width={8} />
                     <Button
-                      onClick={() => navigate(`/trades/${form._id}`)}
+                      onClick={() => navigate(`/`)}
                       className="semi-rounded lg"
                     >
                       View Listed Coin
@@ -372,7 +372,7 @@ const Trans = () => {
                     />
                     <Spacer width={8} />
                     <Button
-                      onClick={() => navigate(`/trades/${form._id}`)}
+                      onClick={() => navigate(`/`)}
                       className="semi-rounded lg"
                     >
                       View Listed Coin

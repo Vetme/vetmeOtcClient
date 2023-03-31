@@ -26,6 +26,7 @@ export const defaultRPCs = {
   bsc: "https://bsc-dataseed.binance.org/",
   polygon: "https://polygon-rpc.com/",
   avax: "https://api.avax.network/ext/bc/C/rpc",
+  avaxfuji: "https://rpc.ankr.com/avalanche_fuji",
 };
 
 export function select_rpc_url(chain: Blockchain) {
@@ -36,6 +37,8 @@ export const get_blockchain_from_chainId = (chain: number | undefined) => {
   switch (chain) {
     case 43114:
       return Blockchain.Avax;
+    case 43113:
+      return Blockchain.AvaxFuji;
     case 137:
       return Blockchain.Polygon;
     case 1:

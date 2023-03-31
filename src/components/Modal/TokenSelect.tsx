@@ -150,13 +150,19 @@ interface TokenSelect {
   handleClose: () => void;
   handleSelected: (arg: TokenI) => void;
   show: boolean;
+  chainId: number | undefined;
 }
 
-const TokenSelect = ({ show, handleClose, handleSelected }: TokenSelect) => {
+const TokenSelect = ({
+  show,
+  handleClose,
+  handleSelected,
+  chainId,
+}: TokenSelect) => {
   // const [tokens, setTokens] = useState(getD);
   const [sTokens, setSTokens] = useState<any[]>([]);
   const [query, setQuery] = useState<string>("");
-  const { loading, error, results } = useTokenFetch(query);
+  const { loading, error, results } = useTokenFetch(query, chainId);
 
   // const refinedData = data?.pairs.map((token: any) => {
   //   return {

@@ -30,7 +30,7 @@ const ImgWrap = styled.div`
 `;
 
 interface BadgeI {
-  token: TokenI;
+  token: TokenI | undefined;
   icon?: string;
   hasCaret?: boolean;
   hasChart?: boolean;
@@ -45,15 +45,28 @@ const TokenBadge = ({
 }: BadgeI) => {
   return (
     <Container onClick={() => handleClick()}>
-      <ImgWrap>
-        <img src={token.icon} />
-      </ImgWrap>
-      <Spacer width={6} />
-      <Text size="s2" uppercase weight="400">
-        {token.symbol}
-      </Text>
-      <Spacer width={6} />
-      {hasCaret && (hasChart ? <Chart /> : <DropDown />)}
+      {token ? (
+        <>
+          <ImgWrap>
+            <img src={token.icon} />
+          </ImgWrap>
+          <Spacer width={6} />
+          <Text size="s2" uppercase weight="400">
+            {token.symbol}
+          </Text>
+          <Spacer width={6} />
+          {hasCaret && (hasChart ? <Chart /> : <DropDown />)}
+        </>
+      ) : (
+        <>
+          <Text size="s2" uppercase weight="400">
+            Select Token
+          </Text>
+          <Spacer width={6} />
+
+          <DropDown />
+        </>
+      )}
     </Container>
   );
 };

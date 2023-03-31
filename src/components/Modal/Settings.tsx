@@ -63,6 +63,9 @@ export const IWrapper = styled.div`
 `;
 export const SWrapper = styled.div`
   margin: 20px 0px;
+
+  filter: blur(1px);
+  pointer-events: none;
 `;
 interface IMessage {
   handleClose: () => void;

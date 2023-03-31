@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const BASE_URL =
-  import.meta.env.MODE == "production"
+  import.meta.env.MODE == "development"
     ? import.meta.env.VITE_BASE_URL_PROD
     : import.meta.env.VITE_BASE_URL;
 

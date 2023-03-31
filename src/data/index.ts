@@ -1,47 +1,4 @@
-export const swaps = [
-  {
-    id: 1,
-    from: "VET",
-    to: "BTC",
-    available: 7000,
-    limit: 200,
-    fee: 3,
-  },
-  {
-    id: 2,
-    from: "ASS",
-    to: "BTC",
-    available: 6000,
-    limit: 300,
-    fee: 3,
-  },
-  {
-    id: 3,
-    from: "SAFE",
-    to: "BTC",
-    available: 3000,
-    limit: 100,
-    fee: 3,
-  },
-  {
-    id: 4,
-    from: "VET",
-    to: "NFO",
-    available: 10000,
-    limit: 500,
-    fee: 3,
-  },
-  {
-    id: 5,
-    from: "BNB",
-    to: "ETH",
-    available: 4000,
-    limit: 200,
-    fee: 3,
-  },
-];
-
-export const tokens = [
+export const goeily_tokens = [
   {
     id: 1,
     address: "0x63bEf5e5bd830F61aD5C19fD8Db80462D44ea323",
@@ -70,11 +27,28 @@ export const tokens = [
     name: "Messi Token",
     icon: "/images/coins/dai.png",
   },
+  // {
+  //   id: 1,
+  //   address: "0x1a237400185127d8b19d6ba7cad5d952a661dd56",
+  //   symbol: "ETH",
+  //   name: "Ethereum",
+  //   icon: "/images/coins/ethereum.png",
+  // },
+];
+
+export const fuji_test_tokens = [
   {
     id: 1,
-    address: "0x1a237400185127d8b19d6ba7cad5d952a661dd56",
-    symbol: "WETH",
-    name: "Wrap Ether",
+    address: "0x5497b1610D55cEDde914D20B71be31EE2A214D56",
+    symbol: "Ava",
+    name: "AvaxEthereum",
+    icon: "/images/coins/ethereum.png",
+  },
+  {
+    id: 2,
+    address: "0xcaaE2e88f65ecFC868Cc81f9B9d3A123Dfd385C4",
+    symbol: "AZA",
+    name: "AzaEthereum",
     icon: "/images/coins/ethereum.png",
   },
 ];
@@ -122,151 +96,109 @@ export const tokens = [
 //   avatar: "images/coins/polygon.png",
 // },
 
-export const defaultToken = [
+export const eth_tokens = [
   {
     symbol: "VetMe",
     name: "VetMe",
-    address: "o",
-    icon: "",
+    address: "0xe7ef051c6ea1026a70967e8f04da143c67fa4e1f",
+    icon: "/images/coins/vetme.webp",
   },
   {
     symbol: "USDT",
     name: "Tether USD",
     address: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    icon: "",
+    icon: "/images/coins/usdt.png",
   },
   {
     symbol: "USDC",
     name: "USD Coin",
     address: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-    icon: "",
+    icon: "/images/coins/USD_Coin_icon.webp",
   },
   {
     symbol: "DAI",
     name: "Dai Stablecoin",
     address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
-    icon: "",
+    icon: "/images/coins/dai.webp",
   },
   {
     symbol: "BNB",
     name: "Binance Coin",
     address: "0xB8c77482e45F1F44dE1745F52C74426C631bDD52",
-    icon: "",
+    icon: "/images/coins/bnb-icon2_2x.webp",
   },
   {
     symbol: "BUSD",
     name: "Binance USD",
     address: "0x4Fabb145d64652a948d72533023f6E7A623C7C53",
-    icon: "",
+    icon: "/images/coins/BUSD.webp",
   },
   {
     symbol: "HEX",
     name: "HEX",
     address: "0x2b591e99afe9f32eaa6214f7b7629768c40eeb39",
-    icon: "",
+    icon: "/images/coins/HEX-logo.webp",
   },
   {
     symbol: "SHIB",
     name: "SHIBA INU",
     address: "0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE",
-    icon: "",
-  },
-  {
-    symbol: "LEO",
-    name: "Bitfinex LEO Token",
-    address: "0x2af5d2ad76741191d15dfe7bf6ac92d4bd912ca3",
-    icon: "",
-  },
-  {
-    symbol: "THETA",
-    name: "Theta Token",
-    address: "0x3883f5e181fccaf8410fa61e12b59bad963fb645",
-    icon: "",
-  },
-  {
-    symbol: "WBTC",
-    name: "Wrapped Bitcoin",
-    address: "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
-    icon: "",
+    icon: "/images/coins/shiba.webp",
   },
   {
     symbol: "WETH",
     name: "Wrapped Ethereum",
     address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-    icon: "",
-  },
-  {
-    symbol: "STETH",
-    name: "stETH",
-    address: "0xae7ab96520de3a18e5e111b5eaab095312d7fe84",
-    icon: "",
+    icon: "/images/coins/weth.webp",
   },
   {
     symbol: "MATIC",
     name: "Matic Token",
     address: "0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0",
-    icon: "",
-  },
-  {
-    symbol: "OKB",
-    name: "OKB",
-    address: "0x75231f58b43240c9718dd58b4967c5114342a86c",
-    icon: "",
+    icon: "/images/coins/matic-token-icon.webp",
   },
   {
     symbol: "LINK",
     name: "ChainLink Token",
     address: "0x514910771af9ca656af840dff83e8264ecf986ca",
-    icon: "",
+    icon: "/images/coins/chainlink-new-logo.webp",
   },
   {
     symbol: "CRO",
     name: "Cronos Coin",
     address: "0xa0b73e1ff0b80914ab6fe0444e65848c4c34450b",
-    icon: "",
+    icon: "/images/coins/cro_token_logo.webp",
   },
   {
     symbol: "UNI",
     name: "Uniswap",
     address: "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
-    icon: "",
-  },
-  {
-    symbol: "VEN",
-    name: "VeChain",
-    address: "0xd850942ef8811f2a866692a623011bde52a462c1",
-    icon: "",
-  },
-  {
-    symbol: "FRAX",
-    name: "Frax",
-    address: "0x853d955acef822db058eb8505911ed77f175b99e",
-    icon: "",
+    icon: "/images/coins/uniswap-uni.webp",
   },
   {
     symbol: "SAND",
     name: "SAND",
     address: "0x3845badAde8e6dFF049820680d1F14bD3903a5d0",
-    icon: "",
+    icon: "/images/coins/sandbox_logo.jpg",
   },
   {
     symbol: "APE",
     name: "ApeCoin",
     address: "0x4d224452801aced8b2f0aebe155379bb5d594381",
-    icon: "",
+    icon: "/images/coins/apecoin.webp",
   },
   {
     symbol: "HT",
     name: "Huobi Token",
     address: "0x6f259637dcd74c767781e37bc6133cd6a68aa161",
-    icon: "",
+    icon: "/images/coins/huobi-token-logo.webp",
   },
 ];
-
+export const bsc_tokens = [];
 export const pairs = [
   {
     chain: 1,
-    name: "ETH",
+    name: "WETH",
     address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
   },
   {

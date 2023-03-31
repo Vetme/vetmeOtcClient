@@ -132,18 +132,13 @@ const Trans = () => {
     }
   };
 
-  console.log(import.meta.env);
-
   const matchOrder = async () => {
     const amountComputedIn =
-      (listing?.amount_in * amount) / listing?.amount_out_balance;
+      (listing?.amount_in * amount) / (listing?.amount_out as number);
 
     const aIn = listing?.is_friction ? amountComputedIn : listing?.amount_in;
     const aOut = listing?.is_friction ? amount : listing?.amount_out_balance;
     let listingCopy: any = { ...listing };
-
-    listingCopy.amount_in = aIn;
-    listingCopy.amount_out = aOut;
 
     try {
       setApproving(true);
@@ -152,15 +147,19 @@ const Trans = () => {
         receivingWallet: account,
         tokenIn: listing?.token_out,
         tokenOut: listing?.token_in,
-        amountOut: BigNumber(listing?.amount_in).times(1e18).toString(10),
-        amountIn: BigNumber(listing?.amount_out as number)
+        amountOut: BigNumber(aIn).times(1e18).toString(10),
+        amountIn: BigNumber(aOut as number)
           .times(1e18)
           .toString(10),
         deadline: listing?.deadline,
-        nonce: listing?.nonce,
+        nonce: listing?.nonce_friction,
       };
+
+      listingCopy.aIn = aIn;
+      listingCopy.aOut = aOut;
+
       const signer = library?.getSigner();
-      const { signature } = await listSign(signer, signatureData);
+      const { signature } = await listSign(signer, signatureData, chainId);
       const response = await matchTokenOrder(
         library,
         chainId,
@@ -204,7 +203,7 @@ const Trans = () => {
   };
 
   const amountComputed =
-    (listing?.amount_in * amount) / listing?.amount_out_balance;
+    (listing?.amount_in * amount) / (listing?.amount_out as number);
 
   return (
     <ContainerSm>
@@ -367,11 +366,11 @@ const Trans = () => {
                   </TradeItem>
                 </RTop>
                 <Spacer height={113} />
-                <RBottom>
+                {/* <RBottom>
                   <Button className="secondary" onClick={handleConvertWeth}>
                     Give me WETH for ETH
                   </Button>
-                </RBottom>
+                </RBottom> */}
               </RightContent>
             </TradeInner>
             <MobileFooter>

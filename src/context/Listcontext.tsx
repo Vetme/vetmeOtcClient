@@ -77,7 +77,7 @@ const ListProvider: React.FC<Props> = ({ children }) => {
         nonce: form.nonce,
       };
       const signer = library?.getSigner();
-      const { signature } = await listSign(signer, signatureData);
+      const { signature } = await listSign(signer, signatureData, chainId);
       data.signature = signature;
       //   data.signature = "signature";
       const {

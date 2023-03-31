@@ -6,6 +6,7 @@ import EscrowOtcAbi from "../contracts/escrowOtcApi.json";
 import ERC20Abi from "../contracts/erc20Abi.json";
 import WethAbi from "../contracts/wethAbi.json";
 import ERC20ClaimAbi from "../contracts/ERC20ClaimAbi.json";
+import GoerliAbi from "../contracts/GoerliAbi.json";
 import UniswapAbi from "../contracts/uniswapAbi.json";
 import { get_blockchain_from_chainId, select_rpc_url } from "./rpc";
 import { Erc20 } from "@/types/Erc20";
@@ -15,6 +16,7 @@ import BigNumber from "bignumber.js";
 import Moralis from "moralis";
 import { pairs } from "@/data";
 import axios from "axios";
+import { getChainContract } from ".";
 
 const getContract = (
   abi: ContractInterface,
@@ -63,7 +65,7 @@ export const getTokenAllowance = async (
 
   const allowance = await contract.allowance(
     account as string,
-    import.meta.env.VITE_CONTRACT_ADDRESS
+    getChainContract(chainId)
   );
 
   return allowance;
@@ -82,7 +84,7 @@ export const approveToken = async (
     const signer = contract.connect(provider?.getSigner());
 
     const trxn = await signer.approve(
-      import.meta.env.VITE_CONTRACT_ADDRESS,
+      getChainContract(chainId),
       toBigNumber(amount)
     );
     const { events } = await trxn.wait();
@@ -104,7 +106,7 @@ export const matchTokenOrder = async (
   provider: any,
   chainId: number | undefined,
   sellerSignature: string | undefined,
-  buyerSignature: string,
+  buyerSignature: string | undefined,
   value: any,
   account: string | null | undefined
 ) => {
@@ -124,7 +126,9 @@ export const matchTokenOrder = async (
     //   }
     // }
 
-    pair = import.meta.env.VITE_WETH_ADDRESS;
+    pair =
+      import.meta.env.VITE_WETH_ADDRESS ||
+      "0xd00ae08403B9bbb9124bB305C09058E32C39A48c";
 
     const sellerValue = {
       signatory: value.signatory,
@@ -144,10 +148,10 @@ export const matchTokenOrder = async (
       tokenIn: value.token_out,
       tokenOut: value.token_in,
       tokenOutSwapPair: pair,
-      amountOut: BigNumber(value.amount_in).times(1e18).toString(10),
-      amountIn: BigNumber(value.amount_out).times(1e18).toString(10),
+      amountOut: BigNumber(value.aIn).times(1e18).toString(10),
+      amountIn: BigNumber(value.aOut).times(1e18).toString(10),
       deadline: value.deadline,
-      nonce: value.nonce,
+      nonce: value.nonce_friction,
     };
 
     const buy = generateOrder(buyerSignature, buyerValue);
@@ -155,21 +159,18 @@ export const matchTokenOrder = async (
     const rpc = select_rpc_url(chain);
 
     const contract = EscrowOtcContract(
-      import.meta.env.VITE_CONTRACT_ADDRESS,
+      getChainContract(chainId),
       chain,
       provider
     );
 
     const signer = contract.connect(provider?.getSigner());
-    // matchSupportFraction;
-    const trxn = await signer.matchUnlisted(
+    // ;
+    const trxn = await signer.matchSupportFraction(
       sell.order,
       sell.signature,
       buy.order,
-      buy.signature,
-      {
-        gasLimit: 2000000,
-      }
+      buy.signature
     );
     const transaction = await trxn.wait();
     return Promise.resolve(transaction);
@@ -225,6 +226,17 @@ export const claimToken = async (provider: any, address: any) => {
 
   const transaction = await trxn.wait();
 };
+
+export const claimGeorli = async (provider: any, address: any) => {
+  const chain: Blockchain = get_blockchain_from_chainId(5);
+
+  const contract = getContract(GoerliAbi, address, chain, provider);
+  const signer = contract.connect(provider?.getSigner());
+  const trxn = await signer.claimGoalie();
+
+  const transaction = await trxn.wait();
+};
+
 Moralis.start({
   apiKey: "3WYBbAgRqvuDvm55bFeWbzkTmM6RG40Z7qtiL2ZQFnelRUSM6UqBUEjwsfLnZsQ7",
 });

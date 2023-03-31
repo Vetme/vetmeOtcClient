@@ -4,6 +4,7 @@ import { CancelToken } from "axios";
 import { utils } from "ethers";
 import { toast } from "react-toastify";
 import moment from "moment";
+import { getChainContract } from "@/helpers";
 
 export const tokenExpired = (token: string) => {
   if (token?.length) {
@@ -55,12 +56,12 @@ export const generateNonce = () =>
     10
   );
 
-export const listSign = async (signer: any, value: any) => {
+export const listSign = async (signer: any, value: any, chainId = 5) => {
   const domain = {
     name: "VetMe Escrow",
     version: "1.0.1",
-    chainId: 5,
-    verifyingContract: import.meta.env.VITE_CONTRACT_ADDRESS,
+    chainId: chainId,
+    verifyingContract: getChainContract(chainId),
   };
 
   //   const signer = getSigner(provider);

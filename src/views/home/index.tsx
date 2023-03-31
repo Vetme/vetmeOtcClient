@@ -37,7 +37,7 @@ import {
   List as ListCon,
   Swap,
 } from "./styles";
-import { useListFetch, useTokenFetch } from "@/hooks/customHooks";
+import { useListFetch } from "@/hooks/customHooks";
 import { truncate } from "@/helpers";
 import { formatDateTime, formatSecTime, getForever } from "@/utils";
 import { Chart, Counter, CounterOffer, Message } from "@/components/Modal";

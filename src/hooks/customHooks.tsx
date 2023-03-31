@@ -66,8 +66,8 @@ export const useListFetch = () => {
   return { loading, data, query, setQuery };
 };
 
-export const useTokenFetch = (query: string) => {
-  const tokens = getDefaultTokens() as any[];
+export const useTokenFetch = (query: string, chainId = 5) => {
+  const tokens = getDefaultTokens(chainId) as any[];
   const [results, setResults] = useState(tokens);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");

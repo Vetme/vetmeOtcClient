@@ -1,6 +1,6 @@
 import { Spacer, Text } from "@/components";
 import { Button } from "@/components/Button";
-import { claimToken, convertWeth } from "@/helpers/contract";
+import { claimGeorli, claimToken, convertWeth } from "@/helpers/contract";
 import { useWeb3React } from "@web3-react/core";
 import { Web3Provider } from "@ethersproject/providers";
 import styled from "styled-components";
@@ -53,6 +53,21 @@ const Claim = () => {
       setLoading(true);
       setCurrent(token.name);
       await claimToken(library, token.address);
+      parseSuccess(`${token.name} Claimed`);
+    } catch (error) {
+      console.log(error, "error");
+      parseError("Opps, Something went wrong");
+    } finally {
+      setLoading(false);
+      setCurrent("");
+    }
+  };
+
+  const handleClaimG = async (token: any) => {
+    try {
+      setLoading(true);
+      setCurrent(token.name);
+      await claimGeorli(library, token.address);
       parseSuccess(`${token.name} Claimed`);
     } catch (error) {
       console.log(error, "error");
@@ -130,13 +145,27 @@ const Claim = () => {
           />
           <Spacer height={32} />
 
-          <CustomButton
+          {/* <CustomButton
             onClick={handleConvertWeth}
             text="Give me WETH 0.04 for ETH"
             classNames="primary "
             loading={loading && current === "Convert"}
             disabled={loading && current === "Convert"}
+          /> */}
+
+          <CustomButton
+            onClick={() =>
+              handleClaimG({
+                address: "0xF9E0134315Bbd118B95FaCa854cFA6AA9BbcB0Eb",
+                name: "Goerli",
+              })
+            }
+            text="Claim 5 Goerili ETH"
+            classNames="primary "
+            loading={loading && current === "Goerli"}
+            disabled={loading && current === "Goerli"}
           />
+          <Spacer height={32} />
         </Body>
       </SwapContainer>
     </div>

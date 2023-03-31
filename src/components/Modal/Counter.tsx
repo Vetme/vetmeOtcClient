@@ -17,7 +17,7 @@ const Inner = styled.div`
   width: 588px;
   max-width: 95%;
   /* margin: auto; */
-  background-image: url(/images/bg/counter.png);
+  background-image: url(/images/bg/counter.svg);
   background-repeat: no-repeat;
   background-position: top center;
   background-size: 100% 100%;
@@ -27,6 +27,10 @@ const Inner = styled.div`
   position: relative;
   transform: translate(-50%, -50%);
   padding: 67px 16px 16px 16px;
+
+  @media (max-width: 640px) {
+    background-image: url(/images/bg/counter.png);
+  }
 `;
 
 const Close = styled.div`

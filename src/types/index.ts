@@ -31,10 +31,12 @@ export type ListI = {
   to_token_verified?: boolean;
   is_friction?: boolean;
   amount_out_balance?: any;
+  nonce_friction?: any;
 };
 
 export enum Blockchain {
   Avax = "avax",
+  AvaxFuji = "avaxfuji",
   Bsc = "bsc",
   Eth = "eth",
   Polygon = "polygon",

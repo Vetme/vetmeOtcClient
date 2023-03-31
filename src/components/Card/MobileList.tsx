@@ -1,4 +1,3 @@
-import { tokens } from "@/data";
 import { truncate } from "@/helpers";
 import { ListI } from "@/types";
 import React from "react";
