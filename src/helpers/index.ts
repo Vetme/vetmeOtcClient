@@ -47,7 +47,7 @@ export const getDefaultTokens = (chainId = 5) => {
     case 56:
       return bsc_tokens;
     default:
-      goeily_tokens;
+      return goeily_tokens;
       break;
   }
 };
@@ -83,7 +83,7 @@ export const getChainContract = (chainId: number | undefined) => {
     case 56:
       return import.meta.env.VITE_CONTRACT_ADDRESS_BSC_MAINNET;
     default:
-      import.meta.env.VITE_CONTRACT_ADDRESS_GOEILY_TESTNET;
+      import.meta.env.VITE_CONTRACT_ADDRESS_ETH_MAINNET;
       break;
   }
 };

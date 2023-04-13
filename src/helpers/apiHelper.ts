@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const BASE_URL =
-  import.meta.env.MODE == "development"
+  import.meta.env.MODE == "production"
     ? import.meta.env.VITE_BASE_URL_PROD
     : import.meta.env.VITE_BASE_URL;
 
@@ -25,4 +25,6 @@ export default {
     axios.get(`${BASE_URL}/lists?account=${account}`),
   myCounters: (account: string | null | undefined) =>
     axios.get(`${BASE_URL}/lists/counter/${account}`),
+  markAsViewed: (account: string | null | undefined) =>
+    axios.post(`${BASE_URL}/list/counter/viewed/${account}`),
 };

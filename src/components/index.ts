@@ -557,8 +557,8 @@ export const CustomLink = styled.a`
     right: -8px;
   }
 
-  button{
-    text-transform:uppercase;
+  button {
+    text-transform: uppercase;
   }
 
   &:hover {
@@ -708,6 +708,10 @@ export const Input = styled.input`
   color: #170728;
   margin-left: 38px;
 
+  &.disabled {
+    pointer-events: none;
+  }
+
   @media (max-width: 640px) {
     /* font-size: 30px; */
   }
@@ -732,3 +736,14 @@ export const ErrorMsg = styled.div`
   position: absolute;
   bottom: -16px;
 `;
+
+export const KWidgetWrapper = styled.div`
+  button{
+    svg{
+      stroke:#fff !important;
+    }
+  }
+  .close{
+   transform:translateX(calc(100% + 20px)) !important;
+  }
+`

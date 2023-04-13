@@ -50,6 +50,6 @@ export const get_blockchain_from_chainId = (chain: number | undefined) => {
     case 5:
       return Blockchain.Goerli;
     default:
-      return Blockchain.Rinkeby;
+      return Blockchain.Eth;
   }
 };

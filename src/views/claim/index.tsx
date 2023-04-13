@@ -156,11 +156,11 @@ const Claim = () => {
           <CustomButton
             onClick={() =>
               handleClaimG({
-                address: "0xF9E0134315Bbd118B95FaCa854cFA6AA9BbcB0Eb",
+                address: "0x0A9D0E29d32Ad555118aa724608BEf103ECcbbeF",
                 name: "Goerli",
               })
             }
-            text="Claim 5 Goerili ETH"
+            text="Claim 1 Goerli ETH"
             classNames="primary "
             loading={loading && current === "Goerli"}
             disabled={loading && current === "Goerli"}

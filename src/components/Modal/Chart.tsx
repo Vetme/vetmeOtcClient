@@ -143,11 +143,9 @@ const Chart = ({ handleClose, show, token }: IChart) => {
 
   const getData = async () => {
     setLoading(true);
-    // const tData = await apiHelper.getTokenDetails(
-    //   "0xe7ef051c6ea1026a70967e8f04da143c67fa4e1f"
-    // );
+    const tData = await apiHelper.getTokenDetails(token.address);
 
-    const { data } = await apiHelper.getCandlestickData("vetme", "7");
+    const { data } = await apiHelper.getCandlestickData(tData.data.id, "7");
     const formateData = data.map((data: any) => {
       return {
         x: new Date(data[0]),
@@ -162,7 +160,6 @@ const Chart = ({ handleClose, show, token }: IChart) => {
       ];
     });
 
-    console.log(formateData);
     setLoading(false);
   };
 

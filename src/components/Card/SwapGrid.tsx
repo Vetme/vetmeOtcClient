@@ -131,11 +131,11 @@ const TopFLeft = styled.div`
 `;
 const BottomFLeft = styled.div`
   ${common};
-  right: 70px;
+  right: 80px;
   top: 0px;
 
   @media (max-width: 640px) {
-    right: 40px;
+    right: 51px;
   }
 `;
 
@@ -180,11 +180,13 @@ const SwapGrid = ({
   state,
   account,
   confirmFriction,
+  handleRemove,
 }: {
   list: ListI;
   state: "auth" | "guest";
   account?: string | null;
   confirmFriction: (list: ListI) => void;
+  handleRemove?: (list: ListI) => void;
 }) => {
   const [token, setToken] = useState<any>(null);
   const [open, setOpen] = useState<boolean>(false);
@@ -204,18 +206,6 @@ const SwapGrid = ({
 
   const handleTrade = (list: ListI) => {
     confirmFriction(list);
-  };
-
-  const handleRemove = async (list: ListI) => {
-    const confirm_it = confirm("Are you sure ?");
-    if (!confirm_it) return;
-
-    try {
-      await apiHelper.removeList({ id: list._id, account: account });
-      parseSuccess("List Deleted");
-    } catch (error) {
-      parseError("Unable to delete");
-    }
   };
 
   return (
@@ -295,7 +285,7 @@ const SwapGrid = ({
           <DetailWrapper>
             <BottomFLeft>
               <Text size="s3" sizeM="tiny-2">
-                Escrow Fee 3%
+                Fee 0.25%
               </Text>
             </BottomFLeft>
             <Details>
@@ -329,7 +319,7 @@ const SwapGrid = ({
                 <ActionIcon>
                   <ActionBtn
                     className="sm secondary icon"
-                    onClick={() => handleRemove(list)}
+                    onClick={() => handleRemove && handleRemove(list)}
                   >
                     <Delete />
                   </ActionBtn>

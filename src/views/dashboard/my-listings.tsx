@@ -16,6 +16,8 @@ import {
   ListingBody,
 } from "./styles";
 import apiHelper from "@/helpers/apiHelper";
+import { ListI } from "@/types";
+import { parseError, parseSuccess } from "@/utils";
 
 function MyListings() {
   const [active, setActive] = useState<number>(0);
@@ -40,6 +42,16 @@ function MyListings() {
   useEffect(() => {
     getMyListings();
   }, []);
+
+  useEffect(() => {
+    notifyViewed();
+  }, [active]);
+
+  const notifyViewed = async () => {
+    if (active == 3) {
+      await apiHelper.markAsViewed(account);
+    }
+  };
 
   const getMyListings = async () => {
     setLoading(true);
@@ -73,6 +85,20 @@ function MyListings() {
     }
 
     setActive(i);
+  };
+
+  const handleRemove = async (list: ListI) => {
+    const confirm_it = confirm("Are you sure ?");
+    if (!confirm_it) return;
+
+    try {
+      await apiHelper.removeList({ id: list._id, account: account });
+      setListings((prev) => prev.filter((data) => data._id !== list._id));
+      setFiltered((prev) => prev.filter((data) => data._id !== list._id));
+      parseSuccess("List Deleted");
+    } catch (error) {
+      parseError("Unable to delete");
+    }
   };
 
   return (
@@ -120,6 +146,7 @@ function MyListings() {
                     state="auth"
                     account={account}
                     confirmFriction={() => null}
+                    handleRemove={handleRemove}
                   />
                 ))
               )}
@@ -143,6 +170,7 @@ function MyListings() {
                       state="auth"
                       account={account}
                       confirmFriction={() => null}
+                      handleRemove={handleRemove}
                     />
                   ))
                 )}
@@ -167,6 +195,7 @@ function MyListings() {
                       state="auth"
                       account={account}
                       confirmFriction={() => null}
+                      handleRemove={handleRemove}
                     />
                   ))
                 )}

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 import {
   NavContainer,
@@ -14,9 +13,13 @@ import {
   MMenuItem,
   MMenuInner,
   IconM,
+  DropDownCon,
+  Notify,
+  Count,
+  MMenuR,
 } from "./styles";
 
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   Center,
   Flex,
@@ -31,18 +34,21 @@ import { Button } from "@/components/Button";
 import { Connect } from "../Modal";
 import { truncate } from "@/helpers";
 import { ConnectorNames } from "@/types";
-import { ArrowRight, Decor, LogoSVG } from "../Icons";
+import { ArrowRight, Decor, LogoSVG, Wallet, Logout, Bell } from "../Icons";
 import { BASE_URL } from "@/helpers/apiHelper";
 // import { hooks, metaMask } from "@/connector/metaMask";
 
 interface NavInput {
   account?: string | null;
   connect: (arg: ConnectorNames) => Promise<void>;
+  disconnect: () => void;
+  nCount: number;
 }
 
-const Navigation = ({ connect, account }: NavInput) => {
+const Navigation = ({ connect, account, disconnect, nCount }: NavInput) => {
   const [show, setShow] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
+  const [menu, setMenu] = useState<boolean>(false);
   const location = useLocation();
   const navigate = useNavigate();
   const [direction, setDirection] = useState<number>(0);
@@ -55,6 +61,10 @@ const Navigation = ({ connect, account }: NavInput) => {
   const connectWallet = (connector: ConnectorNames) => {
     setShow(false);
     connect(connector);
+  };
+  const handleDisconnect = () => {
+    disconnect();
+    setMenu(false);
   };
   var header = document.getElementById("nav");
   const checkScroll = () => {
@@ -96,6 +106,7 @@ const Navigation = ({ connect, account }: NavInput) => {
 
   useEffect(() => {
     setOpen(false);
+    setMenu(false);
   }, [location]);
 
   useEffect(() => {
@@ -124,48 +135,72 @@ const Navigation = ({ connect, account }: NavInput) => {
               >
                 <span>Home</span>
               </Item>
-              <Item to="test-tokens">
-                <span>Test Token</span>
-              </Item>
               <Item to="p2p">
                 <span>P2P Escrow</span>
+              </Item>
+              <Item to="swap">
+                <span>Swap</span>
               </Item>
               <a
                 className="item"
                 download
-                href="https://vetmeblock.com/vetme.pdf"
+                target="_blank"
+                href="https://vetmeblock.com/assets/whitepaper.pdf"
               >
                 <span>White Paper</span>
               </a>
+              <Item to="/how-to">How to</Item>
+              {/* 
               <a
                 href="https://t.me/vetmeportal"
                 target="_blank"
                 className="item"
               >
                 <span>Telegram</span>
-              </a>
+              </a> */}
             </NavItems>
             <Action>
               {account ? (
-                <Button
-                  onClick={() => navigate("/dashboard")}
-                  className="success "
-                >
-                  {" "}
-                  {truncate(account || "", 9)}{" "}
-                </Button>
+                <Flex align="center">
+                  <Button
+                    onClick={() => setMenu((prev) => !prev)}
+                    className="secondary"
+                  >
+                    <Wallet />
+                    {truncate(account || "", 9)}
+                  </Button>
+                  <Notify>
+                    <Bell />
+                    {nCount > 0 && <Count>{nCount}</Count>}
+                  </Notify>
+                </Flex>
               ) : (
                 <Button className="primary " onClick={() => setShow(true)}>
                   Connect Wallet
                 </Button>
               )}
+              <DropDownCon className={menu ? "active" : ""}>
+                <MMenuItem style={{ textAlign: "start" }} to="/dashboard">
+                  My Trades
+                </MMenuItem>
+                <Button className="primary " onClick={handleDisconnect}>
+                  <Logout />
+                  Disconnect
+                </Button>
+              </DropDownCon>
             </Action>
-            <Bar
-              className={open ? "opened" : ""}
-              onClick={() => setOpen(!open)}
-            >
-              <div></div>
-            </Bar>
+            <MMenuR>
+              <Notify>
+                <Bell />
+                {nCount > 0 && <Count>{nCount}</Count>}
+              </Notify>
+              <Bar
+                className={open ? "opened" : ""}
+                onClick={() => setOpen(!open)}
+              >
+                <div></div>
+              </Bar>
+            </MMenuR>
             <MobileMenu className={open ? "added" : ""}>
               <IconM>
                 <Decor />
@@ -173,30 +208,27 @@ const Navigation = ({ connect, account }: NavInput) => {
               <MMenuInner>
                 <MMenuItem to="/">Home</MMenuItem>
                 <MMenuItem to="p2p">P2P Escrow</MMenuItem>
-                <MMenuItem to="test-tokens">Test Tokens</MMenuItem>
-                <MMenuItem to="white-paper">White Paper</MMenuItem>
-
-                <CustomLink href="https://t.me/vetmeportal" target="_blank">
-                  <Flex align="center" style={{ display: "inline-flex" }}>
-                    {" "}
-                    <span>{"{"}</span>
-                    <Text size="s1" sizeM="s1" uppercase>
-                      Telegram
-                    </Text>
-                    <span>{"}"}</span>
-                  </Flex>
-                </CustomLink>
+                <MMenuItem to="swap">Swap</MMenuItem>
+                {/* <MMenuItem to="test-tokens">Test Tokens</MMenuItem> */}
+                <MMenuItem
+                  target="_blank"
+                  to="https://vetmeblock.com/assets/whitepaper.pdf"
+                >
+                  White Paper
+                </MMenuItem>
+                <MMenuItem to="/how-to">How to</MMenuItem>
 
                 <Spacer height={32} />
                 <Center>
                   {account ? (
-                    <Button
-                      onClick={() => navigate("/dashboard")}
-                      className="success "
-                    >
-                      {" "}
-                      {truncate(account || "", 9)}{" "}
-                    </Button>
+                    <Flex align="center">
+                      <Button
+                        onClick={() => navigate("/dashboard")}
+                        className="secondary "
+                      >
+                        <Wallet /> {truncate(account || "", 9)}{" "}
+                      </Button>
+                    </Flex>
                   ) : (
                     <Button className="primary" onClick={() => setShow(true)}>
                       Connect Wallet

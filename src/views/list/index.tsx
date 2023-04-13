@@ -104,7 +104,7 @@ const Trans = () => {
       account
     );
     setAllowance(fromBigNumber(allowance.toString()));
-    if (+fromBigNumber(allowance.toString()) >= form.amount_out) {
+    if (+fromBigNumber(allowance.toString()) as number >= form.amount_out) {
       if (status == 3) return;
       setStatus(2);
     }
@@ -198,7 +198,7 @@ const Trans = () => {
                 </Text>
                 <Spacer height={8} />
                 <Text size="tiny" color=" #E8E6EA">
-                  (Escrow fee : 1%)
+                  (Escrow fee : 0.125%)
                 </Text>
               </TradeItem>
             </LTop>
@@ -234,7 +234,7 @@ const Trans = () => {
                 </Text>
                 <Spacer height={8} />
                 <Text size="tiny" color=" #E8E6EA">
-                  (Escrow fee : 1%)
+                  (Escrow fee :0.125%)
                 </Text>
               </TradeItem>
             </RTop>
@@ -292,7 +292,7 @@ const Trans = () => {
               <OnlyMobile>
                 {status < 3 ? (
                   <Flex>
-                    {Number(allowance) < form.amount_out ? (
+                    {Number(allowance) as number < form.amount_out ? (
                       <CustomButton
                         loading={loading || approving}
                         disabled={loading || approving}
@@ -337,7 +337,7 @@ const Trans = () => {
               <OnlyDesktop>
                 {status < 3 ? (
                   <Flex>
-                    {Number(allowance) < form.amount_out ? (
+                    {Number(allowance) as number < form.amount_out ? (
                       <CustomButton
                         loading={loading || approving}
                         disabled={loading || approving}

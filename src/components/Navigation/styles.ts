@@ -231,6 +231,7 @@ export const AWrapper = styled.div`
 
 export const BarWrapper = styled.div``;
 export const Action = styled.div`
+  position: relative;
   @media (max-width: 640px) {
     display: none;
   }
@@ -374,5 +375,61 @@ export const DashBody = styled.div`
 
   @media (max-width: 767px) {
     overflow: hidden;
+  }
+`;
+
+export const DropDownCon = styled.div`
+  position: absolute;
+  top: 60px;
+  /* height: 300px; */
+  width: 300px;
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid #170728;
+  right: 0;
+  transform: translateY(60px);
+  transition: 0.5s;
+  opacity: 0;
+  pointer-events: none;
+  padding: 10px;
+
+  &.active {
+    transform: translateY(0px);
+    opacity: 1;
+    pointer-events: inherit;
+  }
+`;
+export const Notify = styled.div`
+  margin-left: 8px;
+  height: 40px;
+  width: 40px;
+  border: 1px solid #170728;
+  border-radius: 100px;
+  position: relative;
+  display: grid;
+  place-content: center;
+
+  @media (max-width: 640px) {
+    margin-right: 10px;
+    margin-left: 0px;
+  }
+`;
+export const Count = styled.div`
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  display: grid;
+  place-content: center;
+  background: #befecd;
+  border-radius: 50px;
+  left: 28px;
+  border: 1px solid #170728;
+`;
+
+export const MMenuR = styled.div`
+  display: none;
+
+  @media (max-width: 640px) {
+    display: flex;
   }
 `;

@@ -11,6 +11,7 @@ import {
   parseError,
   parseSuccess,
   getForever,
+  getDecimal,
 } from "@/utils";
 import BigNumber from "bignumber.js";
 import { List } from "@/views";
@@ -63,6 +64,7 @@ const ListProvider: React.FC<Props> = ({ children }) => {
     try {
       setLoading(true);
       let data = { ...form };
+
       data.token_in = data.token_in_metadata.address;
       data.token_out = data.token_out_metadata.address;
       data.deadline = data.forever ? getForever : data.deadline;
@@ -71,8 +73,12 @@ const ListProvider: React.FC<Props> = ({ children }) => {
         receivingWallet: form.receiving_wallet,
         tokenIn: data.token_in,
         tokenOut: data.token_out,
-        amountOut: BigNumber(data.amount_out).times(1e18).toString(10),
-        amountIn: BigNumber(data.amount_in).times(1e18).toString(10),
+        amountOut: new BigNumber(data.amount_out)
+          .shiftedBy(data.token_out_metadata.decimal_place)
+          .toString(),
+        amountIn: new BigNumber(data.amount_in)
+          .shiftedBy(data.token_in_metadata.decimal_place)
+          .toString(),
         deadline: data.deadline,
         nonce: form.nonce,
       };

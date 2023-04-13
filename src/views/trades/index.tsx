@@ -30,6 +30,7 @@ import {
   RTop,
   MobileFooter,
   StepLineCon,
+  Back,
 } from "./styles";
 import { useParams, useNavigate } from "react-router-dom";
 import { ListI } from "@/types";
@@ -45,7 +46,11 @@ import { fromBigNumber, listSign, parseError, parseSuccess } from "@/utils";
 import CustomButton from "@/components/Button/CustomButton";
 import BigNumber from "bignumber.js";
 import Api, { BASE_URL } from "@/helpers/apiHelper";
-import { Message, Connect as ConnectModal } from "@/components/Modal";
+import {
+  Message,
+  Connect as ConnectModal,
+  FrictionalSwap,
+} from "@/components/Modal";
 import { BrandBlock, PCircle, StepLine } from "@/components/Icons";
 import { ConnectContext, ConnectContextType } from "@/context/ConnectContext";
 
@@ -60,6 +65,7 @@ const Trans = () => {
   const [error, setError] = useState<any>("");
   const { connect } = useContext(ConnectContext) as ConnectContextType;
   const [show, setShow] = useState<boolean>(false);
+  const [showSwap, setShowSwap] = useState<boolean>(false);
 
   let { id } = useParams();
   const navigate = useNavigate();
@@ -132,12 +138,11 @@ const Trans = () => {
     }
   };
 
-  const matchOrder = async () => {
-    const amountComputedIn =
-      (listing?.amount_in * amount) / (listing?.amount_out as number);
-
-    const aIn = listing?.is_friction ? amountComputedIn : listing?.amount_in;
-    const aOut = listing?.is_friction ? amount : listing?.amount_out_balance;
+  const matchOrder = async (form: any) => {
+    const aIn = listing?.is_friction ? form.amount_out : listing?.amount_in;
+    const aOut = listing?.is_friction
+      ? form.amount_in
+      : listing?.amount_out_balance;
     let listingCopy: any = { ...listing };
 
     try {
@@ -147,10 +152,12 @@ const Trans = () => {
         receivingWallet: account,
         tokenIn: listing?.token_out,
         tokenOut: listing?.token_in,
-        amountOut: BigNumber(aIn).times(1e18).toString(10),
-        amountIn: BigNumber(aOut as number)
-          .times(1e18)
-          .toString(10),
+        amountOut: new BigNumber(aIn)
+          .shiftedBy(listing?.token_in_metadata.decimal_place)
+          .toString(),
+        amountIn: new BigNumber(aOut as number)
+          .shiftedBy(listing?.token_out_metadata.decimal_place)
+          .toString(),
         deadline: listing?.deadline,
         nonce: listing?.nonce_friction,
       };
@@ -175,13 +182,14 @@ const Trans = () => {
         id: listing?._id,
         account,
         transactionHash: response.transactionHash,
-        amount: amount,
+        amount: listing?.is_friction ? form.amount_in : listing?.amount_out,
       };
 
       await Api.upDateListComp(data);
       setStatus(3);
       parseSuccess("Swap Successful");
     } catch (err: any) {
+      console.log(err);
       parseError(err.reason || err.message);
     } finally {
       setApproving(false);
@@ -191,19 +199,6 @@ const Trans = () => {
   const handleConvertWeth = async () => {
     await convertWeth(library, chainId);
   };
-
-  const handleChange = (e: any) => {
-    setError("");
-    const val = e.target.value;
-    console.log(listing?.amount_out_balance, val);
-    if (val > listing?.amount_out_balance) {
-      setError("Amount exceeds available");
-    }
-    setAmount(val);
-  };
-
-  const amountComputed =
-    (listing?.amount_in * amount) / (listing?.amount_out as number);
 
   return (
     <ContainerSm>
@@ -224,6 +219,22 @@ const Trans = () => {
         ) : (
           <>
             <TradeInner justify="space-between">
+              <Back onClick={() => navigate("/")}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#BEFECD"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="19" y1="12" x2="5" y2="12"></line>
+                  <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+              </Back>
               <LeftContent direction="column" justify="space-between">
                 <LTop>
                   <TradeItem>
@@ -252,11 +263,11 @@ const Trans = () => {
                       You give
                     </Text>
                     <Text size="s1" color="#fff">
-                      {/* {listing?.amount_in} {listing?.token_in_metadata.symbol} */}
-                      {amountComputed} {listing?.token_in_metadata.symbol}
+                      {listing?.amount_in} {listing?.token_in_metadata.symbol}
+                      {/* {amountComputed} {listing?.token_in_metadata.symbol} */}
                     </Text>
                     <Text size="s2" color="#E8E6EA">
-                      (Escrow fee : 1%)
+                      (Escrow fee : 0.125%)
                     </Text>
                   </TradeItem>
                 </LTop>
@@ -293,20 +304,9 @@ const Trans = () => {
                         />
                       ) : (
                         <Flex gap={8}>
-                          {listing?.is_friction && (
-                            <input
-                              className={!!error ? "error s-input" : "s-input"}
-                              step="0.5"
-                              value={amount}
-                              name="value"
-                              onChange={handleChange}
-                              placeholder="0.0"
-                              type="number"
-                            />
-                          )}
                           <CustomButton
                             classNames="secondary"
-                            onClick={() => matchOrder()}
+                            onClick={() => setShowSwap(true)}
                             text="Swap"
                             loading={loading || approving}
                             disabled={loading || approving || !!error}
@@ -361,16 +361,11 @@ const Trans = () => {
                       {listing?.amount_out} {listing?.token_out_metadata.symbol}
                     </Text>
                     <Text color="#E8E6EA" size="tiny">
-                      (Escrow fee : 1%)
+                      (Escrow fee : 0.125%)
                     </Text>
                   </TradeItem>
                 </RTop>
                 <Spacer height={113} />
-                {/* <RBottom>
-                  <Button className="secondary" onClick={handleConvertWeth}>
-                    Give me WETH for ETH
-                  </Button>
-                </RBottom> */}
               </RightContent>
             </TradeInner>
             <MobileFooter>
@@ -387,20 +382,9 @@ const Trans = () => {
                       />
                     ) : (
                       <Flex gap={8}>
-                        {listing?.is_friction && (
-                          <input
-                            className={!!error ? "error s-input" : "s-input"}
-                            step="0.5"
-                            value={amount}
-                            name="value"
-                            onChange={handleChange}
-                            placeholder="0.0"
-                            type="number"
-                          />
-                        )}
                         <CustomButton
                           classNames="secondary"
-                          onClick={() => matchOrder()}
+                          onClick={() => setShowSwap(true)}
                           text="Swap"
                           loading={loading || approving}
                           disabled={loading || approving}
@@ -473,7 +457,7 @@ const Trans = () => {
         handleClose={() => setOpen(false)}
         headerText="Escrow Fee"
         type="info"
-        msg="Escrow Fee is a trading fee we charge to guarantee you a secured transaction. We charge from both parties to safe guard token transactions. Our fee’s are not more than 3% per trade. If trades are cancelled at any point in the transaction queue, we would refund all payments inclusive of the Escrow Fee. We provide this feature on all token and coin transactions on our platform. If you have anymore questions please reach us on our email support@vetme.com or via our telegram platform. Thanks for trading with us."
+        msg="Escrow Fee is a trading fee we charge to guarantee you a secured transaction. We charge from both parties to safe guard token transactions. Our fee’s are not more than 0.125% per trade. If trades are cancelled at any point in the transaction queue, we would refund all payments inclusive of the Escrow Fee. We provide this feature on all token and coin transactions on our platform. If you have anymore questions please reach us on our email support@vetme.com or via our telegram platform. Thanks for trading with us."
       />
 
       <ConnectModal
@@ -484,6 +468,15 @@ const Trans = () => {
         }}
         handleClose={() => setShow(false)}
       />
+      {listing && (
+        <FrictionalSwap
+          trade={listing}
+          handleClose={() => setShowSwap(false)}
+          show={showSwap}
+          amount={amount}
+          handleSwap={(data: any) => matchOrder(data)}
+        />
+      )}
     </ContainerSm>
   );
 };

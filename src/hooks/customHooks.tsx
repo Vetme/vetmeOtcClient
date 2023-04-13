@@ -66,7 +66,7 @@ export const useListFetch = () => {
   return { loading, data, query, setQuery };
 };
 
-export const useTokenFetch = (query: string, chainId = 5) => {
+export const useTokenFetch = (query: string, chainId = 1) => {
   const tokens = getDefaultTokens(chainId) as any[];
   const [results, setResults] = useState(tokens);
   const [loading, setLoading] = useState(false);
@@ -95,6 +95,7 @@ export const useTokenFetch = (query: string, chainId = 5) => {
               name: data.name,
               icon: data?.image?.small,
               address: data?.contract_address,
+              decimal_place: data?.detail_platforms.ethereum.decimal_place,
             },
           ];
 

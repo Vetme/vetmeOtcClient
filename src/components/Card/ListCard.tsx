@@ -120,7 +120,7 @@ const ListCard = () => {
 
   const getByAddress = (address: string) => {
     const tokens = getDefaultTokens(chainId);
-    return tokens && tokens.find((token: any) => token?.address === address);
+    // return tokens && tokens.find((token: any) => token?.address === address);
   };
 
   const handleChange = (e: any) => {
@@ -169,7 +169,7 @@ const ListCard = () => {
   };
 
   useEffect(() => {
-    const tokens = getDefaultTokens(chainId);
+    const tokens: any[] = getDefaultTokens(chainId);
 
     const dGive =
       tokens && tokens.find((token: any) => token.symbol === "WETH");

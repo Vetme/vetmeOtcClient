@@ -30,6 +30,7 @@ export const TradeWrapper = styled.div`
 export const TradeInner = styled(Flex)`
   /* height: calc(100% - 60px); */
   flex: 1;
+  position: relative;
 `;
 export const LeftContent = styled(Flex)`
   height: 90%;
@@ -164,4 +165,11 @@ export const StepLineCon = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+`;
+
+export const Back = styled.div`
+  position: absolute;
+  position: absolute;
+  top: -34px;
+  cursor: pointer;
 `;

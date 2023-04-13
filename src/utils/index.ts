@@ -56,7 +56,7 @@ export const generateNonce = () =>
     10
   );
 
-export const listSign = async (signer: any, value: any, chainId = 5) => {
+export const listSign = async (signer: any, value: any, chainId = 1) => {
   const domain = {
     name: "VetMe Escrow",
     version: "1.0.1",
@@ -105,3 +105,15 @@ export const formatSecTime = (data: any) =>
   moment(data * 1000).format("MMM DD, YYYY (HH:mm:ss)");
 
 export const getForever = 25256820600;
+
+export const getDecimal = (decimal: number | undefined) => {
+  switch (decimal) {
+    case 9:
+      return 1e9;
+    case 6:
+      return 1e6;
+    default:
+      1e18;
+      break;
+  }
+};

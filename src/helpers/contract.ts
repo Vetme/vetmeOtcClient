@@ -10,7 +10,7 @@ import GoerliAbi from "../contracts/GoerliAbi.json";
 import UniswapAbi from "../contracts/uniswapAbi.json";
 import { get_blockchain_from_chainId, select_rpc_url } from "./rpc";
 import { Erc20 } from "@/types/Erc20";
-import { listSign, toBigNumber } from "@/utils";
+import { getDecimal, listSign, toBigNumber } from "@/utils";
 import { utils } from "ethers";
 import BigNumber from "bignumber.js";
 import Moralis from "moralis";
@@ -95,9 +95,11 @@ export const approveToken = async (
   }
 };
 
+// orderId: utils.keccak256(signature as string)
+
 const generateOrder = (signature: string | undefined, value: any) => {
   return {
-    order: { ...value, orderId: utils.keccak256(signature as string) },
+    order: { ...value },
     signature,
   };
 };
@@ -113,7 +115,7 @@ export const matchTokenOrder = async (
   try {
     const chain: Blockchain = get_blockchain_from_chainId(chainId);
     const tokenOut = value.token_out; // "0xe7ef051c6ea1026a70967e8f04da143c67fa4e1f";
-    let pair;
+    // let pair;
 
     // for (let i = 0; i < pairs.length; i++) {
     //   pair = await getPairToken(tokenOut, pairs[i].address);
@@ -126,18 +128,21 @@ export const matchTokenOrder = async (
     //   }
     // }
 
-    pair =
-      import.meta.env.VITE_WETH_ADDRESS ||
-      "0xd00ae08403B9bbb9124bB305C09058E32C39A48c";
+    // pair =
+    // import.meta.env.VITE_WETH_ADDRESS ||
+    // "0xd00ae08403B9bbb9124bB305C09058E32C39A48c";
 
     const sellerValue = {
       signatory: value.signatory,
       receivingWallet: value.receiving_wallet,
       tokenIn: value.token_in,
       tokenOut: value.token_out,
-      tokenOutSwapPair: pair,
-      amountOut: BigNumber(value.amount_out).times(1e18).toString(10),
-      amountIn: BigNumber(value.amount_in).times(1e18).toString(10),
+      amountOut: new BigNumber(value.amount_out)
+        .shiftedBy(value.token_out_metadata.decimal_place)
+        .toString(),
+      amountIn: new BigNumber(value.amount_in)
+        .shiftedBy(value.token_in_metadata.decimal_place)
+        .toString(),
       deadline: value.deadline,
       nonce: value.nonce,
     };
@@ -147,16 +152,18 @@ export const matchTokenOrder = async (
       receivingWallet: account,
       tokenIn: value.token_out,
       tokenOut: value.token_in,
-      tokenOutSwapPair: pair,
-      amountOut: BigNumber(value.aIn).times(1e18).toString(10),
-      amountIn: BigNumber(value.aOut).times(1e18).toString(10),
+      amountOut: new BigNumber(value.aIn)
+        .shiftedBy(value.token_in_metadata.decimal_place)
+        .toString(),
+      amountIn: new BigNumber(value.aOut)
+        .shiftedBy(value.token_out_metadata.decimal_place)
+        .toString(),
       deadline: value.deadline,
       nonce: value.nonce_friction,
     };
 
     const buy = generateOrder(buyerSignature, buyerValue);
     const sell = generateOrder(sellerSignature, sellerValue);
-    const rpc = select_rpc_url(chain);
 
     const contract = EscrowOtcContract(
       getChainContract(chainId),
@@ -165,12 +172,19 @@ export const matchTokenOrder = async (
     );
 
     const signer = contract.connect(provider?.getSigner());
-    // ;
+
+    // console.log(gasLimit);
+
+    // return Promise.reject("error");
+
     const trxn = await signer.matchSupportFraction(
       sell.order,
       sell.signature,
       buy.order,
       buy.signature
+      // {
+      //   gasLimit: 200000,
+      // }
     );
     const transaction = await trxn.wait();
     return Promise.resolve(transaction);

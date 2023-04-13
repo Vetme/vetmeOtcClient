@@ -5,6 +5,7 @@ import {
   FacebookShareButton,
   TelegramShareButton,
   TwitterShareButton,
+  WhatsappShareButton,
 } from "react-share";
 
 const Container = styled.div`
@@ -148,6 +149,17 @@ const Share = ({ show, headerText, handleClose, url }: IMessage) => {
                     <TwitterShareButton url={url} resetButtonStyle={true}>
                       twitter
                     </TwitterShareButton>
+                  </Text>
+                  <span>{"}"}</span>
+                </Flex>
+              </CustomLink>
+              <CustomLink href="#">
+                <Flex align="center">
+                  <span>{"{"}</span>
+                  <Text size="s2" uppercase>
+                    <WhatsappShareButton url={url} resetButtonStyle={true}>
+                      Whatsapp
+                    </WhatsappShareButton>
                   </Text>
                   <span>{"}"}</span>
                 </Flex>
