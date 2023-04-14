@@ -164,32 +164,6 @@ const TokenSelect = ({
   const [query, setQuery] = useState<string>("");
   const { loading, error, results } = useTokenFetch(query, chainId);
 
-  // const refinedData = data?.pairs.map((token: any) => {
-  //   return {
-  //     id: token.token1.id,
-  //     name: token.token1.name,
-  //     symbol: token.token1.symbol,
-  //   };
-  // });
-
-  // console.log(refinedData);
-  // const { loading: daiLoading, data: daiData } = useQuery(DAI_QUERY, {
-  //   variables: {
-  //     tokenAddress: "0x6b175474e89094c44da98b954eedeac495271d0f",
-  //   },
-  // });
-
-  // useEffect(() => {
-  //   setSTokens([]);
-  // let newToken = refinedData?.filter((token: any) =>
-  //   Object.values(token).join("").toLowerCase().includes(query.toLowerCase())
-  // );
-  //   let newToken = tokens?.filter((token: any) =>
-  //     Object.values(token).join("").toLowerCase().includes(query.toLowerCase())
-  //   );
-  //   setSTokens(newToken);
-  // }, [query]);
-
   const handleSearch = (e: any) => {
     const val = e.target.value;
     setQuery(val);

@@ -4,6 +4,7 @@ import {
   eth_tokens,
   goeily_tokens,
   bsc_tokens,
+  polygon_tokens,
 } from "@/data";
 import { ethers } from "ethers";
 import { Blockchain } from "@/types";
@@ -46,8 +47,10 @@ export const getDefaultTokens = (chainId = 5) => {
       return goeily_tokens;
     case 56:
       return bsc_tokens;
+    case 137:
+      return polygon_tokens;
     default:
-      return goeily_tokens;
+      return eth_tokens;
       break;
   }
 };
@@ -82,6 +85,8 @@ export const getChainContract = (chainId: number | undefined) => {
       return import.meta.env.VITE_CONTRACT_ADDRESS_GOEILY_TESTNET;
     case 56:
       return import.meta.env.VITE_CONTRACT_ADDRESS_BSC_MAINNET;
+    case 137:
+      return import.meta.env.VITE_CONTRACT_POLYGON_MAINNET;
     default:
       import.meta.env.VITE_CONTRACT_ADDRESS_ETH_MAINNET;
       break;

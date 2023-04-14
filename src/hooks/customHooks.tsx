@@ -82,13 +82,16 @@ export const useTokenFetch = (query: string, chainId = 1) => {
     setResults(rs);
   }, [throttledTerm]);
 
+  console.log(chainId, "here");
+
   //https: api.coingecko.com/api/v3/coins/ethereum/contract/
+  // ​/coins​/{id}​/contract​/{contract_address}​/market_chart​/
 
   if (results.length < 1) {
     if (isAddress(query)) {
       axios
         .get(
-          `https://api.coingecko.com/api/v3/coins/ethereum/contract/${query}`
+          `https://api.coingecko.com/api/v3/coins/${chainId}/contract/${query}`
         )
         .then(({ data }) => {
           let rs = [

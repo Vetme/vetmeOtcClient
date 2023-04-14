@@ -23,20 +23,6 @@ export const goeily_tokens = [
     icon: "/images/coins/bnb.png",
     decimal_place: 18,
   },
-  // {
-  //   id: 1,
-  //   address: "0xa1FacC25A9ff9fECEb9d23A9b6d53b5839F62160",
-  //   symbol: "MESS",
-  //   name: "Messi Token",
-  //   icon: "/images/coins/dai.png",
-  // },
-  // {
-  //   id: 1,
-  //   address: "0x1a237400185127d8b19d6ba7cad5d952a661dd56",
-  //   symbol: "ETH",
-  //   name: "Ethereum",
-  //   icon: "/images/coins/ethereum.png",
-  // },
 ];
 
 export const fuji_test_tokens = [
@@ -57,49 +43,6 @@ export const fuji_test_tokens = [
     decimal_place: 18,
   },
 ];
-
-// {
-//   id: 1,
-//   address: "0x11834198E8801511038604C92B51DC0BB490BFF9",
-//   symbol: "Doge",
-//   name: "Doge coin",
-//   avatar: "/images/coins/doge.png",
-// },
-// {
-//   id: 1,
-//   address: "0x11834198E8801511038604C92B51DC0BB490BFF1",
-//   symbol: "AVAX",
-//   name: "Avax",
-//   avatar: "images/coins/avax.png",
-// },
-// {
-//   id: 1,
-//   address: "0x11834198E8801511038604C92B51DC0BB490BFF4",
-//   symbol: "BNB",
-//   name: "Binance ",
-//   avatar: "images/coins/bnb.png",
-// },
-// {
-//   id: 1,
-//   address: "0x11834198E8801511038604C92B51DC0BB490BFF6",
-//   symbol: "DAI",
-//   name: "dai",
-//   avatar: "images/coins/dai.png",
-// },
-// {
-//   id: 1,
-//   address: "0x11834198E8801511038604C92B51DC0BB490BFF7",
-//   symbol: "ETH",
-//   name: "ethereum",
-//   avatar: "images/coins/ethereum.png",
-// },
-// {
-//   id: 1,
-//   address: "0x11834198E8801511038604C92B51DC0BB490BFF8",
-//   symbol: "POLYGON",
-//   name: "polygon",
-//   avatar: "images/coins/polygon.png",
-// },
 
 export const eth_tokens = [
   {
@@ -215,7 +158,71 @@ export const eth_tokens = [
     decimal_place: 18,
   },
 ];
-export const bsc_tokens = [];
+export const bsc_tokens = [
+  {
+    name: "Binance Coin",
+    symbol: "BNB",
+    address: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+    decimal_place: 18,
+    icon: "https://assets.coingecko.com/coins/images/825/large/binance-coin-logo.png",
+  },
+  {
+    name: "PancakeSwap Token",
+    symbol: "CAKE",
+    address: "0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82",
+    decimal_place: 18,
+    logoUrl:
+      "https://assets.coingecko.com/coins/images/12632/large/IMG_0440.PNG",
+  },
+  {
+    name: "Venus",
+    symbol: "XVS",
+    address: "0xcf6bb5389c92bdda8a3747ddb454cb7a64626c63",
+    decimal_place: 18,
+    logoUrl: "https://assets.coingecko.com/coins/images/12677/large/venus.png",
+  },
+  {
+    name: "Auto",
+    symbol: "AUTO",
+    address: "0xa184088a740c695e156f91f5cc086a06bb78b827",
+    decimal_place: 18,
+    logoUrl:
+      "https://assets.coingecko.com/coins/images/14375/large/autofarm_token.png",
+  },
+  {
+    name: "BakeryToken",
+    symbol: "BAKE",
+    address: "0xe02df9e3e622debdd69fb838bb799e3f168902c5",
+    decimal_place: 18,
+    logoUrl:
+      "https://assets.coingecko.com/coins/images/12588/large/bakerytoken.png",
+  },
+  {
+    name: "SafeMoon",
+    symbol: "SAFEMOON",
+    address: "0x8076c74c5e3f5852037f31ff0093eeb8c8add8d3",
+    decimal_place: 9,
+    logoUrl:
+      "https://assets.coingecko.com/coins/images/14362/large/128x128.png",
+  },
+  {
+    name: "Binance USD",
+    symbol: "BUSD",
+    address: "0xe9e7cea3dedca5984780bafc599bd69add087d56",
+    decimal_place: 18,
+    logoUrl: "https://assets.coingecko.com/coins/images/9576/large/BUSD.png",
+  },
+  {
+    name: "Alpaca Finance",
+    symbol: "ALPACA",
+    address: "0x8f0528ce5ef7b51152a59745befdd91d97091d2f",
+    decimal_place: 18,
+    logoUrl:
+      "https://assets.coingecko.com/coins/images/13912/large/Alpaca_Finance_logo.png",
+  },
+];
+
+export const polygon_tokens = [];
 export const pairs = [
   {
     chain: 1,
