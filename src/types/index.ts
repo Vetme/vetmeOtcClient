@@ -32,6 +32,7 @@ export type ListI = {
   is_friction?: boolean;
   amount_out_balance?: any;
   nonce_friction?: any;
+  chain?: number;
 };
 
 export enum Blockchain {
@@ -44,7 +45,15 @@ export enum Blockchain {
   Goerli = "goerli",
 }
 
+export enum SupportBlockchain {
+  Bsc = "Bsc",
+  Eth = "Eth",
+  Polygon = "Polygon",
+}
+
 export enum ConnectorNames {
   Injected = "Injected",
   WalletConnect = "WalletConnect",
 }
+
+export type SupportedChainIds = 1 | 56 | 137 | 5;

@@ -232,6 +232,7 @@ export const AWrapper = styled.div`
 export const BarWrapper = styled.div``;
 export const Action = styled.div`
   position: relative;
+  display: flex;
   @media (max-width: 640px) {
     display: none;
   }
@@ -284,6 +285,38 @@ export const MMenuItem = styled(NavLink)`
   margin: 12px 0px;
   display: block;
   text-transform: uppercase;
+`;
+
+export const ListItem = styled.div`
+  text-align: center;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 33px;
+  /* margin: 12px 0px; */
+  display: block;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 20px;
+  transition: 0.3s;
+  .icon {
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    margin-right: 8px;
+
+    img {
+      height: 100%;
+      width: 100%;
+      border-radius: 20px;
+    }
+  }
+
+  &:hover {
+    background: #eff1ea;
+  }
 `;
 
 export const Bar = styled.div`
@@ -432,4 +465,8 @@ export const MMenuR = styled.div`
   @media (max-width: 640px) {
     display: flex;
   }
+`;
+
+export const ChainWrapper = styled.div`
+  position: relative;
 `;

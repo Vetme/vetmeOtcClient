@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import axios from "axios";
 
 import {
@@ -17,6 +17,8 @@ import {
   Notify,
   Count,
   MMenuR,
+  ChainWrapper,
+  ListItem,
 } from "./styles";
 
 import { useLocation, useNavigate } from "react-router-dom";
@@ -33,9 +35,20 @@ import {
 import { Button } from "@/components/Button";
 import { Connect } from "../Modal";
 import { truncate } from "@/helpers";
-import { ConnectorNames } from "@/types";
-import { ArrowRight, Decor, LogoSVG, Wallet, Logout, Bell } from "../Icons";
+import { ConnectorNames, SupportBlockchain, SupportedChainIds } from "@/types";
+import {
+  ArrowRight,
+  Decor,
+  LogoSVG,
+  Wallet,
+  Logout,
+  Bell,
+  AngleDown,
+} from "../Icons";
 import { BASE_URL } from "@/helpers/apiHelper";
+import { chains } from "@/data";
+import { InputChainId } from "@moralisweb3/common-evm-utils";
+import { parseError } from "@/utils";
 // import { hooks, metaMask } from "@/connector/metaMask";
 
 interface NavInput {
@@ -43,20 +56,29 @@ interface NavInput {
   connect: (arg: ConnectorNames) => Promise<void>;
   disconnect: () => void;
   nCount: number;
+  chainId: number | undefined;
+  library: any;
 }
 
-const Navigation = ({ connect, account, disconnect, nCount }: NavInput) => {
+const Navigation = ({
+  connect,
+  account,
+  chainId,
+  disconnect,
+  nCount,
+  library,
+}: NavInput) => {
   const [show, setShow] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const [menu, setMenu] = useState<boolean>(false);
+  const [cMenu, setCMenu] = useState<boolean>(false);
+  const [activeChain, setChain] = useState<
+    SupportedChainIds | number | undefined
+  >(1);
   const location = useLocation();
   const navigate = useNavigate();
-  const [direction, setDirection] = useState<number>(0);
-  const [prevDirection, setPrevDirection] = useState<number>(0);
+  const allChains = useMemo(() => chains, []);
   let prevScroll = 0;
-  // const [prevScroll, setPrevScroll] = useState<number>(
-  //   window.scrollY || document.documentElement.scrollTop
-  // );
 
   const connectWallet = (connector: ConnectorNames) => {
     setShow(false);
@@ -86,23 +108,7 @@ const Navigation = ({ connect, account, disconnect, nCount }: NavInput) => {
     prevScroll = curScroll;
   };
 
-  // const toggleHeader = (direction: number, curScroll: number) => {
-  //   var header = document.getElementById("nav");
-  //   if (direction === 1) {
-  //     header?.classList.add("hide");
-  //     setPrevDirection(direction);
-  //   } else if (direction === 1) {
-  //     header?.classList.remove("hide");
-  //     setPrevDirection(direction);
-  //   }
-  // };
-
   window.addEventListener("scroll", checkScroll);
-
-  // connectMetamask();
-  // const connectMetamask = async () => {
-  //   const mm = await metaMask.activate(5);
-  // };
 
   useEffect(() => {
     setOpen(false);
@@ -113,9 +119,35 @@ const Navigation = ({ connect, account, disconnect, nCount }: NavInput) => {
     storeUser();
   }, [account]);
 
+  useEffect(() => {
+    setChain(chainId || 1);
+  }, [chainId]);
+
   const storeUser = async () => {
     if (!account && account === undefined) return;
     await axios.post(`${BASE_URL}/users`, { account });
+  };
+
+  const handleSetChain = (chain: any) => {
+    account ? switchNetwork(chain.chainIdHEx) : setChain(chain.chainId);
+    navigate(`/${chain.name.toLowerCase()}`);
+    setCMenu(false);
+  };
+
+  const switchNetwork = async (chainHex: any) => {
+    try {
+      await library?.provider?.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: chainHex }],
+      });
+    } catch (switchError: any) {
+      parseError(switchError?.message);
+    }
+  };
+
+  const currentChain = () => {
+    const c = allChains.find((chain) => chain.chainId == activeChain);
+    return c ? c.name : "UnSupported";
   };
 
   return (
@@ -150,16 +182,29 @@ const Navigation = ({ connect, account, disconnect, nCount }: NavInput) => {
                 <span>White Paper</span>
               </a>
               <Item to="/how-to">How to</Item>
-              {/* 
-              <a
-                href="https://t.me/vetmeportal"
-                target="_blank"
-                className="item"
-              >
-                <span>Telegram</span>
-              </a> */}
             </NavItems>
             <Action>
+              <ChainWrapper>
+                <Button
+                  onClick={() => setCMenu((prev) => !prev)}
+                  className="secondary"
+                >
+                  {currentChain()}
+                  <AngleDown />
+                </Button>
+
+                <DropDownCon className={cMenu ? "active" : ""}>
+                  {allChains.map((chain, i) => (
+                    <ListItem key={i} onClick={() => handleSetChain(chain)}>
+                      <div className="icon">
+                        <img src={chain.logoUrl} />
+                      </div>
+                      {chain.name}
+                    </ListItem>
+                  ))}
+                </DropDownCon>
+              </ChainWrapper>
+              <Spacer width={8} />
               {account ? (
                 <Flex align="center">
                   <Button

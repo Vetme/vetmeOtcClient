@@ -26,7 +26,7 @@ const MainLayout = () => {
   const [prevLoc, setPrevLoc] = useState("");
   const location = useLocation();
   const [activatingConnector, setActivatingConnector] = useState<any>();
-  const { account, connector, activate, chainId, deactivate } =
+  const { account, connector, activate, chainId, deactivate, library } =
     useWeb3React<Web3Provider>();
   const [nCount, setNCount] = useState<number>(0);
   const connectorsByName: { [connectorName in ConnectorNames]: any } = {
@@ -83,7 +83,7 @@ const MainLayout = () => {
     <div className="main">
       <ConnectProvider>
         <Navigation
-          {...{ account, nCount }}
+          {...{ account, nCount, chainId, library }}
           disconnect={() => {
             disconnect();
           }}

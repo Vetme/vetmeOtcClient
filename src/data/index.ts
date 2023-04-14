@@ -233,3 +233,30 @@ export const pairs = [
     address: "0xdac17f958d2ee523a2206206994597c13d831ec7",
   },
 ];
+
+export const chains = [
+  {
+    chainId: 1,
+    chainIdHEx: "0x1",
+    name: "Eth",
+    logoUrl: "/images/blockchains/ethereum.png",
+  },
+  {
+    chainId: 56,
+    chainIdHEx: "0x38",
+    name: "Bsc",
+    logoUrl: "/images/blockchains/bsc.png",
+  },
+  {
+    chainId: 137,
+    chainIdHEx: " 0x89",
+    name: "Polygon",
+    logoUrl: "/images/blockchains/polygon.png",
+  },
+  {
+    chainId: 5,
+    chainIdHEx: "0x5",
+    name: "Goerli",
+    logoUrl: "/images/blockchains/ethereum.png",
+  },
+];

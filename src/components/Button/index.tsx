@@ -73,7 +73,7 @@ export const Button = styled.button.attrs((props) => ({
       background: ${SECONDARY_COLOR};
       color: ${PRIMARY_COLOR};
 
-        path {
+      path {
         fill: ${PRIMARY_COLOR};
       }
     }
@@ -84,7 +84,7 @@ export const Button = styled.button.attrs((props) => ({
     position: relative;
     color: ${PRIMARY_COLOR};
     border: 1px solid #170728;
-    
+
     a {
       color: ${PRIMARY_COLOR};
     }
@@ -160,6 +160,11 @@ export const Button = styled.button.attrs((props) => ({
   & svg,
   i {
     margin-right: 10px;
+
+    &.caret {
+      margin-right: 0px;
+      margin-left: 6px;
+    }
   }
   &.block {
     width: 100%;

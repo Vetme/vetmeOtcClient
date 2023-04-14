@@ -41,6 +41,7 @@ const AnimatedRouter = () => {
           <Route path="/dashboard/profile" element={<Profile />} />
           <Route path="/dashboard/history" element={<History />} />
         </Route>
+        <Route path="/:chain" element={<Home />} />
         <Route path="*" element={<Page404 />} />
       </Route>
     </Routes>

@@ -85,6 +85,7 @@ const ListProvider: React.FC<Props> = ({ children }) => {
       const signer = library?.getSigner();
       const { signature } = await listSign(signer, signatureData, chainId);
       data.signature = signature;
+      data.chain = chainId;
       //   data.signature = "signature";
       const {
         data: { list },

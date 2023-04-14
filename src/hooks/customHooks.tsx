@@ -4,6 +4,7 @@ import { ListI } from "@/types";
 import { parseError } from "@/utils";
 import { getDefaultTokens, getLocalTokens, isAddress } from "@/helpers";
 import { BASE_URL } from "@/helpers/apiHelper";
+import { chains } from "@/data";
 
 function useThrottle<T>(value: T, interval = 500): T {
   const [throttledValue, setThrottledValue] = useState<T>(value);
@@ -26,11 +27,12 @@ function useThrottle<T>(value: T, interval = 500): T {
   return throttledValue;
 }
 
-export const useListFetch = () => {
+export const useListFetch = (curChain: string | undefined) => {
   const [loading, setStatus] = useState(true);
   const [query, setQuery] = useState("");
   const [data, setData] = useState<ListI[]>([]);
 
+  const chain = chains.find((chain) => chain.name.toLowerCase() == curChain);
   useEffect(() => {
     const CancelToken = axios.CancelToken;
     let source = CancelToken.source();
@@ -38,7 +40,7 @@ export const useListFetch = () => {
     source = CancelToken.source();
     setStatus(true);
     axios
-      .get(`${BASE_URL}/lists?s=${query}`, {
+      .get(`${BASE_URL}/lists?s=${query}&chain=${chain ? chain.chainId : 1}`, {
         cancelToken: source.token,
       })
       .then((response) => {
@@ -61,7 +63,7 @@ export const useListFetch = () => {
     return () => {
       source.cancel("Operation canceled by the user.");
     };
-  }, [query]);
+  }, [query, chain]);
 
   return { loading, data, query, setQuery };
 };

@@ -12,7 +12,7 @@ import {
 } from "@/components/Icons";
 import { useState } from "react";
 import CustomButton from "@/components/Button/CustomButton";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import classNames from "classnames";
 
@@ -48,7 +48,8 @@ const HomePage = () => {
   const [display, setDisplay] = useState<"grid" | "list">("grid");
   const [mode, setMode] = useState<"list" | "swap">("swap");
   const [open, setOpen] = useState<boolean>(false);
-  const { loading, data, setQuery, query } = useListFetch();
+  let { chain } = useParams();
+  const { loading, data, setQuery, query } = useListFetch(chain);
   const navigate = useNavigate();
   const [openC, setOpenC] = useState<boolean>(false);
   const [openO, setOpenO] = useState<boolean>(false);
@@ -57,10 +58,6 @@ const HomePage = () => {
   const onChangeHandler = async (e: any) => {
     setQuery(e.target.value);
   };
-
-  useEffect(() => {
-    // setTimeout(() => setOpen(true), 4000);
-  }, []);
 
   const handleFriction = (list: ListI) => {
     setOpenC(true);
