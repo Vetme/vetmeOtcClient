@@ -92,3 +92,39 @@ export const getChainContract = (chainId: number | undefined) => {
       break;
   }
 };
+
+export const getDailyVolume = () => {
+  const CONTRACT_ADDRESS = import.meta.env.VITE_CONTRACT_ADDRESS_ETH_MAINNET;
+  const API_KEY = import.meta.env.VITE_ETHERSCAN_API_KEY;
+
+  // Get the current Unix timestamp (in seconds) and the Unix timestamp from 24 hours ago
+  const now = Math.floor(Date.now() / 1000);
+  const yesterday = now - 172800;
+  // 86400;
+
+  // Build the API endpoint URL for retrieving the contract's transactions for the last 24 hours
+  const endpoint = `https://api.etherscan.io/api?module=account&action=tokentx&contractaddress=${CONTRACT_ADDRESS}&startblock=0&endblock=999999999&sort=desc&apikey=${API_KEY}&starttime=${yesterday}&endtime=${now}`;
+
+  // Make a GET request to the API endpoint
+  axios
+    .get(endpoint)
+    .then((response) => {
+      // Extract the transaction data from the API response
+      const transactions = response.data.result;
+
+      console.log(transactions);
+
+      // Calculate the total volume of transactions in the last 24 hours
+      const totalVolume = transactions.reduce(
+        (acc: any, tx: any) => acc + parseInt(tx.value),
+        0
+      );
+
+      console.log(
+        `The daily volume of ${CONTRACT_ADDRESS} transactions is ${totalVolume}`
+      );
+    })
+    .catch((error) => {
+      console.error("An error occurred:", error.message);
+    });
+};

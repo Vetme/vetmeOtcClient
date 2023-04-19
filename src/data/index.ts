@@ -256,7 +256,7 @@ export const chains = [
   },
   {
     chainId: 137,
-    chainIdHEx: " 0x89",
+    chainIdHEx: "0x89",
     name: "Polygon",
     logoUrl: "/images/blockchains/polygon.png",
   },

@@ -38,7 +38,7 @@ import {
   Swap,
 } from "./styles";
 import { useListFetch } from "@/hooks/customHooks";
-import { truncate } from "@/helpers";
+import { getDailyVolume, truncate } from "@/helpers";
 import { formatDateTime, formatSecTime, getForever } from "@/utils";
 import { Chart, Counter, CounterOffer, Message } from "@/components/Modal";
 import { ListI } from "@/types";
@@ -72,6 +72,8 @@ const HomePage = () => {
     setOpenO(true);
   };
 
+  // getDailyVolume();
+
   return (
     <ContainerSm>
       <Wrapper>
@@ -92,6 +94,7 @@ const HomePage = () => {
               </SwitchItem>
             </LayoutSwitch>
           </LeftSide>
+
           <Flex justify="space-between" align="center" style={{ flex: 1 }}>
             <ActionSwitch>
               <SwitchItem2 onClick={() => navigate("/")} className="active">

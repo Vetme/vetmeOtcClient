@@ -170,9 +170,9 @@ const Navigation = ({
               <Item to="p2p">
                 <span>P2P Escrow</span>
               </Item>
-              <Item to="swap">
+              {/* <Item to="swap">
                 <span>Swap</span>
-              </Item>
+              </Item> */}
               <a
                 className="item"
                 download
@@ -253,7 +253,7 @@ const Navigation = ({
               <MMenuInner>
                 <MMenuItem to="/">Home</MMenuItem>
                 <MMenuItem to="p2p">P2P Escrow</MMenuItem>
-                <MMenuItem to="swap">Swap</MMenuItem>
+                {/* <MMenuItem to="swap">Swap</MMenuItem> */}
                 {/* <MMenuItem to="test-tokens">Test Tokens</MMenuItem> */}
                 <MMenuItem
                   target="_blank"

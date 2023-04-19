@@ -27,7 +27,7 @@ function useThrottle<T>(value: T, interval = 500): T {
   return throttledValue;
 }
 
-export const useListFetch = (curChain: string | undefined) => {
+export const useListFetch = (curChain = "eth") => {
   const [loading, setStatus] = useState(true);
   const [query, setQuery] = useState("");
   const [data, setData] = useState<ListI[]>([]);
@@ -100,7 +100,7 @@ export const useTokenFetch = (query: string, chainId = 1) => {
               name: data.name,
               icon: data?.image?.small,
               address: data?.contract_address,
-              decimal_place: data?.detail_platforms.ethereum.decimal_place,
+              decimal_place: getDecimal(chainId, data?.detail_platforms),
             },
           ];
 
@@ -117,4 +117,21 @@ export const useTokenFetch = (query: string, chainId = 1) => {
     loading,
     error,
   };
+};
+
+const getDecimal = (chainId: any, details: any) => {
+  switch (chainId) {
+    case 1:
+      return details.ethereum.decimal_place;
+      break;
+    case 137:
+      return details["polygon-pos"].decimal_place;
+      break;
+    case 56:
+      return details["binance-smart-chain"].decimal_place;
+      break;
+    default:
+      return details.ethereum.decimal_place;
+      break;
+  }
 };

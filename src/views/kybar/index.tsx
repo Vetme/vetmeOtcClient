@@ -67,7 +67,7 @@ const Kybar = () => {
     <KWidgetWrapper>
       <Flex justify="center">
         <Widget
-          client="yourCompanyNameHere"
+          client="vetMe"
           theme={theme}
           tokenList={MY_TOKEN_LIST}
           provider={library}
