@@ -4,9 +4,10 @@ export declare type TokenI = {
   symbol?: string;
   icon?: string;
   name?: string;
+  usd?: number;
 };
 
-type status = 1 | 2 | 3 | 4 | 5;
+type statusT = 1 | 2 | 3 | 4 | 5;
 
 export type ListI = {
   _id?: any;
@@ -18,22 +19,26 @@ export type ListI = {
   token_in: string;
   token_out: string;
   amount_in: number | string | any;
-  amount_out: number | string;
+  amount_out: number | string | any;
   deadline: number;
   nonce?: number | string;
   is_active: boolean;
   is_private: boolean;
-  status?: status;
+  status?: statusT;
   forever?: boolean;
   createdAt?: any;
   verified?: boolean;
   from_token_verified?: boolean;
   to_token_verified?: boolean;
   is_friction?: boolean;
+  amount_out_balance?: any;
+  nonce_friction?: any;
+  chain?: number;
 };
 
 export enum Blockchain {
   Avax = "avax",
+  AvaxFuji = "avaxfuji",
   Bsc = "bsc",
   Eth = "eth",
   Polygon = "polygon",
@@ -41,7 +46,15 @@ export enum Blockchain {
   Goerli = "goerli",
 }
 
+export enum SupportBlockchain {
+  Bsc = "Bsc",
+  Eth = "Eth",
+  Polygon = "Polygon",
+}
+
 export enum ConnectorNames {
   Injected = "Injected",
   WalletConnect = "WalletConnect",
 }
+
+export type SupportedChainIds = 1 | 56 | 137 | 5;

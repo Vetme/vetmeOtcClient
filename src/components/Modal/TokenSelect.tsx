@@ -10,8 +10,9 @@ import { useQuery } from "@apollo/react-hooks";
 import { DAI_QUERY, ETH_PRICE_QUERY, ETH_TOKEN_QUERY } from "@/apollo";
 import { TokenI } from "@/types";
 import { ActionSwitch, InputWrapper, SwitchItem2 } from "@/views/home/styles";
-import { useTokenFetch } from "@/hooks/customHooks";
+import { getBlockName, useTokenFetch } from "@/hooks/customHooks";
 import { setLocalToken } from "@/helpers";
+import axios from "axios";
 
 const SwapContainer = styled.div`
   width: 396px;
@@ -150,47 +151,40 @@ interface TokenSelect {
   handleClose: () => void;
   handleSelected: (arg: TokenI) => void;
   show: boolean;
+  chainId: number | undefined;
 }
 
-const TokenSelect = ({ show, handleClose, handleSelected }: TokenSelect) => {
+const TokenSelect = ({
+  show,
+  handleClose,
+  handleSelected,
+  chainId,
+}: TokenSelect) => {
   // const [tokens, setTokens] = useState(getD);
   const [sTokens, setSTokens] = useState<any[]>([]);
   const [query, setQuery] = useState<string>("");
-  const { loading, error, results } = useTokenFetch(query);
-
-  // const refinedData = data?.pairs.map((token: any) => {
-  //   return {
-  //     id: token.token1.id,
-  //     name: token.token1.name,
-  //     symbol: token.token1.symbol,
-  //   };
-  // });
-
-  // console.log(refinedData);
-  // const { loading: daiLoading, data: daiData } = useQuery(DAI_QUERY, {
-  //   variables: {
-  //     tokenAddress: "0x6b175474e89094c44da98b954eedeac495271d0f",
-  //   },
-  // });
-
-  // useEffect(() => {
-  //   setSTokens([]);
-  // let newToken = refinedData?.filter((token: any) =>
-  //   Object.values(token).join("").toLowerCase().includes(query.toLowerCase())
-  // );
-  //   let newToken = tokens?.filter((token: any) =>
-  //     Object.values(token).join("").toLowerCase().includes(query.toLowerCase())
-  //   );
-  //   setSTokens(newToken);
-  // }, [query]);
+  const { loading, error, results } = useTokenFetch(query, chainId);
 
   const handleSearch = (e: any) => {
     const val = e.target.value;
     setQuery(val);
   };
 
-  const callback = (address: string) => {
+  const callback = async (address: string) => {
     let token = results.find((token) => token.address === address);
+    if (!token.usd) {
+      try {
+        const { data } = await axios.get(
+          `https://api.coingecko.com/api/v3/coins/${getBlockName(
+            chainId
+          )}/contract/${token.address}`
+        );
+        token.usd = data?.market_data?.current_price?.usd;
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
     handleSelected(token);
 
     // setLocalToken(token);

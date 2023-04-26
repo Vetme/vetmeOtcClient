@@ -9,6 +9,8 @@ import { useWeb3React } from "@web3-react/core";
 import { ConnectorNames } from "@/types";
 import { walletconnect } from "@/connector/walletConnect";
 import ConnectProvider from "@/context/ConnectContext";
+import { disconnect } from "process";
+import apiHelper from "@/helpers/apiHelper";
 
 TopBarProgress.config({
   barColors: {
@@ -24,8 +26,9 @@ const MainLayout = () => {
   const [prevLoc, setPrevLoc] = useState("");
   const location = useLocation();
   const [activatingConnector, setActivatingConnector] = useState<any>();
-  const { account, connector, activate, chainId } =
+  const { account, connector, activate, chainId, deactivate, library } =
     useWeb3React<Web3Provider>();
+  const [nCount, setNCount] = useState<number>(0);
   const connectorsByName: { [connectorName in ConnectorNames]: any } = {
     [ConnectorNames.Injected]: injected,
     [ConnectorNames.WalletConnect]: walletconnect,
@@ -36,6 +39,10 @@ const MainLayout = () => {
       setActivatingConnector(undefined);
     }
   }, [activatingConnector, connector]);
+
+  async function disconnect() {
+    await deactivate();
+  }
 
   async function connect(connector: ConnectorNames) {
     try {
@@ -63,10 +70,25 @@ const MainLayout = () => {
     setProgress(false);
   }, [prevLoc]);
 
+  useEffect(() => {
+    getAccount();
+  }, [account, location]);
+
+  const getAccount = async () => {
+    const { data: user } = await apiHelper.getAccount(account);
+    setNCount(user.notificationCount);
+  };
+
   return (
     <div className="main">
       <ConnectProvider>
-        <Navigation {...{ account }} connect={(arg) => connect(arg)} />
+        <Navigation
+          {...{ account, nCount, chainId, library }}
+          disconnect={() => {
+            disconnect();
+          }}
+          connect={(arg) => connect(arg)}
+        />
         {progress && <TopBarProgress />}
 
         <BodyWrapper>

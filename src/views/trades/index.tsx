@@ -8,7 +8,7 @@ import {
   ContainerSm,
 } from "@/components";
 import { Button } from "@/components/Button";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Web3Provider } from "@ethersproject/providers";
 import { useWeb3React } from "@web3-react/core";
 
@@ -30,6 +30,7 @@ import {
   RTop,
   MobileFooter,
   StepLineCon,
+  Back,
 } from "./styles";
 import { useParams, useNavigate } from "react-router-dom";
 import { ListI } from "@/types";
@@ -44,17 +45,28 @@ import {
 import { fromBigNumber, listSign, parseError, parseSuccess } from "@/utils";
 import CustomButton from "@/components/Button/CustomButton";
 import BigNumber from "bignumber.js";
-import Api from "@/helpers/apiHelper";
-import { Message } from "@/components/Modal";
+import Api, { BASE_URL } from "@/helpers/apiHelper";
+import {
+  Message,
+  Connect as ConnectModal,
+  FrictionalSwap,
+} from "@/components/Modal";
 import { BrandBlock, PCircle, StepLine } from "@/components/Icons";
+import { ConnectContext, ConnectContextType } from "@/context/ConnectContext";
 
 const Trans = () => {
-  const [status, setStatus] = useState<number>(1); //
-  const [loading, setLoading] = useState<boolean>(false); //
-  const [open, setOpen] = useState<boolean>(false); //
+  const [status, setStatus] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
   const [approving, setApproving] = useState<boolean>(false);
-  const [listing, setListing] = useState<ListI | undefined>(undefined); //
+  const [listing, setListing] = useState<ListI | undefined>(undefined);
   const [allowance, setAllowance] = useState<string>("");
+  const [amount, setAmount] = useState<any>(listing?.amount_out_balance);
+  const [error, setError] = useState<any>("");
+  const { connect } = useContext(ConnectContext) as ConnectContextType;
+  const [show, setShow] = useState<boolean>(false);
+  const [showSwap, setShowSwap] = useState<boolean>(false);
+
   let { id } = useParams();
   const navigate = useNavigate();
 
@@ -73,10 +85,11 @@ const Trans = () => {
       setLoading(true);
       const {
         data: { listing },
-      } = await axios.get(`${import.meta.env.VITE_BASE_URL}/lists/${id}`);
+      } = await axios.get(`${BASE_URL}/lists/${id}`);
       setLoading(false);
       setListing(listing);
       setStatus(listing.status);
+      setAmount(listing.amount_out_balance);
     } catch (e) {
       console.log({ error84: e });
     }
@@ -125,7 +138,13 @@ const Trans = () => {
     }
   };
 
-  const matchOrder = async () => {
+  const matchOrder = async (form: any) => {
+    const aIn = listing?.is_friction ? form.amount_out : listing?.amount_in;
+    const aOut = listing?.is_friction
+      ? form.amount_in
+      : listing?.amount_out_balance;
+    let listingCopy: any = { ...listing };
+
     try {
       setApproving(true);
       let signatureData = {
@@ -133,21 +152,27 @@ const Trans = () => {
         receivingWallet: account,
         tokenIn: listing?.token_out,
         tokenOut: listing?.token_in,
-        amountOut: BigNumber(listing?.amount_in).times(1e18).toString(10),
-        amountIn: BigNumber(listing?.amount_out as number)
-          .times(1e18)
-          .toString(10),
+        amountOut: new BigNumber(aIn)
+          .shiftedBy(listing?.token_in_metadata.decimal_place)
+          .toString(),
+        amountIn: new BigNumber(aOut as number)
+          .shiftedBy(listing?.token_out_metadata.decimal_place)
+          .toString(),
         deadline: listing?.deadline,
-        nonce: listing?.nonce,
+        nonce: listing?.nonce_friction,
       };
+
+      listingCopy.aIn = aIn;
+      listingCopy.aOut = aOut;
+
       const signer = library?.getSigner();
-      const { signature } = await listSign(signer, signatureData);
+      const { signature } = await listSign(signer, signatureData, chainId);
       const response = await matchTokenOrder(
         library,
         chainId,
         listing?.signature,
         signature,
-        listing,
+        listingCopy,
         account
       );
 
@@ -157,13 +182,15 @@ const Trans = () => {
         id: listing?._id,
         account,
         transactionHash: response.transactionHash,
+        amount: listing?.is_friction ? form.amount_in : listing?.amount_out,
       };
 
-      await Api.upDateList(data);
+      await Api.upDateListComp(data);
       setStatus(3);
       parseSuccess("Swap Successful");
     } catch (err: any) {
-      parseError(err.reason);
+      console.log(err);
+      parseError(err.reason || err.message);
     } finally {
       setApproving(false);
     }
@@ -192,6 +219,22 @@ const Trans = () => {
         ) : (
           <>
             <TradeInner justify="space-between">
+              <Back onClick={() => navigate("/")}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#BEFECD"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="19" y1="12" x2="5" y2="12"></line>
+                  <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+              </Back>
               <LeftContent direction="column" justify="space-between">
                 <LTop>
                   <TradeItem>
@@ -221,9 +264,10 @@ const Trans = () => {
                     </Text>
                     <Text size="s1" color="#fff">
                       {listing?.amount_in} {listing?.token_in_metadata.symbol}
+                      {/* {amountComputed} {listing?.token_in_metadata.symbol} */}
                     </Text>
                     <Text size="s2" color="#E8E6EA">
-                      (Escrow fee : 1%)
+                      (Escrow fee : 0.125%)
                     </Text>
                   </TradeItem>
                 </LTop>
@@ -247,7 +291,8 @@ const Trans = () => {
                     </Text>
                   </TradeItem>
                   <Spacer height={24} />
-                  {account && Number(listing?.status) < 3 ? (
+                  <span className="error">{error}</span>
+                  {account && status < 3 ? (
                     <Flex className="">
                       {Number(allowance) < listing?.amount_in ? (
                         <CustomButton
@@ -258,13 +303,15 @@ const Trans = () => {
                           disabled={loading || approving}
                         />
                       ) : (
-                        <CustomButton
-                          classNames="secondary"
-                          onClick={() => matchOrder()}
-                          text="Swap"
-                          loading={loading || approving}
-                          disabled={loading || approving}
-                        />
+                        <Flex gap={8}>
+                          <CustomButton
+                            classNames="secondary"
+                            onClick={() => setShowSwap(true)}
+                            text="Swap"
+                            loading={loading || approving}
+                            disabled={loading || approving || !!error}
+                          />
+                        </Flex>
                       )}
                       {/* <Spacer width={41} />
                       <Button
@@ -275,7 +322,14 @@ const Trans = () => {
                       </Button> */}
                     </Flex>
                   ) : (
-                    <></>
+                    !account && (
+                      <Button
+                        className="secondary"
+                        onClick={() => setShow(true)}
+                      >
+                        Connect
+                      </Button>
+                    )
                   )}
                 </LBottom>
               </LeftContent>
@@ -307,21 +361,16 @@ const Trans = () => {
                       {listing?.amount_out} {listing?.token_out_metadata.symbol}
                     </Text>
                     <Text color="#E8E6EA" size="tiny">
-                      (Escrow fee : 1%)
+                      (Escrow fee : 0.125%)
                     </Text>
                   </TradeItem>
                 </RTop>
                 <Spacer height={113} />
-                <RBottom>
-                  <Button className="secondary" onClick={handleConvertWeth}>
-                    Give me WETH for ETH
-                  </Button>
-                </RBottom>
               </RightContent>
             </TradeInner>
             <MobileFooter>
               <div className="inner">
-                {account && Number(listing?.status) < 3 ? (
+                {account && status < 3 ? (
                   <>
                     {Number(allowance) < listing?.amount_in ? (
                       <CustomButton
@@ -332,21 +381,28 @@ const Trans = () => {
                         disabled={loading || approving}
                       />
                     ) : (
-                      <CustomButton
-                        classNames="secondary"
-                        onClick={() => matchOrder()}
-                        text="Swap"
-                        loading={loading || approving}
-                        disabled={loading || approving}
-                      />
+                      <Flex gap={8}>
+                        <CustomButton
+                          classNames="secondary"
+                          onClick={() => setShowSwap(true)}
+                          text="Swap"
+                          loading={loading || approving}
+                          disabled={loading || approving}
+                        />
+                      </Flex>
                     )}
+
                     <Spacer width={41} />
                     <Button className="" onClick={() => navigate("/")}>
                       Cancel
                     </Button>
                   </>
                 ) : (
-                  <></>
+                  !account && (
+                    <Button className="secondary" onClick={() => setShow(true)}>
+                      Connect
+                    </Button>
+                  )
                 )}
 
                 {/* <Button className="primary  m-sm">Chat User</Button> */}
@@ -401,8 +457,26 @@ const Trans = () => {
         handleClose={() => setOpen(false)}
         headerText="Escrow Fee"
         type="info"
-        msg="Escrow Fee is a trading fee we charge to guarantee you a secured transaction. We charge from both parties to safe guard token transactions. Our fee’s are not more than 3% per trade. If trades are cancelled at any point in the transaction queue, we would refund all payments inclusive of the Escrow Fee. We provide this feature on all token and coin transactions on our platform. If you have anymore questions please reach us on our email support@vetme.com or via our telegram platform. Thanks for trading with us."
+        msg="Escrow Fee is a trading fee we charge to guarantee you a secured transaction. We charge from both parties to safe guard token transactions. Our fee’s are not more than 0.125% per trade. If trades are cancelled at any point in the transaction queue, we would refund all payments inclusive of the Escrow Fee. We provide this feature on all token and coin transactions on our platform. If you have anymore questions please reach us on our email support@vetme.com or via our telegram platform. Thanks for trading with us."
       />
+
+      <ConnectModal
+        show={show}
+        connect={(connector) => {
+          setShow(false);
+          connect(connector);
+        }}
+        handleClose={() => setShow(false)}
+      />
+      {listing && (
+        <FrictionalSwap
+          trade={listing}
+          handleClose={() => setShowSwap(false)}
+          show={showSwap}
+          amount={amount}
+          handleSwap={(data: any) => matchOrder(data)}
+        />
+      )}
     </ContainerSm>
   );
 };

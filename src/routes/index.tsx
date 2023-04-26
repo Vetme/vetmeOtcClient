@@ -13,6 +13,9 @@ import {
   MyListings,
   Profile,
   History,
+  P2p,
+  HowTo,
+  KybarSwap,
 } from "../views";
 import MainLayout from "../views/layouts/main";
 import Dashboard from "../views/layouts/dashboard";
@@ -26,6 +29,9 @@ const AnimatedRouter = () => {
         <Route path="/list/create" element={<CreateList />} />
         <Route path="/list" element={<List />} />
         <Route path="/chart" element={<Chart />} />
+        <Route path="/p2p" element={<P2p />} />
+        <Route path="/how-to" element={<HowTo />} />
+        <Route path="/swap" element={<KybarSwap />} />
         <Route path="/test-tokens" element={<Claim />} />
         <Route path="doc" element={<Escrow />} />
         <Route path="/trades/:id" element={<Trades />} />
@@ -35,6 +41,7 @@ const AnimatedRouter = () => {
           <Route path="/dashboard/profile" element={<Profile />} />
           <Route path="/dashboard/history" element={<History />} />
         </Route>
+        <Route path="/:chain" element={<Home />} />
         <Route path="*" element={<Page404 />} />
       </Route>
     </Routes>

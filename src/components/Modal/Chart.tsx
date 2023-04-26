@@ -143,11 +143,9 @@ const Chart = ({ handleClose, show, token }: IChart) => {
 
   const getData = async () => {
     setLoading(true);
-    // const tData = await apiHelper.getTokenDetails(
-    //   "0xe7ef051c6ea1026a70967e8f04da143c67fa4e1f"
-    // );
+    const tData = await apiHelper.getTokenDetails(token.address);
 
-    const { data } = await apiHelper.getCandlestickData("vetme", "7");
+    const { data } = await apiHelper.getCandlestickData(tData.data.id, "7");
     const formateData = data.map((data: any) => {
       return {
         x: new Date(data[0]),
@@ -162,7 +160,6 @@ const Chart = ({ handleClose, show, token }: IChart) => {
       ];
     });
 
-    console.log(formateData);
     setLoading(false);
   };
 
@@ -207,7 +204,7 @@ const Chart = ({ handleClose, show, token }: IChart) => {
                   <Flex justify="center">
                     <Text size="s1" color="#170728">
                       {" "}
-                      $9.000
+                      --
                     </Text>
                   </Flex>
                   <Spacer height={20} />
@@ -219,7 +216,7 @@ const Chart = ({ handleClose, show, token }: IChart) => {
                         liquidity:{" "}
                       </Text>{" "}
                       <Text as="span" size="s1">
-                        $116.77k
+                        --
                       </Text>
                     </Flex>
                     <Flex align="center">
@@ -228,7 +225,7 @@ const Chart = ({ handleClose, show, token }: IChart) => {
                         TMcap:
                       </Text>{" "}
                       <Text as="span" size="s1">
-                        $116.77k
+                        --
                       </Text>
                     </Flex>
                   </Flex>
@@ -236,26 +233,26 @@ const Chart = ({ handleClose, show, token }: IChart) => {
                   <Spacer height={20} />
 
                   <Flex justify="space-between">
-                    <BuildList heading="24h Volume" value="$34.90K" />
-                    <BuildList heading="total tx" value="$34.90K" />
+                    <BuildList heading="24h Volume" value="--" />
+                    <BuildList heading="total tx" value="--" />
                   </Flex>
                   <Spacer height={20} />
 
                   <Flex justify="space-between">
-                    <BuildList heading="pooled BTC" value="$34.90K" />
-                    <BuildList heading="holders" value="$34.90K" />
+                    <BuildList heading="pooled BTC" value="--" />
+                    <BuildList heading="holders" value="--" />
                   </Flex>
                   <Spacer height={20} />
 
                   <Flex justify="space-between">
-                    <BuildList heading="pooled vet" value="$34.90K" />
-                    <BuildList heading="total supply" value="$34.90K" />
+                    <BuildList heading="pooled vet" value="--" />
+                    <BuildList heading="total supply" value="--" />
                   </Flex>
                   <Spacer height={20} />
 
                   <Flex justify="space-between">
-                    <BuildList heading="pool created" value="$34.90K" />
-                    <BuildList heading="1 btc" value="$34.90K" />
+                    <BuildList heading="pool created" value="--" />
+                    <BuildList heading="1 btc" value="--" />
                   </Flex>
                 </DetailsCard>
               </Flex>

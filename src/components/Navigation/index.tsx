@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 import {
   NavContainer,
@@ -14,9 +13,15 @@ import {
   MMenuItem,
   MMenuInner,
   IconM,
+  DropDownCon,
+  Notify,
+  Count,
+  MMenuR,
+  ChainWrapper,
+  ListItem,
 } from "./styles";
 
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   Center,
   Flex,
@@ -30,30 +35,58 @@ import {
 import { Button } from "@/components/Button";
 import { Connect } from "../Modal";
 import { truncate } from "@/helpers";
-import { ConnectorNames } from "@/types";
-import { ArrowRight, Decor, LogoSVG } from "../Icons";
+import { ConnectorNames, SupportBlockchain, SupportedChainIds } from "@/types";
+import {
+  ArrowRight,
+  Decor,
+  LogoSVG,
+  Wallet,
+  Logout,
+  Bell,
+  AngleDown,
+} from "../Icons";
+import { BASE_URL } from "@/helpers/apiHelper";
+import { chains } from "@/data";
+import { InputChainId } from "@moralisweb3/common-evm-utils";
+import { parseError } from "@/utils";
 // import { hooks, metaMask } from "@/connector/metaMask";
 
 interface NavInput {
   account?: string | null;
   connect: (arg: ConnectorNames) => Promise<void>;
+  disconnect: () => void;
+  nCount: number;
+  chainId: number | undefined;
+  library: any;
 }
-let prevScroll = 0;
 
-const Navigation = ({ connect, account }: NavInput) => {
+const Navigation = ({
+  connect,
+  account,
+  chainId,
+  disconnect,
+  nCount,
+  library,
+}: NavInput) => {
   const [show, setShow] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
+  const [menu, setMenu] = useState<boolean>(false);
+  const [cMenu, setCMenu] = useState<boolean>(false);
+  const [activeChain, setChain] = useState<
+    SupportedChainIds | number | undefined
+  >(1);
   const location = useLocation();
   const navigate = useNavigate();
-  const [direction, setDirection] = useState<number>(0);
-  const [prevDirection, setPrevDirection] = useState<number>(0);
-  // const [prevScroll, setPrevScroll] = useState<number>(
-  //   window.scrollY || document.documentElement.scrollTop
-  // );
+  const allChains = useMemo(() => chains, []);
+  let prevScroll = 0;
 
   const connectWallet = (connector: ConnectorNames) => {
     setShow(false);
     connect(connector);
+  };
+  const handleDisconnect = () => {
+    disconnect();
+    setMenu(false);
   };
   var header = document.getElementById("nav");
   const checkScroll = () => {
@@ -75,143 +108,201 @@ const Navigation = ({ connect, account }: NavInput) => {
     prevScroll = curScroll;
   };
 
-  // const toggleHeader = (direction: number, curScroll: number) => {
-  //   var header = document.getElementById("nav");
-  //   if (direction === 1) {
-  //     header?.classList.add("hide");
-  //     setPrevDirection(direction);
-  //   } else if (direction === 1) {
-  //     header?.classList.remove("hide");
-  //     setPrevDirection(direction);
-  //   }
-  // };
-
-  useEffect(() => {
-    window.addEventListener("scroll", checkScroll);
-    return () => window.removeEventListener("scroll", checkScroll);
-  }, []);
-
-  // connectMetamask();
-  // const connectMetamask = async () => {
-  //   const mm = await metaMask.activate(5);
-  // };
+  window.addEventListener("scroll", checkScroll);
 
   useEffect(() => {
     setOpen(false);
+    setMenu(false);
   }, [location]);
 
   useEffect(() => {
     storeUser();
   }, [account]);
 
+  useEffect(() => {
+    setChain(chainId || 1);
+  }, [chainId]);
+
   const storeUser = async () => {
     if (!account && account === undefined) return;
-    await axios.post(`${import.meta.env.VITE_BASE_URL}/users`, { account });
+    await axios.post(`${BASE_URL}/users`, { account });
+  };
+
+  const handleSetChain = (chain: any) => {
+    account ? switchNetwork(chain.chainIdHEx) : setChain(chain.chainId);
+    localStorage.setItem("chain", JSON.stringify(chain.name.toLowerCase()));
+    navigate(`/${chain.name.toLowerCase()}`);
+    setCMenu(false);
+  };
+
+  const switchNetwork = async (chainHex: any) => {
+    try {
+      await library?.provider?.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: chainHex }],
+      });
+    } catch (switchError: any) {
+      parseError(switchError?.message);
+    }
+  };
+
+  const currentChain = () => {
+    const c = allChains.find((chain) => chain.chainId == activeChain);
+    return c ? c.name : "UnSupported";
   };
 
   return (
-    <NavContainer id="nav">
-      <div className="container">
-        <NavWrapper>
-          <Logo to="/">
-            <LogoSVG />
-          </Logo>
-          <NavItems>
-            <Item
-              to="/"
-              className={({ isActive }: { isActive: boolean }) =>
-                isActive ? "active" : ""
-              }
-            >
-              <span>Home</span>
-            </Item>
-            <Item to="test-tokens">
-              <span>Test Token</span>
-            </Item>
-            <Item to="p2p">
-              <span>P2P Escrow</span>
-            </Item>
-            <a href="https://t.me/vetmeportal" target="_blank" className="item">
-              <span>Telegram</span>
-            </a>
-            <a
-              className="item"
-              download
-              href="https://vetmeblock.com/vetme.pdf"
-            >
-              <span>White Paper</span>
-            </a>
-          </NavItems>
-          <Action>
-            {account ? (
-              <Button
-                onClick={() => navigate("/dashboard")}
-                className="success "
+    <>
+      <NavContainer id="nav">
+        <div className="container">
+          <NavWrapper>
+            <Logo to="/">
+              <LogoSVG />
+            </Logo>
+            <NavItems>
+              <Item
+                to="/"
+                className={({ isActive }: { isActive: boolean }) =>
+                  isActive ? "active" : ""
+                }
               >
-                {" "}
-                {truncate(account || "", 9)}{" "}
-              </Button>
-            ) : (
-              <Button className="primary " onClick={() => setShow(true)}>
-                Connect Wallet
-              </Button>
-            )}
-          </Action>
-          <Bar className={open ? "opened" : ""} onClick={() => setOpen(!open)}>
-            <div></div>
-          </Bar>
-          <MobileMenu className={open ? "added" : ""}>
-            <IconM>
-              <Decor />
-            </IconM>
-            <MMenuInner>
-              <MMenuItem to="/">Home</MMenuItem>
-              <MMenuItem to="p2p">P2P Escrow</MMenuItem>
-              <MMenuItem to="test-tokens">Test Tokens</MMenuItem>
-              <MMenuItem to="white-paper">White Paper</MMenuItem>
+                <span>Home</span>
+              </Item>
+              <Item to="p2p">
+                <span>P2P Escrow</span>
+              </Item>
+              {/* <Item to="swap">
+                <span>Swap</span>
+              </Item> */}
+              <a
+                className="item"
+                download
+                target="_blank"
+                href="https://vetmeblock.com/assets/whitepaper.pdf"
+              >
+                <span>White Paper</span>
+              </a>
+              <Item to="/how-to">How to</Item>
+            </NavItems>
+            <Action>
+              <ChainWrapper>
+                <Button
+                  onClick={() => setCMenu((prev) => !prev)}
+                  className="secondary"
+                >
+                  {currentChain()}
+                  <AngleDown />
+                </Button>
 
-              <CustomLink href="https://t.me/vetmeportal" target="_blank">
-                <Flex align="center" style={{ display: "inline-flex" }}>
-                  {" "}
-                  <span>{"{"}</span>
-                  <Text size="s1" sizeM="s1" uppercase>
-                    Telegram
-                  </Text>
-                  <span>{"}"}</span>
+                <DropDownCon className={cMenu ? "active" : ""}>
+                  {allChains.map((chain, i) => (
+                    <ListItem key={i} onClick={() => handleSetChain(chain)}>
+                      <div className="icon">
+                        <img src={chain.logoUrl} />
+                      </div>
+                      {chain.name}
+                    </ListItem>
+                  ))}
+                </DropDownCon>
+              </ChainWrapper>
+              <Spacer width={8} />
+              {account ? (
+                <Flex align="center">
+                  <Button
+                    onClick={() => setMenu((prev) => !prev)}
+                    className="secondary"
+                  >
+                    <Wallet />
+                    {truncate(account || "", 9)}
+                  </Button>
+                  <Notify>
+                    <Bell />
+                    {nCount > 0 && <Count>{nCount}</Count>}
+                  </Notify>
                 </Flex>
-              </CustomLink>
+              ) : (
+                <Button className="primary " onClick={() => setShow(true)}>
+                  Connect Wallet
+                </Button>
+              )}
+              <DropDownCon className={menu ? "active" : ""}>
+                <MMenuItem style={{ textAlign: "start" }} to="/dashboard">
+                  My Trades
+                </MMenuItem>
+                <Button className="primary " onClick={handleDisconnect}>
+                  <Logout />
+                  Disconnect
+                </Button>
+              </DropDownCon>
+            </Action>
+            <MMenuR>
+              <Notify>
+                <Bell />
+                {nCount > 0 && <Count>{nCount}</Count>}
+              </Notify>
+              <Bar
+                className={open ? "opened" : ""}
+                onClick={() => setOpen(!open)}
+              >
+                <div></div>
+              </Bar>
+            </MMenuR>
+            <MobileMenu className={open ? "added" : ""}>
+              <IconM>
+                <Decor />
+              </IconM>
+              <MMenuInner>
+                <MMenuItem to="/">Home</MMenuItem>
+                <MMenuItem to="p2p">P2P Escrow</MMenuItem>
+                {/* <MMenuItem to="swap">Swap</MMenuItem> */}
+                {/* <MMenuItem to="test-tokens">Test Tokens</MMenuItem> */}
+                <MMenuItem
+                  target="_blank"
+                  to="https://vetmeblock.com/assets/whitepaper.pdf"
+                >
+                  White Paper
+                </MMenuItem>
+                <MMenuItem to="/how-to">How to</MMenuItem>
 
-              <Spacer height={32} />
-              {/* <Center>
-                {account ? (
-                  <Button className="success sm" onClick={() => setShow(true)}>
-                    Connected
-                  </Button>
-                ) : (
-                  <Button className="primary sm" onClick={() => setShow(true)}>
-                    Connect Wallet
-                  </Button>
-                )}
-              </Center> */}
-              <Center>
-                <ActionBtn>
-                  Visit App{" "}
-                  <div>
-                    <ArrowRight />
-                  </div>
-                </ActionBtn>
-              </Center>
-            </MMenuInner>
-          </MobileMenu>
-        </NavWrapper>
-      </div>
+                <Spacer height={32} />
+                <Center>
+                  {account ? (
+                    <Flex align="center">
+                      <Button
+                        onClick={() => navigate("/dashboard")}
+                        className="secondary "
+                      >
+                        <Wallet /> {truncate(account || "", 9)}{" "}
+                      </Button>
+                    </Flex>
+                  ) : (
+                    <Button className="primary" onClick={() => setShow(true)}>
+                      Connect Wallet
+                    </Button>
+                  )}
+                </Center>
+                <Spacer height={12} />
+
+                <Center>
+                  <ActionBtn>
+                    Visit App{" "}
+                    <div>
+                      <ArrowRight />
+                    </div>
+                  </ActionBtn>
+                </Center>
+              </MMenuInner>
+            </MobileMenu>
+          </NavWrapper>
+        </div>
+        {open && <Overlay />}
+      </NavContainer>
       <Connect
         show={show}
         connect={(connector) => connectWallet(connector)}
         handleClose={() => setShow(false)}
       />
-      {open && <Overlay />}
-    </NavContainer>
+    </>
   );
 };
 

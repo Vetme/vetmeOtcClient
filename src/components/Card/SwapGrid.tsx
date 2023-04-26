@@ -1,14 +1,21 @@
-import { tokens } from "@/data";
+// import { tokens } from "@/data";
 import { truncate } from "@/helpers";
+import apiHelper from "@/helpers/apiHelper";
 import { ListI } from "@/types";
-import { formatDateTime, formatSecTime, getForever } from "@/utils";
+import {
+  formatDateTime,
+  formatSecTime,
+  getForever,
+  parseError,
+  parseSuccess,
+} from "@/utils";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { ActionBtn, Divider, Flex, Spacer, Text, TokenBadge } from "..";
 import CustomButton from "../Button/CustomButton";
 import { Delete, Send, Swap, VToken, VUser } from "../Icons";
-import { Chart, Counter } from "../Modal";
+import { Chart, Counter, ListModal } from "../Modal";
 
 const common = css`
   position: absolute;
@@ -67,11 +74,34 @@ const Header = styled.div`
   }
 `;
 const Body = styled.div`
+  position: relative;
+
   @media (max-width: 640px) {
     /* padding: 10px; */
   }
 `;
 const Details = styled.div``;
+const ListType = styled.div`
+  font-size: 12px;
+  position: absolute;
+  bottom: -4px;
+  background: #170728;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0px 10px;
+  border: 1px solid #170728;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom: none;
+  height: 20px;
+  line-height: 20px;
+  color: #fff;
+
+  @media (max-width: 640px) {
+    bottom: 0px;
+  }
+`;
+
 const Actions = styled.div`
   width: 179px;
   height: 54px;
@@ -103,24 +133,32 @@ const TopFRight = styled.div`
   @media (max-width: 640px) {
     right: 40px;
     top: 5px;
+
+    &.auth {
+      right: 40px;
+    }
   }
 `;
 const TopFLeft = styled.div`
   ${common};
-  left: 90px;
+  left: 95px;
 
   @media (max-width: 640px) {
     left: 40px;
     top: 5px;
+
+    &.auth {
+      left: 40px;
+    }
   }
 `;
 const BottomFLeft = styled.div`
   ${common};
-  right: 70px;
+  right: 80px;
   top: 0px;
 
   @media (max-width: 640px) {
-    right: 40px;
+    right: 51px;
   }
 `;
 
@@ -163,14 +201,19 @@ const Price = styled.div`
 const SwapGrid = ({
   list,
   state,
+  account,
   confirmFriction,
+  handleRemove,
 }: {
   list: ListI;
   state: "auth" | "guest";
-  confirmFriction?: (list: ListI) => void;
+  account?: string | null;
+  confirmFriction: (list: ListI) => void;
+  handleRemove?: (list: ListI) => void;
 }) => {
   const [token, setToken] = useState<any>(null);
   const [open, setOpen] = useState<boolean>(false);
+  const [openEdit, setEditOpen] = useState<boolean>(false);
 
   const navigate = useNavigate();
   function translateY(
@@ -185,11 +228,7 @@ const SwapGrid = ({
   };
 
   const handleTrade = (list: ListI) => {
-    if (list.is_friction) {
-      confirmFriction(list);
-    } else {
-      navigate(`/trades/${list._id}`);
-    }
+    confirmFriction(list);
   };
 
   return (
@@ -197,7 +236,7 @@ const SwapGrid = ({
       <SwapContainer className={state == "auth" ? "auth" : "guest"}>
         <Header>
           <TopFLeft>
-            <Text size="s3" uppercase>
+            <Text style={{ fontSize: "12px" }} uppercase>
               {list.token_out_metadata?.symbol}/{list.token_in_metadata?.symbol}
             </Text>
           </TopFLeft>
@@ -212,14 +251,15 @@ const SwapGrid = ({
               <TokenBadge
                 token={list.token_out_metadata}
                 handleClick={() => handleChart(list.token_out_metadata)}
+                hasChart={true}
               />
               <Spacer width={15} widthM={10} />
               <Text
                 uppercase
-                weight="800"
+                weight="400"
                 sizeM="10px"
-                size="s2"
-                color="#848892"
+                size="s3"
+                color="#453953"
               >
                 Give
               </Text>
@@ -228,17 +268,18 @@ const SwapGrid = ({
             <Flex align="center">
               <Text
                 uppercase
-                weight="800"
-                size="s2"
+                weight="400"
+                size="s3"
                 sizeM="10px"
-                color="#848892"
+                color="#453953"
               >
                 Get
               </Text>
               <Spacer width={15} widthM={10} />
               <TokenBadge
                 token={list.token_in_metadata}
-                handleClick={() => null}
+                handleClick={() => handleChart(list.token_in_metadata)}
+                hasChart={true}
               />
             </Flex>
           </DetailWrapperT>
@@ -249,7 +290,7 @@ const SwapGrid = ({
               size="s1"
               color=" #170728"
             >
-              {Number(list.amount_out).toFixed(2)} &nbsp;
+              {Number(list.amount_out).toFixed(4)} &nbsp;
               {list.token_out_metadata?.symbol}
             </Text>
 
@@ -259,7 +300,7 @@ const SwapGrid = ({
               color=" #170728"
               style={{ whiteSpace: "nowrap" }}
             >
-              {Number(list.amount_in).toFixed(2)} &nbsp;
+              {Number(list.amount_in).toFixed(4)} &nbsp;
               {list.token_in_metadata?.symbol}
             </Text>
           </Price>
@@ -267,7 +308,7 @@ const SwapGrid = ({
           <DetailWrapper>
             <BottomFLeft>
               <Text size="s3" sizeM="tiny-2">
-                Escrow Fee 3%
+                Fee 0.25%
               </Text>
             </BottomFLeft>
             <Details>
@@ -281,7 +322,8 @@ const SwapGrid = ({
                   color={true ? "#12B347" : "#B31212"}
                 >
                   {" "}
-                  +10%{" "}
+                  --
+                  {/* +10%{" "} */}
                 </Text>
               </Text>
               {/* {Number(list.amount_in).toFixed(2)} &nbsp;
@@ -300,19 +342,19 @@ const SwapGrid = ({
                 <ActionIcon>
                   <ActionBtn
                     className="sm secondary icon"
-                    onClick={() => handleTrade(list)}
+                    onClick={() => handleRemove && handleRemove(list)}
                   >
                     <Delete />
                   </ActionBtn>
                 </ActionIcon>
-                <Action2>
-                  <ActionBtn
-                    className="sm"
-                    onClick={() => navigate(`trades/${list._id}`)}
-                  >
-                    Edit
-                  </ActionBtn>
-                </Action2>
+
+                {(list.status as number) < 3 && (
+                  <Action2>
+                    <ActionBtn className="sm" onClick={() => setEditOpen(true)}>
+                      Edit
+                    </ActionBtn>
+                  </Action2>
+                )}
               </Flex>
             ) : (
               <Actions>
@@ -322,10 +364,20 @@ const SwapGrid = ({
               </Actions>
             )}
           </DetailWrapper>
+
+          <ListType>{list.is_friction ? "Frictional" : "Fixed"}</ListType>
         </Body>
       </SwapContainer>
       {token && (
         <Chart show={open} handleClose={() => setOpen(false)} token={token} />
+      )}
+
+      {openEdit && (
+        <ListModal
+          show={openEdit}
+          handleClose={() => setEditOpen(false)}
+          list={list}
+        />
       )}
     </>
   );

@@ -4,6 +4,7 @@ import { CancelToken } from "axios";
 import { utils } from "ethers";
 import { toast } from "react-toastify";
 import moment from "moment";
+import { getChainContract } from "@/helpers";
 
 export const tokenExpired = (token: string) => {
   if (token?.length) {
@@ -55,12 +56,12 @@ export const generateNonce = () =>
     10
   );
 
-export const listSign = async (signer: any, value: any) => {
+export const listSign = async (signer: any, value: any, chainId = 1) => {
   const domain = {
     name: "VetMe Escrow",
     version: "1.0.1",
-    chainId: 5,
-    verifyingContract: import.meta.env.VITE_CONTRACT_ADDRESS,
+    chainId: chainId,
+    verifyingContract: getChainContract(chainId),
   };
 
   //   const signer = getSigner(provider);
@@ -74,18 +75,19 @@ export const parseError = (err: any) => {
     const errors = err.response.data.errors;
     const msg: any = Object.values(errors);
     toast.error(msg[0].msg, {
-      position: toast.POSITION.TOP_RIGHT,
+      position: toast.POSITION.BOTTOM_RIGHT,
     });
   } else {
     toast.error(err || "Opps, something went wrong!", {
-      position: toast.POSITION.TOP_RIGHT,
+      position: toast.POSITION.BOTTOM_RIGHT,
     });
   }
 };
 
 export const parseSuccess = (msg: string) => {
   toast.success(msg, {
-    position: toast.POSITION.TOP_RIGHT,
+    position: toast.POSITION.BOTTOM_RIGHT,
+    hideProgressBar: true,
   });
 };
 
@@ -103,3 +105,15 @@ export const formatSecTime = (data: any) =>
   moment(data * 1000).format("MMM DD, YYYY (HH:mm:ss)");
 
 export const getForever = 25256820600;
+
+export const getDecimal = (decimal: number | undefined) => {
+  switch (decimal) {
+    case 9:
+      return 1e9;
+    case 6:
+      return 1e6;
+    default:
+      1e18;
+      break;
+  }
+};

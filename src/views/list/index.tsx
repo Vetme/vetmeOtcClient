@@ -36,7 +36,7 @@ import {
   getTotalSupply,
 } from "@/helpers/contract";
 import CustomButton from "@/components/Button/CustomButton";
-import { fromBigNumber, parseSuccess } from "@/utils";
+import { fromBigNumber, getTradeLink, parseSuccess } from "@/utils";
 import { BrandBlock, Copy, PCircle, StepHLine } from "@/components/Icons";
 import { Web3Provider } from "@ethersproject/providers";
 import { useWeb3React } from "@web3-react/core";
@@ -80,6 +80,10 @@ const Trans = () => {
     getAccount();
   }, [account]);
 
+  if (form.amount_in == "") {
+    window.location.replace("/");
+  }
+
   const getAccount = async () => {
     const {
       data: { account: raccount },
@@ -100,7 +104,7 @@ const Trans = () => {
       account
     );
     setAllowance(fromBigNumber(allowance.toString()));
-    if (Math.floor(+fromBigNumber(allowance.toString())) >= form.amount_out) {
+    if (+fromBigNumber(allowance.toString()) as number >= form.amount_out) {
       if (status == 3) return;
       setStatus(2);
     }
@@ -114,6 +118,7 @@ const Trans = () => {
         library,
         chainId
       );
+
       const approval = await approveToken(
         form?.token_out_metadata?.address,
         library,
@@ -130,7 +135,7 @@ const Trans = () => {
       if (err === undefined) return;
 
       toast.error("Opps, something went wrong!", {
-        position: toast.POSITION.TOP_RIGHT,
+        position: toast.POSITION.BOTTOM_RIGHT,
       });
     } finally {
       setApproving(false);
@@ -146,7 +151,6 @@ const Trans = () => {
     navigator.clipboard.writeText(privateLink);
     parseSuccess("Copied");
   };
-
   return (
     <ContainerSm>
       <OnlyMobile>
@@ -194,7 +198,7 @@ const Trans = () => {
                 </Text>
                 <Spacer height={8} />
                 <Text size="tiny" color=" #E8E6EA">
-                  (Escrow fee : 1%)
+                  (Escrow fee : 0.125%)
                 </Text>
               </TradeItem>
             </LTop>
@@ -230,7 +234,7 @@ const Trans = () => {
                 </Text>
                 <Spacer height={8} />
                 <Text size="tiny" color=" #E8E6EA">
-                  (Escrow fee : 1%)
+                  (Escrow fee :0.125%)
                 </Text>
               </TradeItem>
             </RTop>
@@ -288,7 +292,7 @@ const Trans = () => {
               <OnlyMobile>
                 {status < 3 ? (
                   <Flex>
-                    {Number(allowance) < form.amount_out ? (
+                    {Number(allowance) as number < form.amount_out ? (
                       <CustomButton
                         loading={loading || approving}
                         disabled={loading || approving}
@@ -317,12 +321,12 @@ const Trans = () => {
                   <Flex>
                     <CustomButton
                       classNames="secondary semi-rounded lg"
-                      onClick={() => alert()}
+                      onClick={() => setOpenS(true)}
                       text="Share your Offer"
                     />
                     <Spacer width={8} />
                     <Button
-                      onClick={() => navigate(`/trades/${form._id}`)}
+                      onClick={() => navigate(`/`)}
                       className="semi-rounded lg"
                     >
                       View Listed Coin
@@ -333,7 +337,7 @@ const Trans = () => {
               <OnlyDesktop>
                 {status < 3 ? (
                   <Flex>
-                    {Number(allowance) < form.amount_out ? (
+                    {Number(allowance) as number < form.amount_out ? (
                       <CustomButton
                         loading={loading || approving}
                         disabled={loading || approving}
@@ -363,12 +367,12 @@ const Trans = () => {
                   <Flex>
                     <CustomButton
                       classNames="secondary semi-rounded lg"
-                      onClick={() => alert()}
+                      onClick={() => setOpenS(true)}
                       text="Share your Offer"
                     />
                     <Spacer width={8} />
                     <Button
-                      onClick={() => navigate(`/trades/${form._id}`)}
+                      onClick={() => navigate(`/`)}
                       className="semi-rounded lg"
                     >
                       View Listed Coin
@@ -429,11 +433,14 @@ const Trans = () => {
         msg="Escrow Fee is a trading fee we charge to guarantee you a secured transaction. We charge from both parties to safe guard token transactions. Our fee’s are not more than 3% per trade. If trades are cancelled at any point in the transaction queue, we would refund all payments inclusive of the Escrow Fee. We provide this feature on all token and coin transactions on our platform. If you have anymore questions please reach us on our email support@vetme.com or via our telegram platform. Thanks for trading with us."
       />
 
-      <Share
-        show={openS}
-        handleClose={() => setOpenS(false)}
-        headerText="Share offer via"
-      />
+      {form._id && (
+        <Share
+          show={openS}
+          handleClose={() => setOpenS(false)}
+          headerText="Share offer via"
+          url={getTradeLink(form._id)}
+        />
+      )}
     </ContainerSm>
   );
 };

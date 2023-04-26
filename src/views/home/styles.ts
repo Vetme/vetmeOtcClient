@@ -234,3 +234,12 @@ export const ListCol = styled.div`
 
 export const List = styled.div``;
 export const Swap = styled.div``;
+
+export const Volume = styled.div`
+  padding: 0px 20px;
+  background: #170728;
+  border-radius: 100px;
+  margin-left: 20px;
+  color: #fff;
+  font-size: 12px;
+`;

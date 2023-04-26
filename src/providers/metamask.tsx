@@ -23,7 +23,8 @@ function MetamaskProvider({ children }: { children: any }) {
       .catch(() => {
         setLoaded(true);
       });
-  }, [activateNetwork, networkActive, networkError]);
+    // networkActive;
+  }, [activateNetwork, networkError, networkActive]);
   if (loaded) {
     return children;
   }

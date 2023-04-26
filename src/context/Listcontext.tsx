@@ -11,9 +11,11 @@ import {
   parseError,
   parseSuccess,
   getForever,
+  getDecimal,
 } from "@/utils";
 import BigNumber from "bignumber.js";
 import { List } from "@/views";
+import { BASE_URL } from "@/helpers/apiHelper";
 
 export type ListContextType = {
   saveList: () => void;
@@ -62,6 +64,7 @@ const ListProvider: React.FC<Props> = ({ children }) => {
     try {
       setLoading(true);
       let data = { ...form };
+
       data.token_in = data.token_in_metadata.address;
       data.token_out = data.token_out_metadata.address;
       data.deadline = data.forever ? getForever : data.deadline;
@@ -70,30 +73,36 @@ const ListProvider: React.FC<Props> = ({ children }) => {
         receivingWallet: form.receiving_wallet,
         tokenIn: data.token_in,
         tokenOut: data.token_out,
-        amountOut: BigNumber(data.amount_out).times(1e18).toString(10),
-        amountIn: BigNumber(data.amount_in).times(1e18).toString(10),
+        amountOut: new BigNumber(data.amount_out)
+          .shiftedBy(data.token_out_metadata.decimal_place)
+          .toString(),
+        amountIn: new BigNumber(data.amount_in)
+          .shiftedBy(data.token_in_metadata.decimal_place)
+          .toString(),
         deadline: data.deadline,
         nonce: form.nonce,
       };
+      console.log(data);
       const signer = library?.getSigner();
-      const { signature } = await listSign(signer, signatureData);
+      const { signature } = await listSign(signer, signatureData, chainId);
       data.signature = signature;
+      data.chain = chainId;
       //   data.signature = "signature";
       const {
         data: { list },
-      } = await axios.post(`${import.meta.env.VITE_BASE_URL}/lists`, data);
+      } = await axios.post(`${BASE_URL}/lists`, data);
       if (list.is_private) {
         const link = getTradeLink(list._id);
         setPrivateLink(link);
       } else {
         setLoading(false);
-        alert(JSON.stringify(list));
         setForm(list);
         clearLocal();
         // navigate("/");
       }
       parseSuccess("Your Token has been Listed");
     } catch (error: any) {
+      console.log(error);
       setLoading(false);
       if (error.message.includes("user rejected signing")) {
         return Promise.reject(error);

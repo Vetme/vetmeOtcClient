@@ -30,6 +30,7 @@ export const TradeWrapper = styled.div`
 export const TradeInner = styled(Flex)`
   /* height: calc(100% - 60px); */
   flex: 1;
+  position: relative;
 `;
 export const LeftContent = styled(Flex)`
   height: 90%;
@@ -47,7 +48,7 @@ export const RightContent = styled(Flex)`
 `;
 export const LTop = styled.div`
   @media (max-width: 640px) {
-    margin-top: 10px;
+    margin-top: 20px;
   }
 `;
 export const LBottom = styled.div`
@@ -57,7 +58,7 @@ export const LBottom = styled.div`
 `;
 export const RTop = styled.div`
   @media (max-width: 640px) {
-    margin-top: 10px;
+    margin-top: 20px;
   }
 `;
 export const RBottom = styled.div`
@@ -123,6 +124,7 @@ export const Step = styled.div<{ leftMsg?: string; rightMsg?: string }>`
     @media (max-width: 640px) {
       width: 75px;
       font-size: 12px;
+      top: 15px;
       line-height: 11px;
       /* left: -80px; */
       /* top: -5px; */
@@ -163,4 +165,11 @@ export const StepLineCon = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+`;
+
+export const Back = styled.div`
+  position: absolute;
+  position: absolute;
+  top: -34px;
+  cursor: pointer;
 `;

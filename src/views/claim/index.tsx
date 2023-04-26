@@ -1,6 +1,6 @@
 import { Spacer, Text } from "@/components";
 import { Button } from "@/components/Button";
-import { claimToken, convertWeth } from "@/helpers/contract";
+import { claimGeorli, claimToken, convertWeth } from "@/helpers/contract";
 import { useWeb3React } from "@web3-react/core";
 import { Web3Provider } from "@ethersproject/providers";
 import styled from "styled-components";
@@ -9,25 +9,35 @@ import { useState } from "react";
 import { parseError, parseSuccess } from "@/utils";
 
 const SwapContainer = styled.div`
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.03);
-  border-radius: 20px;
+  /* border: 1px solid rgba(0, 0, 0, 0.05); */
+  /* box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.03); */
+  /* border-radius: 20px; */
   width: 508px;
   max-width: 100%;
   margin-bottom: 114px;
   margin: auto;
+
+  background-image: url(/images/bg/token-i.png);
+  background-repeat: no-repeat;
+  /* background-position: top center; */
+  background-size: 100% 100%;
+
+  position: relative;
+
+  .header {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 `;
-const Header = styled.div`
-  background: rgba(125, 169, 255, 0.47);
-  padding: 17px 50px;
-  border-radius: 20px 20px 0px 0px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+
 const Body = styled.div`
-  padding: 28px 50px;
+  padding: 50px 50px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   @media (max-width: 640px) {
     padding: 20px 25px;
@@ -43,6 +53,21 @@ const Claim = () => {
       setLoading(true);
       setCurrent(token.name);
       await claimToken(library, token.address);
+      parseSuccess(`${token.name} Claimed`);
+    } catch (error) {
+      console.log(error, "error");
+      parseError("Opps, Something went wrong");
+    } finally {
+      setLoading(false);
+      setCurrent("");
+    }
+  };
+
+  const handleClaimG = async (token: any) => {
+    try {
+      setLoading(true);
+      setCurrent(token.name);
+      await claimGeorli(library, token.address);
       parseSuccess(`${token.name} Claimed`);
     } catch (error) {
       console.log(error, "error");
@@ -70,11 +95,15 @@ const Claim = () => {
   return (
     <div className="container">
       <SwapContainer>
-        <Header>
-          <Text uppercase weight="700" size="s2">
-            Test Tokens
-          </Text>
-        </Header>
+        <Text
+          className="header"
+          uppercase
+          weight="400"
+          size="s3"
+          color="#453953"
+        >
+          Test Tokens
+        </Text>
         <Body>
           <CustomButton
             onClick={() =>
@@ -84,11 +113,11 @@ const Claim = () => {
               })
             }
             text="Get 100 Cool Tokens"
-            classNames="primary block"
+            classNames="primary "
             loading={loading && current === "Cool Tokens"}
             disabled={loading && current === "Cool Tokens"}
           />
-          <Spacer height={42} />
+          <Spacer height={32} />
           <CustomButton
             onClick={() =>
               handleClaim({
@@ -97,11 +126,11 @@ const Claim = () => {
               })
             }
             text="Get 100 VETME Tokens"
-            classNames="primary block"
+            classNames="primary "
             loading={loading && current === "Vetme Token"}
             disabled={loading && current === "Vetme Token"}
           />
-          <Spacer height={42} />
+          <Spacer height={32} />
           <CustomButton
             onClick={() =>
               handleClaim({
@@ -110,19 +139,33 @@ const Claim = () => {
               })
             }
             text="Get 100 Hot Tokens"
-            classNames="primary block"
+            classNames="primary "
             loading={loading && current === "Hot Token"}
             disabled={loading && current === "Hot Token"}
           />
-          <Spacer height={42} />
+          <Spacer height={32} />
 
-          <CustomButton
+          {/* <CustomButton
             onClick={handleConvertWeth}
             text="Give me WETH 0.04 for ETH"
-            classNames="primary block m-sm"
+            classNames="primary "
             loading={loading && current === "Convert"}
             disabled={loading && current === "Convert"}
+          /> */}
+
+          <CustomButton
+            onClick={() =>
+              handleClaimG({
+                address: "0x0A9D0E29d32Ad555118aa724608BEf103ECcbbeF",
+                name: "Goerli",
+              })
+            }
+            text="Claim 1 Goerli ETH"
+            classNames="primary "
+            loading={loading && current === "Goerli"}
+            disabled={loading && current === "Goerli"}
           />
+          <Spacer height={32} />
         </Body>
       </SwapContainer>
     </div>

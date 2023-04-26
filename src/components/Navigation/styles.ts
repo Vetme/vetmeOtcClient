@@ -231,6 +231,8 @@ export const AWrapper = styled.div`
 
 export const BarWrapper = styled.div``;
 export const Action = styled.div`
+  position: relative;
+  display: flex;
   @media (max-width: 640px) {
     display: none;
   }
@@ -283,6 +285,38 @@ export const MMenuItem = styled(NavLink)`
   margin: 12px 0px;
   display: block;
   text-transform: uppercase;
+`;
+
+export const ListItem = styled.div`
+  text-align: center;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 33px;
+  /* margin: 12px 0px; */
+  display: block;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 20px;
+  transition: 0.3s;
+  .icon {
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    margin-right: 8px;
+
+    img {
+      height: 100%;
+      width: 100%;
+      border-radius: 20px;
+    }
+  }
+
+  &:hover {
+    background: #eff1ea;
+  }
 `;
 
 export const Bar = styled.div`
@@ -371,4 +405,68 @@ export const SideBarCon = styled.div`
 
 export const DashBody = styled.div`
   flex: 1;
+
+  @media (max-width: 767px) {
+    overflow: hidden;
+  }
+`;
+
+export const DropDownCon = styled.div`
+  position: absolute;
+  top: 60px;
+  /* height: 300px; */
+  width: 300px;
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid #170728;
+  right: 0;
+  transform: translateY(60px);
+  transition: 0.5s;
+  opacity: 0;
+  pointer-events: none;
+  padding: 10px;
+
+  &.active {
+    transform: translateY(0px);
+    opacity: 1;
+    pointer-events: inherit;
+  }
+`;
+export const Notify = styled.div`
+  margin-left: 8px;
+  height: 40px;
+  width: 40px;
+  border: 1px solid #170728;
+  border-radius: 100px;
+  position: relative;
+  display: grid;
+  place-content: center;
+
+  @media (max-width: 640px) {
+    margin-right: 10px;
+    margin-left: 0px;
+  }
+`;
+export const Count = styled.div`
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  display: grid;
+  place-content: center;
+  background: #befecd;
+  border-radius: 50px;
+  left: 28px;
+  border: 1px solid #170728;
+`;
+
+export const MMenuR = styled.div`
+  display: none;
+
+  @media (max-width: 640px) {
+    display: flex;
+  }
+`;
+
+export const ChainWrapper = styled.div`
+  position: relative;
 `;

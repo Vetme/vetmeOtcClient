@@ -3,6 +3,8 @@ import axios from "axios";
 import { ListI } from "@/types";
 import { parseError } from "@/utils";
 import { getDefaultTokens, getLocalTokens, isAddress } from "@/helpers";
+import { BASE_URL } from "@/helpers/apiHelper";
+import { chains } from "@/data";
 
 function useThrottle<T>(value: T, interval = 500): T {
   const [throttledValue, setThrottledValue] = useState<T>(value);
@@ -25,11 +27,13 @@ function useThrottle<T>(value: T, interval = 500): T {
   return throttledValue;
 }
 
-export const useListFetch = () => {
-  const [loading, setStatus] = useState(false);
+export const useListFetch = (curChain = "eth") => {
+  const [loading, setStatus] = useState(true);
   const [query, setQuery] = useState("");
   const [data, setData] = useState<ListI[]>([]);
+  const [volume, setVolume] = useState<number>(0);
 
+  const chain = chains.find((chain) => chain.name.toLowerCase() == curChain);
   useEffect(() => {
     const CancelToken = axios.CancelToken;
     let source = CancelToken.source();
@@ -37,13 +41,13 @@ export const useListFetch = () => {
     source = CancelToken.source();
     setStatus(true);
     axios
-      .get(`${import.meta.env.VITE_BASE_URL}/lists?s=${query}`, {
+      .get(`${BASE_URL}/lists?s=${query}&chain=${chain ? chain.chainId : 1}`, {
         cancelToken: source.token,
       })
       .then((response) => {
-        const data = response.data.listings;
+        const { listings: data, volume } = response.data;
         setData(data);
-        setStatus(false);
+        setVolume(volume);
       })
       .catch((error: any) => {
         if (axios.isCancel(error)) {
@@ -53,19 +57,21 @@ export const useListFetch = () => {
         }
       })
       .finally(() => {
-        setStatus(false);
+        setTimeout(() => {
+          setStatus(false);
+        }, 1000);
       });
 
     return () => {
       source.cancel("Operation canceled by the user.");
     };
-  }, [query]);
+  }, [query, chain]);
 
-  return { loading, data, query, setQuery };
+  return { loading, data, query, setQuery, volume };
 };
 
-export const useTokenFetch = (query: string) => {
-  const tokens = getDefaultTokens() as any[];
+export const useTokenFetch = (query: string, chainId = 1) => {
+  const tokens = getDefaultTokens(chainId) as any[];
   const [results, setResults] = useState(tokens);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -79,12 +85,15 @@ export const useTokenFetch = (query: string) => {
   }, [throttledTerm]);
 
   //https: api.coingecko.com/api/v3/coins/ethereum/contract/
+  // ​/coins​/{id}​/contract​/{contract_address}​/market_chart​/
 
   if (results.length < 1) {
     if (isAddress(query)) {
       axios
         .get(
-          `https://api.coingecko.com/api/v3/coins/ethereum/contract/${query}`
+          `https://api.coingecko.com/api/v3/coins/${getBlockName(
+            chainId
+          )}/contract/${query}`
         )
         .then(({ data }) => {
           let rs = [
@@ -93,6 +102,8 @@ export const useTokenFetch = (query: string) => {
               name: data.name,
               icon: data?.image?.small,
               address: data?.contract_address,
+              decimal_place: getDecimal(chainId, data?.detail_platforms),
+              usd: data?.market_data?.current_price?.usd,
             },
           ];
 
@@ -109,4 +120,38 @@ export const useTokenFetch = (query: string) => {
     loading,
     error,
   };
+};
+
+const getDecimal = (chainId: any, details: any) => {
+  switch (chainId) {
+    case 1:
+      return details.ethereum.decimal_place;
+      break;
+    case 137:
+      return details["polygon-pos"].decimal_place;
+      break;
+    case 56:
+      return details["binance-smart-chain"].decimal_place;
+      break;
+    default:
+      return details.ethereum.decimal_place;
+      break;
+  }
+};
+
+export const getBlockName = (chainId: any) => {
+  switch (chainId) {
+    case 1:
+      return "ethereum";
+      break;
+    case 137:
+      return "polygon-pos";
+      break;
+    case 56:
+      return "binance-smart-chain";
+      break;
+    default:
+      return "ethereum";
+      break;
+  }
 };

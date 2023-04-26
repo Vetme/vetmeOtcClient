@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Container, Spacer } from "@/components";
 import { List } from "./styles";
 import { ListCard } from "@/components/Card";
@@ -6,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 
 const CreateListing = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {}, []);
 
   return (
     <Container>

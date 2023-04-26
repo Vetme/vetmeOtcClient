@@ -13,8 +13,6 @@ import { WalletConnect } from "@web3-react/walletconnect";
 // } from "@/connector/walletConnect";
 import { MetaMask } from "@web3-react/metamask";
 import { Web3Provider } from "@ethersproject/providers";
-import { ApolloProvider } from "@apollo/client";
-import { client } from "./apollo";
 import ListProvider from "./context/Listcontext";
 import { Buffer } from "buffer";
 // import dotenv from "dotenv";
@@ -38,17 +36,15 @@ setTimeout(() => {
     document.getElementById("root") as HTMLElement
   ).render(
     <React.StrictMode>
-      <ApolloProvider client={client}>
-        <Web3ReactProvider getLibrary={getLibrary}>
-          <MetamaskProvider>
-            <BrowserRouter>
-              <ListProvider>
-                <App />
-              </ListProvider>
-            </BrowserRouter>
-          </MetamaskProvider>
-        </Web3ReactProvider>
-      </ApolloProvider>
+      <Web3ReactProvider getLibrary={getLibrary}>
+        <MetamaskProvider>
+          <BrowserRouter>
+            <ListProvider>
+              <App />
+            </ListProvider>
+          </BrowserRouter>
+        </MetamaskProvider>
+      </Web3ReactProvider>
     </React.StrictMode>
   );
 }, 5000);

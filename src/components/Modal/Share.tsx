@@ -1,6 +1,12 @@
 import styled from "styled-components";
 import { CustomLink, Flex, Spacer, Text } from "..";
 import { CSSTransition } from "react-transition-group";
+import {
+  FacebookShareButton,
+  TelegramShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+} from "react-share";
 
 const Container = styled.div`
   position: fixed;
@@ -52,9 +58,10 @@ interface IMessage {
   handleClose: () => void;
   show: boolean;
   headerText: string;
+  url: string;
 }
 
-const Share = ({ show, headerText, handleClose }: IMessage) => {
+const Share = ({ show, headerText, handleClose, url }: IMessage) => {
   return (
     <>
       <CSSTransition
@@ -116,26 +123,43 @@ const Share = ({ show, headerText, handleClose }: IMessage) => {
                 <Flex align="center">
                   <span>{"{"}</span>
                   <Text size="s2" weight="400" uppercase>
-                    instagram
+                    <TelegramShareButton url={url}>
+                      Telegram
+                    </TelegramShareButton>
                   </Text>
                   <span>{"}"}</span>
                 </Flex>
               </CustomLink>
-              <CustomLink href="https://twitter.com/VetmeToken?t=iydy_59nL4QSNB2YfQ8CIA&s=09">
+              <CustomLink href="#">
                 <Flex align="center">
                   {" "}
                   <span>{"{"}</span>
                   <Text size="s2" weight="400" uppercase>
-                    facebook
+                    <FacebookShareButton url={url} resetButtonStyle={true}>
+                      facebook
+                    </FacebookShareButton>
                   </Text>
                   <span>{"}"}</span>
                 </Flex>
               </CustomLink>
-              <CustomLink href="https://twitter.com/VetmeToken?t=iydy_59nL4QSNB2YfQ8CIA&s=09">
+              <CustomLink href="#">
                 <Flex align="center">
                   <span>{"{"}</span>
                   <Text size="s2" uppercase>
-                    twitter
+                    <TwitterShareButton url={url} resetButtonStyle={true}>
+                      twitter
+                    </TwitterShareButton>
+                  </Text>
+                  <span>{"}"}</span>
+                </Flex>
+              </CustomLink>
+              <CustomLink href="#">
+                <Flex align="center">
+                  <span>{"{"}</span>
+                  <Text size="s2" uppercase>
+                    <WhatsappShareButton url={url} resetButtonStyle={true}>
+                      Whatsapp
+                    </WhatsappShareButton>
                   </Text>
                   <span>{"}"}</span>
                 </Flex>
