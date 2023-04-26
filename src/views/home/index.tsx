@@ -76,7 +76,7 @@ const HomePage = () => {
     setOpenO(true);
   };
 
-  // getDailyVolume();
+  // getDailyVolume(); //change test
 
   return (
     <ContainerSm>
