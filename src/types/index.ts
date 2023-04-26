@@ -4,6 +4,7 @@ export declare type TokenI = {
   symbol?: string;
   icon?: string;
   name?: string;
+  usd?: number;
 };
 
 type statusT = 1 | 2 | 3 | 4 | 5;

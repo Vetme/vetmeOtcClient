@@ -1,4 +1,4 @@
-import { ContainerSm, Flex } from "@/components";
+import { ContainerSm, Flex, Text } from "@/components";
 import { ListCard, SwapGrid, MobileList } from "@/components/Card";
 import {
   Filter,
@@ -36,6 +36,7 @@ import {
   ListCol,
   List as ListCon,
   Swap,
+  Volume,
 } from "./styles";
 import { useListFetch } from "@/hooks/customHooks";
 import { getDailyVolume, truncate } from "@/helpers";
@@ -49,7 +50,10 @@ const HomePage = () => {
   const [mode, setMode] = useState<"list" | "swap">("swap");
   const [open, setOpen] = useState<boolean>(false);
   let { chain } = useParams();
-  const { loading, data, setQuery, query } = useListFetch(chain);
+  const savedChainId = JSON.parse(localStorage.getItem("chain") as string);
+  const { loading, data, setQuery, query, volume } = useListFetch(
+    chain || savedChainId
+  );
   const navigate = useNavigate();
   const [openC, setOpenC] = useState<boolean>(false);
   const [openO, setOpenO] = useState<boolean>(false);
@@ -118,6 +122,15 @@ const HomePage = () => {
           </Flex>
         </HomeHeader>
         <HomeBody>
+          {!loading && (
+            <Flex style={{ marginBottom: "24px" }} align="center">
+              <Text as="h3" size="h3">
+                Otc Pairs
+              </Text>
+              <Volume>24H volume: ${volume.toFixed(6)}</Volume>
+            </Flex>
+          )}
+
           {mode == "swap" ? (
             <Swap>
               {display === "grid" ? (

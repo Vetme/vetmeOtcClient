@@ -10,8 +10,9 @@ import { useQuery } from "@apollo/react-hooks";
 import { DAI_QUERY, ETH_PRICE_QUERY, ETH_TOKEN_QUERY } from "@/apollo";
 import { TokenI } from "@/types";
 import { ActionSwitch, InputWrapper, SwitchItem2 } from "@/views/home/styles";
-import { useTokenFetch } from "@/hooks/customHooks";
+import { getBlockName, useTokenFetch } from "@/hooks/customHooks";
 import { setLocalToken } from "@/helpers";
+import axios from "axios";
 
 const SwapContainer = styled.div`
   width: 396px;
@@ -169,8 +170,21 @@ const TokenSelect = ({
     setQuery(val);
   };
 
-  const callback = (address: string) => {
+  const callback = async (address: string) => {
     let token = results.find((token) => token.address === address);
+    if (!token.usd) {
+      try {
+        const { data } = await axios.get(
+          `https://api.coingecko.com/api/v3/coins/${getBlockName(
+            chainId
+          )}/contract/${token.address}`
+        );
+        token.usd = data?.market_data?.current_price?.usd;
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
     handleSelected(token);
 
     // setLocalToken(token);

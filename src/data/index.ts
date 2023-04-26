@@ -6,6 +6,7 @@ export const goeily_tokens = [
     name: "VetMe Token",
     icon: "/images/coins/polygon.png",
     decimal_place: 18,
+    usd: 0.3,
   },
   {
     id: 1,
@@ -14,6 +15,7 @@ export const goeily_tokens = [
     name: "Cool Token",
     icon: "/images/coins/doge.png",
     decimal_place: 18,
+    usd: 1,
   },
   {
     id: 1,
@@ -22,6 +24,7 @@ export const goeily_tokens = [
     name: "Hot",
     icon: "/images/coins/bnb.png",
     decimal_place: 18,
+    usd: 20,
   },
 ];
 

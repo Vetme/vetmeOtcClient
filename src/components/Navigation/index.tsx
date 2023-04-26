@@ -130,6 +130,7 @@ const Navigation = ({
 
   const handleSetChain = (chain: any) => {
     account ? switchNetwork(chain.chainIdHEx) : setChain(chain.chainId);
+    localStorage.setItem("chain", JSON.stringify(chain.name.toLowerCase()));
     navigate(`/${chain.name.toLowerCase()}`);
     setCMenu(false);
   };

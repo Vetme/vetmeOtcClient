@@ -4,6 +4,7 @@ import { TokenI } from "@/types";
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ActionBtn,
   Center,
@@ -33,7 +34,7 @@ import { useWeb3React } from "@web3-react/core";
 import { ConnectContext, ConnectContextType } from "@/context/ConnectContext";
 import Toggle from "../Toggle";
 import { parseError } from "@/utils";
-import { getChainContract, getDefaultTokens } from "@/helpers";
+import { getChainContract, getDefaultTokens, computeUsdPrice } from "@/helpers";
 
 // import { hooks, metaMask } from "@/connector/metaMask";
 
@@ -68,6 +69,15 @@ const Body = styled.div`
 const IconWrap = styled.div``;
 const SwapCon = styled.div`
   margin-left: 38px;
+`;
+
+const UsdVal = styled.span`
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  color: #acacac;
+  position: absolute;
+  bottom: -23px;
+  left: 25px;
 `;
 
 const DurationInput = styled.div`
@@ -126,6 +136,18 @@ const ListCard = () => {
   const handleChange = (e: any) => {
     let value = e.target.value;
     const name = e.target.name;
+
+    if (name == "amount_in" || "amount_out") {
+      value = value.replace(/,/g, ".");
+      const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`); // match escaped "." characters via in a non-capturing group
+      if (
+        value === "" ||
+        inputRegex.test(value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+      ) {
+      } else {
+        return;
+      }
+    }
 
     if (name == "deadline") {
       const date = new Date(value);
@@ -204,7 +226,28 @@ const ListCard = () => {
                   type="number"
                   value={form.amount_out}
                   step={0.1}
+                  inputMode="decimal"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  pattern="^[0-9]*[.,]?[0-9]*$"
+                  minLength={1}
+                  maxLength={79}
+                  spellCheck="false"
                 />
+                <AnimatePresence>
+                  {give && form.amount_out > 0 && (
+                    <UsdVal
+                      key={form.amount_out}
+                      as={motion.span}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.5 }}
+                      exit={{ opacity: 0 }}
+                    >
+                      ~${computeUsdPrice(give.usd, form.amount_out)}
+                    </UsdVal>
+                  )}
+                </AnimatePresence>
                 <div>
                   <TokenBadge
                     token={give}
@@ -241,7 +284,28 @@ const ListCard = () => {
                   type="number"
                   step={0.1}
                   placeholder="0.0"
+                  inputMode="decimal"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  pattern="^[0-9]*[.,]?[0-9]*$"
+                  minLength={1}
+                  maxLength={79}
+                  spellCheck="false"
                 />
+                <AnimatePresence>
+                  {get && form.amount_in > 0 && (
+                    <UsdVal
+                      key={form.amount_in}
+                      as={motion.span}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.5 }}
+                      exit={{ opacity: 0, transition: { duration: 0.1 } }}
+                    >
+                      ~${computeUsdPrice(get.usd, form.amount_in)}
+                    </UsdVal>
+                  )}
+                </AnimatePresence>
                 <div>
                   <TokenBadge
                     token={get}
@@ -252,7 +316,7 @@ const ListCard = () => {
               </InputInner>
             </InputBox>
           </InputCon>
-          <Spacer height={15} />
+          <Spacer height={20} />
 
           <InputCon>
             <label htmlFor="">Time of Contract</label>

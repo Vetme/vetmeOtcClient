@@ -74,11 +74,34 @@ const Header = styled.div`
   }
 `;
 const Body = styled.div`
+  position: relative;
+
   @media (max-width: 640px) {
     /* padding: 10px; */
   }
 `;
 const Details = styled.div``;
+const ListType = styled.div`
+  font-size: 12px;
+  position: absolute;
+  bottom: -4px;
+  background: #170728;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0px 10px;
+  border: 1px solid #170728;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom: none;
+  height: 20px;
+  line-height: 20px;
+  color: #fff;
+
+  @media (max-width: 640px) {
+    bottom: 0px;
+  }
+`;
+
 const Actions = styled.div`
   width: 179px;
   height: 54px;
@@ -341,6 +364,8 @@ const SwapGrid = ({
               </Actions>
             )}
           </DetailWrapper>
+
+          <ListType>{list.is_friction ? "Frictional" : "Fixed"}</ListType>
         </Body>
       </SwapContainer>
       {token && (

@@ -128,3 +128,7 @@ export const getDailyVolume = () => {
       console.error("An error occurred:", error.message);
     });
 };
+
+export const computeUsdPrice = (usd: any, amount: number) => {
+  return (usd * amount).toFixed(5);
+};

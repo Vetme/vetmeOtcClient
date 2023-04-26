@@ -31,6 +31,7 @@ export const useListFetch = (curChain = "eth") => {
   const [loading, setStatus] = useState(true);
   const [query, setQuery] = useState("");
   const [data, setData] = useState<ListI[]>([]);
+  const [volume, setVolume] = useState<number>(0);
 
   const chain = chains.find((chain) => chain.name.toLowerCase() == curChain);
   useEffect(() => {
@@ -44,8 +45,9 @@ export const useListFetch = (curChain = "eth") => {
         cancelToken: source.token,
       })
       .then((response) => {
-        const data = response.data.listings;
+        const { listings: data, volume } = response.data;
         setData(data);
+        setVolume(volume);
       })
       .catch((error: any) => {
         if (axios.isCancel(error)) {
@@ -65,7 +67,7 @@ export const useListFetch = (curChain = "eth") => {
     };
   }, [query, chain]);
 
-  return { loading, data, query, setQuery };
+  return { loading, data, query, setQuery, volume };
 };
 
 export const useTokenFetch = (query: string, chainId = 1) => {
@@ -82,8 +84,6 @@ export const useTokenFetch = (query: string, chainId = 1) => {
     setResults(rs);
   }, [throttledTerm]);
 
-  console.log(chainId, "here");
-
   //https: api.coingecko.com/api/v3/coins/ethereum/contract/
   // ​/coins​/{id}​/contract​/{contract_address}​/market_chart​/
 
@@ -91,7 +91,9 @@ export const useTokenFetch = (query: string, chainId = 1) => {
     if (isAddress(query)) {
       axios
         .get(
-          `https://api.coingecko.com/api/v3/coins/${chainId}/contract/${query}`
+          `https://api.coingecko.com/api/v3/coins/${getBlockName(
+            chainId
+          )}/contract/${query}`
         )
         .then(({ data }) => {
           let rs = [
@@ -101,6 +103,7 @@ export const useTokenFetch = (query: string, chainId = 1) => {
               icon: data?.image?.small,
               address: data?.contract_address,
               decimal_place: getDecimal(chainId, data?.detail_platforms),
+              usd: data?.market_data?.current_price?.usd,
             },
           ];
 
@@ -132,6 +135,23 @@ const getDecimal = (chainId: any, details: any) => {
       break;
     default:
       return details.ethereum.decimal_place;
+      break;
+  }
+};
+
+export const getBlockName = (chainId: any) => {
+  switch (chainId) {
+    case 1:
+      return "ethereum";
+      break;
+    case 137:
+      return "polygon-pos";
+      break;
+    case 56:
+      return "binance-smart-chain";
+      break;
+    default:
+      return "ethereum";
       break;
   }
 };

@@ -82,6 +82,7 @@ const ListProvider: React.FC<Props> = ({ children }) => {
         deadline: data.deadline,
         nonce: form.nonce,
       };
+      console.log(data);
       const signer = library?.getSigner();
       const { signature } = await listSign(signer, signatureData, chainId);
       data.signature = signature;
@@ -101,6 +102,7 @@ const ListProvider: React.FC<Props> = ({ children }) => {
       }
       parseSuccess("Your Token has been Listed");
     } catch (error: any) {
+      console.log(error);
       setLoading(false);
       if (error.message.includes("user rejected signing")) {
         return Promise.reject(error);

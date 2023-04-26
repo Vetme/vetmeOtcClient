@@ -34,6 +34,7 @@
     "dotenv": "^16.0.3",
     "ethers": "^5.7.2",
     "formik": "^2.2.9",
+    "framer-motion": "^10.12.4",
     "graphql": "^16.6.0",
     "graphql-tag": "^2.12.6",
     "moment": "^2.29.4",
